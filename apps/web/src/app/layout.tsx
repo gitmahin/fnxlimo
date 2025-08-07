@@ -36,7 +36,7 @@ export default function RootLayout({
           appearance="inherit"
           hasBackground={false}
         >
-          <ThemeProvider attribute={"class"}>
+          <ThemeProvider attribute={"class"} defaultTheme="light">
             <Header />
             {children}
           </ThemeProvider>
