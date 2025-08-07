@@ -6,15 +6,28 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "check-types": "turbo run check-types",
+    "clean": "turbo run clean && rm -rf node_modules dist .turbo && echo 'Root Cleanup complete!'"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
     "turbo": "^2.5.5",
     "typescript": "5.8.3"
   },
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+       "@radix-ui/themes": "^3.2.1",
+    "@tailwindcss/postcss": "^4.1.11",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.536.0",
+    "postcss": "^8.5.6",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.11",
+    "tw-animate-css": "^1.3.6"
   }
 }

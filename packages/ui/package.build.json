@@ -2,15 +2,19 @@
   "name": "@fnx/ui",
   "version": "0.0.0",
   "private": true,
-  "exports": {
-    ".": "./src/index.ts",
-    "./styles/globals.css": "./styles/globals.css"
-  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
-    "dev": "tsc --watch",
+    "build": "tsup --format esm,cjs --dts --external react --minify",
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "clean": "rm -rf node_modules dist .turbo && echo 'UI Cleanup complete!'"
   },
   "devDependencies": {
     "@fnx/eslint-config": "workspace:*",
@@ -22,17 +26,8 @@
     "typescript": "5.8.2"
   },
   "dependencies": {
-    "@radix-ui/react-label": "^2.1.7",
-    "@radix-ui/react-navigation-menu": "^1.2.13",
-    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-slot": "^1.2.3",
-    "@radix-ui/react-switch": "^1.2.5",
-    "@radix-ui/react-toggle": "^1.1.9",
-    "@radix-ui/react-toggle-group": "^1.1.10",
-    "chrono-node": "^2.8.4",
-    "date-fns": "^4.1.0",
     "react": "^19.1.0",
-    "react-day-picker": "^9.8.1",
     "react-dom": "^19.1.0"
   }
 }
