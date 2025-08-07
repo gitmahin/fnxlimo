@@ -100,8 +100,8 @@ const PriceQuote = () => {
   };
   return (
     <div className="w-full flex justify-center items-center">
-      <div className=" flex justify-center gap-5 items-center w-full defualt_layout_width">
-        <div className=" w-full border rounded-2xl h-fit ">
+      <div className=" w-full flex justify-center items-start gap-5 p-5">
+        <div className=" max-w-[500px] w-full border rounded-2xl h-[4000px] ">
           <div className="px-5 py-5 flex justify-between items-start">
             <h2 className="text-xl font-medium">Price Quote</h2>
             <div>
@@ -125,7 +125,7 @@ const PriceQuote = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-1">
             <label className="px-3 py-3 rounded-md border ">
-              Origin:
+              Pickup:
 
               <PlaceAutocompleteInput
               value={origin}
@@ -137,7 +137,7 @@ const PriceQuote = () => {
             />
             </label>
             <label className="px-3 py-3 rounded-md border ">
-              Destination:
+              Dropoff:
               <PlaceAutocompleteInput
               value={destination}
               onChange={setDestination}
@@ -155,11 +155,8 @@ Get Directions
               </div>
           </form>
         </div>
-        <div className="max-w-[500px] pt-[64px] h-screen w-full border">
-          <div className="w-full h-[50px] px-4 flex justify-start items-center border-b bg-accent">
-            <h2 className="text-xl font-medium">Route Map</h2>
-          </div>
-          <div className="h-[calc(100vh-115px)] relative">
+        <div className=" pt-[64px] sticky top-0 right-0 h-screen w-full border pr-[80px]">
+          <div className="h-full relative w-full">
             <APIProvider apiKey={""}>
               <Map
                 mapId={"price_map"}
