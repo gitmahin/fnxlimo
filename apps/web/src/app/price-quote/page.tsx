@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { TogglePQType } from "./toggle-pg-type";
-import {  Input, Label } from "@fnx/ui";
+import { Button as FnxButton, Input, Label } from "@fnx/ui";
 import {Button} from "@radix-ui/themes"
 import { Calendar29 } from "./date-picker";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
@@ -83,9 +83,9 @@ const PanToCurrentLocationButton = () => {
   };
 
   return (
-    <Button onClick={panToCurrentLocation}>
+    <FnxButton onClick={panToCurrentLocation}>
       <MapPin size={24} />
-    </Button>
+    </FnxButton>
   );
 };
 
