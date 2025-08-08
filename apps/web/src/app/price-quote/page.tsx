@@ -1,8 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { TogglePQType } from "./toggle-pg-type";
 import { Button as FnxButton, Input, Label } from "@fnx/ui";
-import {Button} from "@radix-ui/themes"
+import { Button } from "@radix-ui/themes";
 import { Calendar29 } from "./date-picker";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { MapIcon, MapPin } from "lucide-react";
@@ -54,7 +54,7 @@ const DirectionsController = ({
 const PanToCurrentLocationButton = () => {
   const map = useMap(); // this gets the current map instance
 
-  const panToCurrentLocation = () => {
+  const panToCurrentLocation = useCallback(() => {
     if (!map) return;
 
     if (navigator.geolocation) {
@@ -69,7 +69,7 @@ const PanToCurrentLocationButton = () => {
           map.setZoom(14);
 
           new google.maps.InfoWindow({
-            content: "Location found.",
+            content: "Your Current Location.",
             position: pos,
           }).open(map);
         },
@@ -80,7 +80,11 @@ const PanToCurrentLocationButton = () => {
     } else {
       alert("Error: Your browser doesn't support geolocation.");
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    panToCurrentLocation();
+  }, []);
 
   return (
     <FnxButton onClick={panToCurrentLocation}>
@@ -100,8 +104,8 @@ const PriceQuote = () => {
   };
   return (
     <div className="w-full flex justify-center items-center">
-      <div className=" w-full flex justify-center items-start gap-5 p-5">
-        <div className=" max-w-[500px] w-full border rounded-2xl h-[4000px] ">
+      <div className=" w-full flex justify-center items-start gap-5  defualt_layout_width">
+        <div className=" max-w-[500px] pt-[64px] w-full border rounded-2xl h-[4000px] ">
           <div className="px-5 py-5 flex justify-between items-start">
             <h2 className="text-xl font-medium">Price Quote</h2>
             <div>
@@ -110,9 +114,14 @@ const PriceQuote = () => {
           </div>
 
           <div className="border-t flex justify-center items-center gap-5 px-5 py-5 border-b">
-            <Calendar29 />
+            <div className="w-full">
+              <Label>Pickup Date</Label>
+              <Calendar29 />
+            </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="shrink-0">
+              <Label>Pickup Time</Label>
+
               <Input
                 type="time"
                 id="time-picker"
@@ -125,37 +134,33 @@ const PriceQuote = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-1">
             <label className="px-3 py-3 rounded-md border ">
-              Pickup:
-
+              <Label>Pickup:</Label>
               <PlaceAutocompleteInput
-              value={origin}
-              onChange={setOrigin}
-              onPlaceSelect={(place) => {
-                // Optional: Use place.geometry?.location for lat/lng
-              }}
-              placeholder="Type origin"
-            />
+                value={origin}
+                onChange={setOrigin}
+                onPlaceSelect={(place) => {
+                  // Optional: Use place.geometry?.location for lat/lng
+                }}
+                placeholder="Type origin"
+              />
             </label>
             <label className="px-3 py-3 rounded-md border ">
-              Dropoff:
+              <Label>Dropoff:</Label>
               <PlaceAutocompleteInput
-              value={destination}
-              onChange={setDestination}
-              onPlaceSelect={(place) => {
-                // Optional: Use place.geometry?.location for lat/lng
-              }}
-              placeholder="Type destination"
-            />
+                value={destination}
+                onChange={setDestination}
+                onPlaceSelect={(place) => {
+                  // Optional: Use place.geometry?.location for lat/lng
+                }}
+                placeholder="Type destination"
+              />
             </label>
             <div className="pb-0.5 px-0.5">
-
-           <Button radius="large">
-Get Directions
-           </Button>
-              </div>
+              <Button radius="large">Get Directions</Button>
+            </div>
           </form>
         </div>
-        <div className=" pt-[64px] sticky top-0 right-0 h-screen w-full border pr-[80px]">
+        <div className=" pt-[64px] sticky top-0 right-0 h-screen w-full pr-[80px]">
           <div className="h-full relative w-full">
             <APIProvider apiKey={""}>
               <Map
