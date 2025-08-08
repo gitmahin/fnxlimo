@@ -165,11 +165,11 @@ const PriceQuote = () => {
             <APIProvider apiKey={""}>
               <Map
                 mapId={"price_map"}
-                style={{ width: "100%", height: "100vh" }}
+                style={{ width: "100%", height: "calc(100vh - 65px)" }}
                 defaultCenter={{ lat: 22.54992, lng: 0 }}
                 defaultZoom={3}
                 gestureHandling={"greedy"}
-                disableDefaultUI={true}
+                
               >
                 {showDirections && origin && destination && (
                   <DirectionsController
