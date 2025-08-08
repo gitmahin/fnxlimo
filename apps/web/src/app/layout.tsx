@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@radix-ui/themes/styles.css";
 import "@fnx/ui/styles/globals.css";
-import { Header } from "../components/core";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 
@@ -37,7 +36,7 @@ export default function RootLayout({
           hasBackground={false}
         >
           <ThemeProvider attribute={"class"} defaultTheme="light">
-            <Header />
+         
             {children}
           </ThemeProvider>
         </Theme>

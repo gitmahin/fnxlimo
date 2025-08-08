@@ -6,7 +6,7 @@ import { Button } from "@radix-ui/themes";
 import { Calendar29 } from "./date-picker";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { MapIcon, MapPin } from "lucide-react";
-import { PlaceAutocompleteInput } from "../../components";
+import { PlaceAutocompleteInput } from "../../../components";
 
 let directionsRenderer: google.maps.DirectionsRenderer | null = null;
 let directionsService: google.maps.DirectionsService | null = null;

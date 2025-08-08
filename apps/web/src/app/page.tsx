@@ -1,10 +1,11 @@
+import { Header } from '@/components/core'
 import React from 'react'
 
 const Homepage = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+         <Header />
+    </>
   )
 }
 

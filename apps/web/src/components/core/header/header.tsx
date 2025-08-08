@@ -4,6 +4,8 @@ import { MainMenu } from "./main-menu";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Button } from "@radix-ui/themes";
+import Link from "next/link";
 
 export const Header = () => {
   // const { setTheme, resolvedTheme } = useTheme();
@@ -39,6 +41,19 @@ export const Header = () => {
           className={`${currentThemeMode === "dark" && "invert"} w-[20px] h-[20px] active:scale-[0.9] transition-all `}
           alt="Theme mode"
         /> */}
+<div className="flex justify-end items-center gap-3">
+
+<Link href={"/auth/login"}>
+        <Button radius="large">
+          Login
+        </Button>
+</Link>
+<Link  href={"/auth/signup"}>
+        <Button radius="large" variant="soft">
+          Sign up
+        </Button>
+</Link>
+</div>
       </div>
     </header>
   );
