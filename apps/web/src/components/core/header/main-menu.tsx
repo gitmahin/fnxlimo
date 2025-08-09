@@ -18,13 +18,25 @@ export function MainMenu() {
       <NavigationMenuList className="shrink-0">
         <NavigationMenuItem  className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/price-quote">Price Quote</Link>
+            <Link href="/">Home</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/quick-reciept">Quick Reciept</Link>
+            <Link href="#service">Service</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem className="shrink-0">
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="#fleet">Fleet</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem className="shrink-0">
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="#fleet">Contact</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
