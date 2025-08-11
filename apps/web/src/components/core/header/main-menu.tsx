@@ -32,7 +32,7 @@ export function MainMenu() {
 
         <NavigationMenuItem className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="#services">Service</Link>
+            <Link href="#services">Services</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 

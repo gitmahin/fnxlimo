@@ -1,3 +1,4 @@
+import { ReservationPopUp } from "@/components";
 import { Header } from "@/components/core";
 import { Footer } from "@/components/core/footer";
 import { Fleet, HeroSection, Services } from "@/components/homepage";
@@ -8,6 +9,7 @@ const Homepage = () => {
   return (
     <>
       <Header />
+      <ReservationPopUp/>
       <HeroSection />
       <Services />
       <Fleet/>
