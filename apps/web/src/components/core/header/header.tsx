@@ -31,19 +31,19 @@ export const Header = () => {
         <div className="menu_header ">
           <div className="menu_header_desktop flex justify-end items-center gap-3">
             <MainMenu />
-             <Link href="/login">
-          <Button color="gray" variant="soft" radius="large">
-            Login
-          </Button>
-          </Link>
-          <Link href="/signup">
-          <Button color="purple" variant="surface" radius="large">
-            Sign up
-          </Button>
-          </Link>
-          <Button color="purple" radius="large">
-            Book Now
-          </Button>
+            <Link href="/auth/login">
+              <Button color="gray" variant="soft" radius="large">
+                Login
+              </Button>
+            </Link>
+            <Link href="/auth/signup">
+              <Button color="purple" variant="surface" radius="large">
+                Sign up
+              </Button>
+            </Link>
+            <Button color="purple" radius="large">
+              Book Now
+            </Button>
           </div>
           <div className="hidden mobile_menu">
             <Sheet>
@@ -58,24 +58,23 @@ export const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent className="px-2">
-                 <Link href="/auth/login">
-          <Button color="gray" variant="soft" radius="large">
-            Login
-          </Button>
-          </Link>
-          <Link href="/auth/signup">
-          <Button color="purple" variant="surface" radius="large">
-            Sign up
-          </Button>
-          </Link>
-          <Button color="purple" radius="large">
-            Book Now
-          </Button>
+                <Link href="/auth/login">
+                  <Button color="gray" variant="soft" radius="large">
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button color="purple" variant="surface" radius="large">
+                    Sign up
+                  </Button>
+                </Link>
+                <Button color="purple" radius="large">
+                  Book Now
+                </Button>
                 <MainMenu />
               </SheetContent>
             </Sheet>
           </div>
-         
         </div>
       </div>
     </header>
