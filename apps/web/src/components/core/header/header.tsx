@@ -58,12 +58,12 @@ export const Header = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent className="px-2">
-                 <Link href="/login">
+                 <Link href="/auth/login">
           <Button color="gray" variant="soft" radius="large">
             Login
           </Button>
           </Link>
-          <Link href="/signup">
+          <Link href="/auth/signup">
           <Button color="purple" variant="surface" radius="large">
             Sign up
           </Button>
