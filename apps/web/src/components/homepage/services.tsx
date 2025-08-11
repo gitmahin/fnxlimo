@@ -1,3 +1,4 @@
+import { Button } from "@radix-ui/themes";
 import Image from "next/image";
 
 export const Services = () => {
@@ -14,6 +15,9 @@ export const Services = () => {
                 <div className="w-full py-5 service-box-content">
                     <h3 className="text-read-18 font-medium">Airport Transfers</h3>
                     <p className="three_line_ellipsis text-read-14 text-zinc-400 mt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel impedit, corporis nobis molestias ad aut consequuntur ducimus distinctio rem consequatur consectetur. Repudiandae dignissimos explicabo voluptates magnam facilis adipisci accusamus omnis!</p>
+                    <Button variant="soft" className="!mt-5">
+                      Read More
+                    </Button>
 
                 </div>
             </div>

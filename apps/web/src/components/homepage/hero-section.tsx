@@ -34,7 +34,8 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
-      <div className="w-full border-t border-b border-zinc-800 mt-28 h-[600px] video-section-hero">
+      <div className="w-full border-t border-b border-zinc-800 mt-28 h-[600px] video-section-hero relative">
+        <div className="max-w-[500px] h-[50px] bg-purple-900 blur-2xl absolute top-[-20px] "></div>
         <div className="w-full h-[calc(100%-250px)]">
           <video
             src="/hero_video.mp4"
