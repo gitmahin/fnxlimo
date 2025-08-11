@@ -1,21 +1,56 @@
 "use client";
 import { useTheme } from "next-themes";
 import { MainMenu } from "./main-menu";
-
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@fnx/ui";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
+import { AlignRight } from "lucide-react";
 
 export const Header = () => {
   return (
-   <header className="fixed top-0 left-0 w-full h-[64px] border-b border-zinc-800 bg-zinc-950">
-    <div className="default_layout_width h-full flex justify-between items-center">
-<Image src={"/fnx_logo.png"} width={500} height={300} className="h-[35px] object-contain w-fit" alt="app-logo" />
-<div>
-  <MainMenu/>
-</div>
-    </div>
-   </header>
+    <header className="fixed px-5 top-0 left-0 w-full h-[64px] border-b z-50 border-zinc-800 bg-zinc-950">
+      <div className="default_layout_width h-full flex justify-between items-center">
+        <Image
+          src={"/fnx_logo.png"}
+          width={500}
+          height={300}
+          className="h-[35px] object-contain w-fit"
+          alt="app-logo"
+        />
+        <div className="menu_header">
+          <div className="menu_header_desktop">
+            <MainMenu />
+          </div>
+          <div className="hidden mobile_menu">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  className="!w-[30px] !h-[30px] flex justify-center items-center !p-0"
+                  radius="full"
+                  color="gray"
+                  variant="surface"
+                >
+                  <AlignRight size={18} />
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="px-2">
+                <MainMenu />
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };

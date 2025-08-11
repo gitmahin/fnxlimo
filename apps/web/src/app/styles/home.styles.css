@@ -1,0 +1,137 @@
+@import "tailwindcss";
+@media screen and (max-width: 1077px) {
+  .hero-car-image {
+    height: 200px;
+    top: 100px;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .hero-car-title {
+    font-size: clamp(35px, 5vw, 56px);
+    line-height: 1.2;
+  }
+
+  .hero-car-p {
+    font-size: clamp(15px, 5vw, 16px);
+    text-wrap: wrap !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    line-height: 1.2;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .hero-texts {
+    @apply text-center!;
+  }
+
+  .hero-texts-p {
+    @apply flex-col justify-center items-center gap-2;
+  }
+}
+
+@media screen and (max-width: 1069px) {
+  .wh-container {
+    @apply pt-10;
+  }
+  .why-ch-us {
+    @apply grid-cols-2;
+  }
+
+  .whch-wrapper {
+    @apply flex-col h-fit!;
+  }
+
+  .stc-hero {
+    @apply w-full mt-10 text-center!;
+  }
+
+  .video-section-hero {
+    @apply h-fit!;
+  }
+}
+
+@media screen and (max-width: 433px) {
+  .why-ch-us {
+    @apply grid-cols-1;
+  }
+
+  .hero-car-image {
+    @apply opacity-30;
+  }
+}
+
+@media screen and (max-width: 1110px) {
+  .service-img {
+    @apply w-[200px];
+  }
+}
+@media screen and (max-width: 880px) {
+  .services-grid {
+    @apply grid-cols-1;
+  }
+}
+
+@media screen and (max-width: 853px) {
+    .foot_menu_grid{
+        @apply grid-cols-2;
+    }
+}
+
+@media screen and (max-width: 480px) {
+      .foot_menu_grid{
+        @apply grid-cols-1 gap-7;
+    }
+  .service-box {
+    @apply flex-col;
+  }
+
+  .service-box-content {
+    @apply px-5 pt-0;
+  }
+  .service-img {
+    @apply w-full!;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .buttons-fleet {
+    @apply w-fit left-1/2 -translate-x-1/2 top-20;
+  }
+  .nav-wrapper-fleet {
+    @apply flex-col mb-24 justify-center items-center gap-5;
+  }
+  .our_fleet_heading {
+    font-size: clamp(35px, 5vw, 56px);
+    line-height: 1.2;
+    margin-bottom: 10px !important;
+  }
+
+  .foot_menu_header{
+    @apply flex-col justify-center items-center gap-3 mt-5 text-center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+.menu_header_desktop{
+    @apply hidden;
+}
+
+.mobile_menu{
+    @apply flex ;
+}
+
+.main_menu_header_f{
+    @apply !flex-col !items-start !justify-start !h-fit; 
+}
+}
+
+
+
+
+
+.main_hero_heading_sync {
+  font-size: clamp(35px, 5vw, 56px);
+  line-height: 1.2;
+}

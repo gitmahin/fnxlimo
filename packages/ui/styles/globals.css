@@ -119,6 +119,9 @@
   --text-read-10: 10px;
   --text-read-24: 24px;
   --text-read-18: 18px;
+  --text-read-60: 60px;
+  --text-read-56: 56px;
+  --text-read-48: 48px;
 }
 
 @layer base {
@@ -159,4 +162,25 @@ body * {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+
+.fade_up_down_animation {
+  animation: fade_up_down 1.5s infinite;
+}
+
+@keyframes fade_up_down {
+  0% {
+    opacity: 0.5; /* Start dim */
+  }
+  50% {
+    opacity: 1; /* Fully visible */
+  }
+  100% {
+    opacity: 0.5; /* Back to dim */
+  }
+}
+
+html {
+  scroll-behavior: smooth;
 }

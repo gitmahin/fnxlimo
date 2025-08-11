@@ -13,18 +13,26 @@ import {
 } from "@fnx/ui";
 
 export function MainMenu() {
+
+  const goTotop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+
   return (
-    <NavigationMenu viewport={false} className="shrink-0">
-      <NavigationMenuList className="shrink-0">
+    <NavigationMenu viewport={false} className="shrink-0 ">
+      <NavigationMenuList className="shrink-0 main_menu_header_f">
         <NavigationMenuItem  className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/">Home</Link>
+            <div onClick={goTotop} className="cursor-pointer">Home</div>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
         <NavigationMenuItem className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="#service">Service</Link>
+            <Link href="#services">Service</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
 
@@ -36,7 +44,7 @@ export function MainMenu() {
 
         <NavigationMenuItem className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="#fleet">Contact</Link>
+            <Link href="#contact">Contact</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

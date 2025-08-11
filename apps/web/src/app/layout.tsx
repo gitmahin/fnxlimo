@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@radix-ui/themes/styles.css";
 import "@fnx/ui/styles/globals.css";
+// Import Swiper styles
+import 'swiper/css';
+import "./styles/home.styles.css"
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 
@@ -35,7 +38,7 @@ export default function RootLayout({
           appearance="inherit"
           hasBackground={false}
         >
-          <ThemeProvider attribute={"class"} defaultTheme="light">
+          <ThemeProvider attribute={"class"} defaultTheme="dark">
          
             {children}
           </ThemeProvider>
