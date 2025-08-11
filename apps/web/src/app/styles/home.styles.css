@@ -113,7 +113,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 790px) {
 .menu_header_desktop{
     @apply hidden;
 }
