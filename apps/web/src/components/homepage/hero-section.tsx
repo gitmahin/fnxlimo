@@ -36,14 +36,14 @@ export const HeroSection = () => {
       </div>
       <div className="w-full border-t border-b border-zinc-800 mt-28 h-[600px] video-section-hero">
         <div className="w-full h-[calc(100%-250px)]">
-          {/* <video
+          <video
             src="/hero_video.mp4"
             className="w-full h-full z-20 object-center object-cover blur-[3px]"
             autoPlay
             muted
             loop
             playsInline
-          /> */}
+          />
         </div>
         <div className="w-full h-[250px] border-t border-zinc-800 shrink-0 bg-zinc-900 flex justify-between items-start whch-wrapper">
           <div className=" w-full flex justify-end h-full items-center px-5">
