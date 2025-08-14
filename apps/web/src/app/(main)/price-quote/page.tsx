@@ -74,11 +74,11 @@ const PanToCurrentLocationButton = () => {
           }).open(map);
         },
         () => {
-          alert("Error: The Geolocation service failed.");
+          
         }
       );
     } else {
-      alert("Error: Your browser doesn't support geolocation.");
+      
     }
   }, []);
 
@@ -177,7 +177,7 @@ const PriceQuote = () => {
                     destination={destination}
                   />
                 )}
-                <div className="absolute left-[100%] top-5 z-50  w-fit h-fit p-2">
+                <div className="absolute left-5 bottom-5 z-[9999]  w-fit h-fit p-2">
                   <div className="border rounded-md bg-accent p-1 ">
                     <PanToCurrentLocationButton />
                   </div>

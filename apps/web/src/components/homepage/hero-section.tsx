@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import { Button } from "@radix-ui/themes";
 import Image from "next/image";
+import { reservationServiceStore } from "@/services/store";
 
 export const HeroSection = () => {
   return (
@@ -28,7 +30,7 @@ export const HeroSection = () => {
             <p className="text-read-18 font-medium text-zinc-300  mt-5 max-w-[500px] w-full">
               We offer professional car rental & limousis services in our range of high -end vehicles
             </p>
-            <Button radius="large" size={"3"} className="relative z-30">
+            <Button radius="large" size={"3"} className="relative z-30" onClick={() => reservationServiceStore.setIspopup(true)}>
               Get A Quote
             </Button>
           </div>

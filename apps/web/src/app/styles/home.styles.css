@@ -1,4 +1,11 @@
 @import "tailwindcss";
+
+.gm-style  * {
+
+  color: var(--color-zinc-900);
+}
+
+
 @media screen and (max-width: 1077px) {
   .hero-car-image {
     height: 200px;
@@ -74,15 +81,15 @@
 }
 
 @media screen and (max-width: 853px) {
-    .foot_menu_grid{
-        @apply grid-cols-2;
-    }
+  .foot_menu_grid {
+    @apply grid-cols-2;
+  }
 }
 
 @media screen and (max-width: 480px) {
-      .foot_menu_grid{
-        @apply grid-cols-1 gap-7;
-    }
+  .foot_menu_grid {
+    @apply grid-cols-1 gap-7;
+  }
   .service-box {
     @apply flex-col;
   }
@@ -108,28 +115,24 @@
     margin-bottom: 10px !important;
   }
 
-  .foot_menu_header{
+  .foot_menu_header {
     @apply flex-col justify-center items-center gap-3 mt-5 text-center;
   }
 }
 
 @media screen and (max-width: 790px) {
-.menu_header_desktop{
+  .menu_header_desktop {
     @apply hidden;
+  }
+
+  .mobile_menu {
+    @apply flex;
+  }
+
+  .main_menu_header_f {
+    @apply !flex-col !items-start !justify-start !h-fit;
+  }
 }
-
-.mobile_menu{
-    @apply flex ;
-}
-
-.main_menu_header_f{
-    @apply !flex-col !items-start !justify-start !h-fit; 
-}
-}
-
-
-
-
 
 .main_hero_heading_sync {
   font-size: clamp(35px, 5vw, 56px);

@@ -7,6 +7,7 @@ import 'swiper/css';
 import "./styles/home.styles.css"
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
+import { ReservationPopUp } from "@/components";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,7 +40,7 @@ export default function RootLayout({
           hasBackground={false}
         >
           <ThemeProvider attribute={"class"} defaultTheme="dark">
-         
+              <ReservationPopUp/>
             {children}
           </ThemeProvider>
         </Theme>

@@ -16,6 +16,8 @@
     "@vis.gl/react-google-maps": "^1.5.5",
     "axios": "^1.11.0",
     "chrono-node": "^2.8.4",
+    "mobx": "^6.13.7",
+    "mobx-react": "^9.2.0",
     "motion": "^12.23.12",
     "next": "^15.4.2",
     "next-auth": "^4.24.11",

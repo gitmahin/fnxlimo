@@ -1,4 +1,5 @@
-"use client"
+"use client";
+import { observer } from "mobx-react";
 import {
   Calculator,
   Calendar,
@@ -19,25 +20,30 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@fnx/ui";
-import React from "react";
+import React, { useEffect } from "react";
+import { Reservation } from "./reservation/reservation";
+import { reservationServiceStore } from "@/services/store";
 
-export function ReservationPopUp() {
-  const [open, setOpen] = React.useState(false);
-  React.useEffect(() => {
+export const ReservationPopUp = observer(() => {
+  useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        reservationServiceStore.setIspopup(!reservationServiceStore.isPopup);
       }
     };
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
   return (
-    <CommandDialog open={open} onOpenChange={setOpen} className="!max-w-[900px] !w-full">
+    <CommandDialog
+      open={reservationServiceStore.isPopup}
+      onOpenChange={(open) => reservationServiceStore.setIspopup(open)}
+      className="!max-w-[900px] !w-full"
+    >
       <div className=" h-[calc(100vh-200px)]">
-
+        <Reservation />
       </div>
     </CommandDialog>
   );
-}
+});

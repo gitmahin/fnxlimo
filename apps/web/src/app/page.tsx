@@ -9,7 +9,7 @@ const Homepage = () => {
   return (
     <>
       <Header />
-      <ReservationPopUp/>
+
       <HeroSection />
       <Services />
       <Fleet/>

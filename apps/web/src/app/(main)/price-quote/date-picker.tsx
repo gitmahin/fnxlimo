@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { parseDate } from "chrono-node"
-import { CalendarIcon } from "lucide-react"
+import * as React from "react";
+import { en, parseDate } from "chrono-node";
+import { CalendarIcon } from "lucide-react";
 
 import {
   Popover,
@@ -12,27 +12,31 @@ import {
   Input,
   Calendar,
   Button,
-} from "@fnx/ui"
+} from "@fnx/ui";
 
 function formatDate(date: Date | undefined) {
   if (!date) {
-    return ""
+    return "";
   }
 
   return date.toLocaleDateString("en-US", {
     day: "2-digit",
     month: "long",
     year: "numeric",
-  })
+  });
 }
 
 export function Calendar29() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("In 2 days")
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate()); // add 1 day
+    return `${tomorrow.toISOString().split("T")[0]}`; // format: YYYY-MM-DD
+  });
   const [date, setDate] = React.useState<Date | undefined>(
     parseDate(value) || undefined
-  )
-  const [month, setMonth] = React.useState<Date | undefined>(date)
+  );
+  const [month, setMonth] = React.useState<Date | undefined>(date);
 
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -43,17 +47,17 @@ export function Calendar29() {
           placeholder="Tomorrow or next week"
           className="bg-background pr-10 w-full"
           onChange={(e) => {
-            setValue(e.target.value)
-            const date = parseDate(e.target.value)
+            setValue(e.target.value);
+            const date = parseDate(e.target.value);
             if (date) {
-              setDate(date)
-              setMonth(date)
+              setDate(date);
+              setMonth(date);
             }
           }}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
-              e.preventDefault()
-              setOpen(true)
+              e.preventDefault();
+              setOpen(true);
             }
           }}
         />
@@ -76,9 +80,9 @@ export function Calendar29() {
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
-                setDate(date)
-                setValue(formatDate(date))
-                setOpen(false)
+                setDate(date);
+                setValue(formatDate(date));
+                setOpen(false);
               }}
             />
           </PopoverContent>
@@ -89,5 +93,5 @@ export function Calendar29() {
         <span className="font-medium">{formatDate(date)}</span>.
       </div> */}
     </div>
-  )
+  );
 }
