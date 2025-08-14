@@ -1,6 +1,5 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { TogglePQType } from "./toggle-pg-type";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import {
   Input,

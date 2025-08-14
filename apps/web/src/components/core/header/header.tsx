@@ -12,10 +12,11 @@ import {
   SheetTrigger,
 } from "@fnx/ui";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+
 import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import { AlignRight } from "lucide-react";
+import { reservationServiceStore } from "@/services/store";
 
 export const Header = () => {
   return (
@@ -41,7 +42,12 @@ export const Header = () => {
                 Sign up
               </Button>
             </Link>
-            <Button color="purple" radius="large">
+            <Button
+              color="purple"
+              radius="large"
+              className="!cursor-pointer"
+              onClick={() => reservationServiceStore.setIspopup(true)}
+            >
               Book Now
             </Button>
           </div>
@@ -68,7 +74,12 @@ export const Header = () => {
                     Sign up
                   </Button>
                 </Link>
-                <Button color="purple" radius="large">
+                <Button
+                  color="purple"
+                  radius="large"
+                  className="!cursor-pointer"
+                  onClick={() => reservationServiceStore.setIspopup(true)}
+                >
                   Book Now
                 </Button>
                 <MainMenu />
