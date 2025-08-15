@@ -44,6 +44,7 @@ import { BagsCounter } from "./bags-counter";
 let directionsRenderer: google.maps.DirectionsRenderer | null = null;
 let directionsService: google.maps.DirectionsService | null = null;
 import { v4 as uuidv4 } from "uuid";
+import { QuickReservation } from "./quick-reservation";
 
 const DirectionsController = ({
   origin,
@@ -342,18 +343,9 @@ export const Reservation = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="!p-0 ">
-                <div className="grid gap-3">
-                  <Label htmlFor="tabs-demo-current">Current password</Label>
-                  <Input id="tabs-demo-current" type="password" />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="tabs-demo-new">New password</Label>
-                  <Input id="tabs-demo-new" type="password" />
-                </div>
+                <QuickReservation/>
               </CardContent>
-              <CardFooter>
-                <Button>Save password</Button>
-              </CardFooter>
+             
             </Card>
           </TabsContent>
         </Tabs>
