@@ -160,8 +160,8 @@ export const Reservation = () => {
     setShowDirections(true);
   };
   return (
-    <div className="w-full h-full grid grid-cols-2 ">
-      <div className="h-full">
+    <div className="w-full h-full grid grid-cols-2 reservation-box ">
+      <div className="h-full rmap">
         <APIProvider apiKey={""}>
           <Map
             mapId={"price_map"}
@@ -182,7 +182,7 @@ export const Reservation = () => {
       </div>
       <div className="border-r h-full overflow-y-auto ">
         <Tabs defaultValue="price-quote">
-          <TabsList className="mx-5 my-5 sticky top-5">
+          <TabsList className="mx-5 my-5 sticky top-5 z-20">
             <TabsTrigger value="price-quote">Price Quote</TabsTrigger>
             <TabsTrigger value="quick-receipt">Quick Receipt</TabsTrigger>
           </TabsList>

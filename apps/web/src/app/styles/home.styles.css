@@ -6,6 +6,8 @@
 }
 
 
+
+
 @media screen and (max-width: 1077px) {
   .hero-car-image {
     height: 200px;
@@ -26,6 +28,18 @@
     max-width: 100% !important;
     line-height: 1.2;
   }
+}
+
+
+@media screen and (max-width: 810px) {
+  .reservation-box{
+    @apply !grid-cols-1 grid-rows-[250px_1fr];
+  }
+
+  .rpopup{
+    @apply !h-[100vh]
+  }
+
 }
 
 @media screen and (max-width: 730px) {

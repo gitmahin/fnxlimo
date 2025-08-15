@@ -41,7 +41,7 @@ export const ReservationPopUp = observer(() => {
       onOpenChange={(open) => reservationServiceStore.setIspopup(open)}
       className="!max-w-[900px] !w-full"
     >
-      <div className=" h-[calc(100vh-200px)]">
+      <div className="h-[calc(100vh-200px)] rpopup">
         <Reservation />
       </div>
     </CommandDialog>
