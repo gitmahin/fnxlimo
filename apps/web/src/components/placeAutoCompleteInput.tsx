@@ -119,7 +119,7 @@ export const PlaceAutocompleteInput = ({
 
       {/* Suggestions dropdown */}
       {predictions.length > 0 && (
-        <ul className="absolute z-50 bg-white border w-full mt-1 rounded shadow-md max-h-60 overflow-auto">
+        <ul className=" z-50 bg-white border w-full mt-1 rounded shadow-md max-h-60 overflow-auto">
           {predictions.map((pred) => (
             <li
               key={pred.place_id}
