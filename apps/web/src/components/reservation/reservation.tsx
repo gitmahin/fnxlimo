@@ -36,7 +36,7 @@ import {
   MapPinPlus,
   MapPinPlusInside,
 } from "lucide-react";
-import { Calendar29 } from "@/app/(main)/price-quote/date-picker";
+import { Calendar29 } from "@/components/date-picker";
 import { PlaceAutocompleteInput } from "../placeAutoCompleteInput";
 import { Button } from "@radix-ui/themes";
 import { PassengerCounter } from "./passenger-counter";
@@ -253,7 +253,7 @@ export const Reservation = () => {
                     <div className="w-[1.5px] h-[calc(100%-50px)] bg-purple-600 absolute top-0 left-[15px]"></div>
                     {stops &&
                       stops.map((stop) => (
-                        <div className="mb-5 relative pl-10">
+                        <div className="mb-5 relative pl-10" key={`${stop.id}`}>
                           <div
                             onClick={() => handleRemoveStop(stop.id)}
                             className="absolute group top-1/2 -translate-y-1/2 left-0 bg-purple-900 hover:bg-red-600 transition-colors flex justify-center items-center w-[30px] h-[30px] rounded-full"
