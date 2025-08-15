@@ -125,7 +125,7 @@ const PanToCurrentLocationButton = () => {
       className="!p-2 !rounded-lg !cursor-pointer"
       onClick={panToCurrentLocation}
     >
-      <MapPin size={24} />
+      <MapPin size={24} className="text-zinc-50" />
     </Button>
   );
 };
@@ -141,8 +141,8 @@ export const Reservation = () => {
   };
 
   const handleRemoveStop = (id: string) => {
-    setStops((prev) => prev.filter((item) => id !== item.id))
-  }
+    setStops((prev) => prev.filter((item) => id !== item.id));
+  };
 
   const handleChange = (id: string, newValue: string) => {
     setStops((prev) =>
@@ -182,34 +182,11 @@ export const Reservation = () => {
       </div>
       <div className="border-r h-full overflow-y-auto ">
         <Tabs defaultValue="price-quote">
-          <div>
-            <div className="shrink-0">
-              <TabsList className="mx-5 my-5 sticky top-5">
-                <TabsTrigger value="price-quote">Price Quote</TabsTrigger>
-                <TabsTrigger value="quick-receipt">Quick Receipt</TabsTrigger>
-              </TabsList>
-            </div>
-            <div className="shrink-0 px-5 mb-5">
-              <RadioGroup
-                defaultValue="transfer"
-                className="flex justify-start items-center gap-3"
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="transfer" id="r1" />
-                  <Label htmlFor="r1">
-                    <MapPin size={18} /> Transfer
-                  </Label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="hourly" id="r2" />
-                  <Label htmlFor="r2">
-                    <Clock size={18} />
-                    Hourly
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-          </div>
+          <TabsList className="mx-5 my-5 sticky top-5">
+            <TabsTrigger value="price-quote">Price Quote</TabsTrigger>
+            <TabsTrigger value="quick-receipt">Quick Receipt</TabsTrigger>
+          </TabsList>
+
           <TabsContent value="price-quote">
             <Card className="!p-0 !rounded-none !border-0">
               <CardHeader>
@@ -218,24 +195,28 @@ export const Reservation = () => {
                   Make changes to your account here. Click save when you&apos;re
                   done.
                 </CardDescription>
+                <div className="shrink-0 mt-5">
+                  <RadioGroup
+                    defaultValue="transfer"
+                    className="flex justify-start items-center gap-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="transfer" id="r1" />
+                      <Label htmlFor="r1">
+                        <MapPin size={18} /> Transfer
+                      </Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem value="hourly" id="r2" />
+                      <Label htmlFor="r2">
+                        <Clock size={18} />
+                        Hourly
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
               </CardHeader>
               <CardContent className="!p-0 overflow-y-auto h-full">
-                <div className="px-5">
-                  <Select>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select Location Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Location Types</SelectLabel>
-                        <SelectItem value="search-all">Search All</SelectItem>
-                        <SelectItem value="address">Address</SelectItem>
-                        <SelectItem value="airport">Airport</SelectItem>
-                        <SelectItem value="landmark">Landmark</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
                 <div className="flex justify-center items-center gap-5 p-5 w-full">
                   <div className="w-full ">
                     <Label className="mb-1">Pickup Date</Label>
@@ -273,9 +254,18 @@ export const Reservation = () => {
                     {stops &&
                       stops.map((stop) => (
                         <div className="mb-5 relative pl-10">
-                          <div onClick={() => handleRemoveStop(stop.id)} className="absolute group top-1/2 -translate-y-1/2 left-0 bg-purple-900 hover:bg-red-600 transition-colors flex justify-center items-center w-[30px] h-[30px] rounded-full">
-                            <MapPinPlusInside size={16} className="group-hover:hidden" />
-                            <MapPinMinusInside size={16} className="hidden group-hover:flex "/>
+                          <div
+                            onClick={() => handleRemoveStop(stop.id)}
+                            className="absolute group top-1/2 -translate-y-1/2 left-0 bg-purple-900 hover:bg-red-600 transition-colors flex justify-center items-center w-[30px] h-[30px] rounded-full"
+                          >
+                            <MapPinPlusInside
+                              size={16}
+                              className="group-hover:hidden"
+                            />
+                            <MapPinMinusInside
+                              size={16}
+                              className="hidden group-hover:flex "
+                            />
                           </div>
                           <PlaceAutocompleteInput
                             key={stop.id}
