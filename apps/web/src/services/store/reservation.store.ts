@@ -21,25 +21,21 @@ class ReservationServiceStore {
   }
 
   incrementPassenger() {
- 
-      this.passenger++;
-
+    this.passenger++;
   }
 
   decrementPassenger() {
-    if(this.passenger != 0) {
+    if (this.passenger != 0) {
       this.passenger--;
     }
   }
 
   incrementBag() {
-
-      this.bags++;
-
+    this.bags++;
   }
 
   decrementBag() {
-    if(this.bags != 0) {
+    if (this.bags != 0) {
       this.bags--;
     }
   }

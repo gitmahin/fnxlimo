@@ -6,7 +6,7 @@ export const BagsCounter = observer(() => {
   return (
     <Counter
       increment={() => reservationServiceStore.incrementBag()}
-      decrement={() => reservationServiceStore.decrementBag}
+      decrement={() => reservationServiceStore.decrementBag()}
       value={reservationServiceStore.bags}
     />
   );
