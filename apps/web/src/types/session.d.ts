@@ -1,6 +1,34 @@
-import NextAuth from "next-auth";
-import { authOptions } from "./options";
+import "next-auth"
+import { DefaultSession } from "next-auth"
 
-const handler = NextAuth(authOptions);
+declare module "next-auth" {
 
-export { handler as GET, handler as POST };
+    interface User {
+        username?: string,
+        email?: string,
+        image?: string,
+        name?: string,
+        uuid?: string
+    }
+    interface Session {
+        user: {
+            username?: string,
+            email?: string,
+            image?: string,
+            name?: string,
+            uuid?: string
+        } & DefaultSession['user']
+
+    }
+}
+
+
+declare module 'next-auth/jwt' {
+    interface JWT {
+        username?: string,
+        email?: string,
+        image?: string,
+        name?: string,
+        uuid?: string
+    }
+}
