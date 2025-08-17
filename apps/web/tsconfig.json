@@ -6,8 +6,6 @@
         "./src/*"
       ]
     },
-    "lib": ["ES2024"],
-    "target": "ES2024",
     "plugins": [
       {
         "name": "next"
