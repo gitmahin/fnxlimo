@@ -36,6 +36,7 @@ import {
 } from "@fnx/ui";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
 
 
@@ -130,9 +131,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <Link href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Finixlimo</span>
+              <Link href="/">
+                  <Image
+                          src={"/fnx_logo.png"}
+                          width={500}
+                          height={300}
+                          className="h-[30px] object-contain w-fit"
+                          alt="app-logo"
+                        />
+               
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

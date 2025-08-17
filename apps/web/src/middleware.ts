@@ -27,9 +27,9 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if(!token && pathname.startsWith("/dashboard")) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
-  }
+  // if(!token && pathname.startsWith("/dashboard")) {
+  //     return NextResponse.redirect(new URL("/auth/login", request.url));
+  // }
 
   return NextResponse.next(); // Allow normal flow
 }
