@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
 
+// import dotenv from "dotenv"
+
+// dotenv.config({
+//   path: "./../../.env" // adjust path as needed
+// });
+
+// console.log("database uri is", process.env.MONGO_URI)
+
 type ConnectionObject = {
   isConnected?: number;
 };
