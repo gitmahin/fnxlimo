@@ -3,11 +3,12 @@ import localFont from "next/font/local";
 import "@radix-ui/themes/styles.css";
 import "@fnx/ui/styles/globals.css";
 // Import Swiper styles
-import 'swiper/css';
-import "./styles/home.styles.css"
+import "swiper/css";
+import "./styles/home.styles.css";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 import { ReservationPopUp } from "@/components";
+import SessionWrapper from "@/components/auth/session-wrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,17 +34,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Theme
-          accentColor="purple"
-          grayColor="slate"
-          appearance="inherit"
-          hasBackground={false}
-        >
-          <ThemeProvider attribute={"class"} defaultTheme="dark">
-              <ReservationPopUp/>
-            {children}
-          </ThemeProvider>
-        </Theme>
+        <SessionWrapper>
+          <Theme
+            accentColor="purple"
+            grayColor="slate"
+            appearance="inherit"
+            hasBackground={false}
+          >
+            <ThemeProvider attribute={"class"} defaultTheme="dark">
+              <ReservationPopUp />
+              {children}
+            </ThemeProvider>
+          </Theme>
+        </SessionWrapper>
       </body>
     </html>
   );

@@ -9,6 +9,8 @@ export type UserType = Document & {
   color: string;
   number: string;
   country: string;
+  email: string;
+  profile_image: string;
 };
 
 const UserSchema: Schema<UserType> = new Schema(
@@ -17,6 +19,15 @@ const UserSchema: Schema<UserType> = new Schema(
       type: String,
       max: 200,
       min: 5,
+    },
+    email: {
+      type: String,
+      max: 200,
+      required: true
+    },
+    profile_image: {
+      type: String,
+      max: 300,
     },
     uuid: {
       type: String,
