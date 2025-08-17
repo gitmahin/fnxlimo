@@ -11,11 +11,13 @@ import {
   IconFileWord,
   IconFolder,
   IconHelp,
+  IconInbox,
   IconInnerShadowTop,
   IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
+  IconUserCircle,
   IconUsers,
 } from "@tabler/icons-react";
 
@@ -33,6 +35,7 @@ import {
   SidebarMenuItem,
 } from "@fnx/ui";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 
 
@@ -51,24 +54,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
+      title: "Inbox",
       url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
+      icon: IconInbox,
     },
   ],
   navClouds: [
@@ -121,37 +109,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   ],
   navSecondary: [
     {
-      title: "Settings",
+      title: "My Profile",
       url: "#",
-      icon: IconSettings,
+      icon: IconUserCircle,
     },
     {
       title: "Get Help",
       url: "#",
       icon: IconHelp,
     },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
+   
   ],
 };
   return (
@@ -163,17 +130,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+                <span className="text-base font-semibold">Finixlimo</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+    
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
