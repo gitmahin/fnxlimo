@@ -17,8 +17,13 @@ import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import { AlignRight } from "lucide-react";
 import { reservationServiceStore } from "@/services/store";
+import { productService } from "@/services";
 
 export const Header = () => {
+  const handleGetProducts = async () => {
+    const response = await productService.getProducts()
+    console.log(response)
+  }
   return (
     <header className="fixed px-5 top-0 left-0 w-full h-[64px] border-b z-50 border-zinc-800 bg-zinc-950">
       <div className="default_layout_width h-full flex justify-between items-center">
@@ -49,6 +54,14 @@ export const Header = () => {
               onClick={() => reservationServiceStore.setIspopup(true)}
             >
               Book Now
+            </Button>
+              <Button
+              color="purple"
+              radius="large"
+              className="!cursor-pointer"
+              onClick={() => handleGetProducts()}
+            >
+              For check
             </Button>
           </div>
           <div className="hidden mobile_menu">
