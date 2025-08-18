@@ -45,6 +45,7 @@ let directionsRenderer: google.maps.DirectionsRenderer | null = null;
 let directionsService: google.maps.DirectionsService | null = null;
 import { v4 as uuidv4 } from "uuid";
 import { QuickReservation } from "./quick-reservation";
+import { ValueOf } from "next/dist/shared/lib/constants";
 
 const DirectionsController = ({
   origin,
@@ -131,11 +132,27 @@ const PanToCurrentLocationButton = () => {
   );
 };
 
+enum tripTimeCalculation {
+  TRIP_HOURS = "TRIP_HOURS",
+  DROP_OFF_TIME = "DROP_OFF_TIME",
+}
+
+enum priceQuoteTypeEnums {
+  TRANSFER = "TRANSFER",
+  HOURLY = "HOURLY"
+}
+
 export const Reservation = () => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [showDirections, setShowDirections] = useState(false);
   const [stops, setStops] = useState<{ id: string; value: string }[]>([]);
+  const [priceQuoteType, setPriceQuoteType] = useState<keyof typeof priceQuoteTypeEnums>(
+    "TRANSFER"
+  );
+
+  const [tripTimeCal, setTripTimeCal] =
+    useState<keyof typeof tripTimeCalculation>("TRIP_HOURS");
 
   const handleAddStop = () => {
     setStops((prev) => [...prev, { id: uuidv4(), value: "" }]);
@@ -198,17 +215,19 @@ export const Reservation = () => {
                 </CardDescription>
                 <div className="shrink-0 mt-5">
                   <RadioGroup
-                    defaultValue="transfer"
+                    defaultValue={`${priceQuoteTypeEnums.TRANSFER}`}
+                    onValueChange={(value: string) => setPriceQuoteType(value as priceQuoteTypeEnums)}
+                  
                     className="flex justify-start items-center gap-3"
                   >
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value="transfer" id="r1" />
+                      <RadioGroupItem value={`${priceQuoteTypeEnums.TRANSFER}`} id="r1" />
                       <Label htmlFor="r1">
                         <MapPin size={18} /> Transfer
                       </Label>
                     </div>
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value="hourly" id="r2" />
+                      <RadioGroupItem value={`${priceQuoteTypeEnums.HOURLY}`} id="r2" />
                       <Label htmlFor="r2">
                         <Clock size={18} />
                         Hourly
@@ -218,6 +237,37 @@ export const Reservation = () => {
                 </div>
               </CardHeader>
               <CardContent className="!p-0 overflow-y-auto h-full">
+                {priceQuoteType === priceQuoteTypeEnums.HOURLY && (
+                  <div className="w-full px-5">
+                    <div className="flex justify-start items-center gap-3">
+                      <Label>Trip calculation</Label>
+                      <RadioGroup
+                        defaultValue={`${tripTimeCalculation.TRIP_HOURS}`}
+                        onChange={(e: any) => setPriceQuoteType(e.target.value)}
+                        className="flex justify-start items-center gap-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem
+                            value={`${tripTimeCalculation.TRIP_HOURS}`}
+                            id="t1"
+                          />
+                          <Label htmlFor="t1">Trip Hours</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem
+                            value={`${tripTimeCalculation.DROP_OFF_TIME}`}
+                            id="t2"
+                          />
+                          <Label htmlFor="t2">Dropoff Time</Label>
+                        </div>
+                      </RadioGroup>
+{/* trip drop */}
+                      <div>
+
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="flex justify-center items-center gap-5 p-5 w-full">
                   <div className="w-full ">
                     <Label className="mb-1">Pickup Date</Label>
@@ -343,9 +393,8 @@ export const Reservation = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="!p-0 ">
-                <QuickReservation/>
+                <QuickReservation />
               </CardContent>
-             
             </Card>
           </TabsContent>
         </Tabs>
