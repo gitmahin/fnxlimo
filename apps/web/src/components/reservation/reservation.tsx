@@ -46,6 +46,7 @@ let directionsService: google.maps.DirectionsService | null = null;
 import { v4 as uuidv4 } from "uuid";
 import { QuickReservation } from "./quick-reservation";
 import { ValueOf } from "next/dist/shared/lib/constants";
+import { TripDurationHours, TripDurationMins } from "./trip-duration";
 
 const DirectionsController = ({
   origin,
@@ -139,7 +140,7 @@ enum tripTimeCalculation {
 
 enum priceQuoteTypeEnums {
   TRANSFER = "TRANSFER",
-  HOURLY = "HOURLY"
+  HOURLY = "HOURLY",
 }
 
 export const Reservation = () => {
@@ -147,9 +148,8 @@ export const Reservation = () => {
   const [destination, setDestination] = useState("");
   const [showDirections, setShowDirections] = useState(false);
   const [stops, setStops] = useState<{ id: string; value: string }[]>([]);
-  const [priceQuoteType, setPriceQuoteType] = useState<keyof typeof priceQuoteTypeEnums>(
-    "TRANSFER"
-  );
+  const [priceQuoteType, setPriceQuoteType] =
+    useState<keyof typeof priceQuoteTypeEnums>("TRANSFER");
 
   const [tripTimeCal, setTripTimeCal] =
     useState<keyof typeof tripTimeCalculation>("TRIP_HOURS");
@@ -216,18 +216,25 @@ export const Reservation = () => {
                 <div className="shrink-0 mt-5">
                   <RadioGroup
                     defaultValue={`${priceQuoteTypeEnums.TRANSFER}`}
-                    onValueChange={(value: string) => setPriceQuoteType(value as priceQuoteTypeEnums)}
-                  
+                    onValueChange={(value: string) =>
+                      setPriceQuoteType(value as priceQuoteTypeEnums)
+                    }
                     className="flex justify-start items-center gap-3"
                   >
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value={`${priceQuoteTypeEnums.TRANSFER}`} id="r1" />
+                      <RadioGroupItem
+                        value={`${priceQuoteTypeEnums.TRANSFER}`}
+                        id="r1"
+                      />
                       <Label htmlFor="r1">
                         <MapPin size={18} /> Transfer
                       </Label>
                     </div>
                     <div className="flex items-center gap-3">
-                      <RadioGroupItem value={`${priceQuoteTypeEnums.HOURLY}`} id="r2" />
+                      <RadioGroupItem
+                        value={`${priceQuoteTypeEnums.HOURLY}`}
+                        id="r2"
+                      />
                       <Label htmlFor="r2">
                         <Clock size={18} />
                         Hourly
@@ -237,37 +244,7 @@ export const Reservation = () => {
                 </div>
               </CardHeader>
               <CardContent className="!p-0 overflow-y-auto h-full">
-                {priceQuoteType === priceQuoteTypeEnums.HOURLY && (
-                  <div className="w-full px-5">
-                    <div className="flex justify-start items-center gap-3">
-                      <Label>Trip calculation</Label>
-                      <RadioGroup
-                        defaultValue={`${tripTimeCalculation.TRIP_HOURS}`}
-                        onChange={(e: any) => setPriceQuoteType(e.target.value)}
-                        className="flex justify-start items-center gap-3"
-                      >
-                        <div className="flex items-center gap-3">
-                          <RadioGroupItem
-                            value={`${tripTimeCalculation.TRIP_HOURS}`}
-                            id="t1"
-                          />
-                          <Label htmlFor="t1">Trip Hours</Label>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <RadioGroupItem
-                            value={`${tripTimeCalculation.DROP_OFF_TIME}`}
-                            id="t2"
-                          />
-                          <Label htmlFor="t2">Dropoff Time</Label>
-                        </div>
-                      </RadioGroup>
-{/* trip drop */}
-                      <div>
-
-                      </div>
-                    </div>
-                  </div>
-                )}
+                
                 <div className="flex justify-center items-center gap-5 p-5 w-full">
                   <div className="w-full ">
                     <Label className="mb-1">Pickup Date</Label>
@@ -286,6 +263,69 @@ export const Reservation = () => {
                     />
                   </div>
                 </div>
+
+                {priceQuoteType === priceQuoteTypeEnums.HOURLY && (
+                  <div className="w-full px-5 mb-10">
+                    <div className="flex justify-start items-center gap-3">
+                      <Label>Trip calculation</Label>
+                      <RadioGroup
+                        defaultValue={`${tripTimeCalculation.TRIP_HOURS}`}
+                        onValueChange={(value: string) =>
+                          setTripTimeCal(value as tripTimeCalculation)
+                        }
+                        className="flex justify-start items-center gap-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem
+                            value={`${tripTimeCalculation.TRIP_HOURS}`}
+                            id="t1"
+                          />
+                          <Label htmlFor="t1">Trip Hours</Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <RadioGroupItem
+                            value={`${tripTimeCalculation.DROP_OFF_TIME}`}
+                            id="t2"
+                          />
+                          <Label htmlFor="t2">Dropoff Time</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    {tripTimeCal === "TRIP_HOURS" ? (
+                      <div className="w-full flex justify-start items-center mt-5 gap-5">
+                        <div>
+                          <Label className="mb-1 text-zinc-400">
+                            Trip Duration Hours:
+                          </Label>
+                          <TripDurationHours />
+                        </div>
+                        <div>
+                          <Label className="mb-1 text-zinc-400">
+                            Trip Duration Mins:
+                          </Label>
+                          <TripDurationMins />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex justify-start items-center gap-5 mt-5">
+                        <div>
+                          <Label className="mb-1 text-zinc-400">Dropoff Date: </Label>
+                          <Calendar29 />
+                        </div>
+                        <div>
+                          <Label className="mb-1 text-zinc-400">Dropoff Time: </Label>
+                          <Input
+                            type="time"
+                            id="dropoff-time-picker"
+                            step="1"
+                            defaultValue="10:30:00"
+                            className="bg-background appearance-none mt-1 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="w-full h-fit px-5">
                   <div>

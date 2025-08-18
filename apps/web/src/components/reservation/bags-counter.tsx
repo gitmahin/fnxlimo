@@ -5,9 +5,12 @@ import { observer } from "mobx-react";
 export const BagsCounter = observer(() => {
   return (
     <Counter
-      increment={() => reservationServiceStore.incrementBag()}
-      decrement={() => reservationServiceStore.decrementBag()}
+      maxLength={2}
+      max={99}
+      increment={() => reservationServiceStore.incdecBag("increment")}
+      decrement={() => reservationServiceStore.incdecBag("decrement")}
       value={reservationServiceStore.bags}
+    onChange={(val) => reservationServiceStore.setBag(val)}
     />
   );
 });

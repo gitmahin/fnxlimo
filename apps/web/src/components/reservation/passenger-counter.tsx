@@ -6,9 +6,12 @@ import { Counter } from "../counter";
 export const PassengerCounter = observer(() => {
   return (
     <Counter
-      increment={() => reservationServiceStore.incrementPassenger()}
-      decrement={() => reservationServiceStore.decrementPassenger()}
+      maxLength={2}
+      max={99}
+      increment={() => reservationServiceStore.indecPassenger("increment")}
+      decrement={() => reservationServiceStore.indecPassenger("decrement")}
       value={reservationServiceStore.passenger}
+      onChange={(val) => reservationServiceStore.setPassenger(val)}
     />
   );
 });
