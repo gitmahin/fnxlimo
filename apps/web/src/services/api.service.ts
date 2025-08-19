@@ -1,13 +1,14 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from "axios";
 
 export abstract class ApiService {
   baseUrl: string;
   private axiosInstance: AxiosInstance;
-  constructor(baseUrl: string) {
+  constructor(baseUrl: string, headers?: AxiosRequestHeaders) {
     this.baseUrl = baseUrl;
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
-      withCredentials: true
+      withCredentials: true,
+      headers
     });
   }
 

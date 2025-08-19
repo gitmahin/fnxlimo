@@ -1,29 +1,34 @@
+import { AxiosHeaders } from "axios";
 import { ApiService } from "./api.service";
 
-const consumerKey = process.env.WOO_CONSUMER_KEY;
-const consumerSecret = process.env.WOO_CONSUMER_SECRET;
+// key: "ck_687f1f4bae840fd4e7711be516ebefe47b0b0360"
+// secret: "cs_7a31758464b5a6e67cd60753b25dbbc1885ff579";
 
 class ProductService extends ApiService {
-  private authHeader: string;
   constructor() {
-    super("https://cms.finixlimo.com");
-    this.authHeader =
+    const auth =
       "Basic " +
       btoa(
-        `${"ck_687f1f4bae840fd4e7711be516ebefe47b0b0360"}:${"cs_7a31758464b5a6e67cd60753b25dbbc1885ff579"}`
+        `${process.env.WOO_CONSUMER_KEY}:${process.env.WOO_CONSUMER_SECRET}`
       );
+
+    const headers = AxiosHeaders.from({
+      Authorization: auth,
+    });
+
+    super("https://cms.finixlimo.com", headers);
   }
 
-  async getProducts() {
+  async getProducts(categoryID?: number) {
     const response = this.get(
-      "/wp-json/wc/v1/products",
-      {},
-      {
-        headers: {
-          Authorization: this.authHeader,
-        },
-      }
+      `/wp-json/wc/v1/products?category=${categoryID || 0}`,
+      {}
     );
+    return response;
+  }
+
+  async getProductsCategories() {
+    const response = this.get("/wp-json/wc/v1/products/categories");
     return response;
   }
 }
