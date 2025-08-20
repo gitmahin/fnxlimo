@@ -89,6 +89,7 @@ export const ProductsQuery = extendType({
         const response = await productService.getProducts(
           args.categoryID as number
         );
+        
         return response.data;
       },
     });

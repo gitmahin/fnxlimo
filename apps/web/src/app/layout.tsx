@@ -9,6 +9,7 @@ import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 import { ReservationPopUp } from "@/components";
 import SessionWrapper from "@/components/auth/session-wrapper";
+import { ApolloClientProvider } from "@/components/providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,17 +36,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionWrapper>
-          <Theme
-            accentColor="purple"
-            grayColor="slate"
-            appearance="inherit"
-            hasBackground={false}
-          >
-            <ThemeProvider attribute={"class"} defaultTheme="dark">
-              <ReservationPopUp />
-              {children}
-            </ThemeProvider>
-          </Theme>
+          <ApolloClientProvider>
+            <Theme
+              accentColor="purple"
+              grayColor="slate"
+              appearance="inherit"
+              hasBackground={false}
+            >
+              <ThemeProvider attribute={"class"} defaultTheme="dark">
+                <ReservationPopUp />
+                {children}
+              </ThemeProvider>
+            </Theme>
+          </ApolloClientProvider>
         </SessionWrapper>
       </body>
     </html>

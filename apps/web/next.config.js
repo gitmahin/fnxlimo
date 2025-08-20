@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
- 
+const nextConfig = {
+  images: {
+    domains: ["cms.finixlimo.com"],
+  },
+};
+
 export default nextConfig;
-  

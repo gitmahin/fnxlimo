@@ -1,5 +1,5 @@
 "use client";
-import { Badge, Button } from "@radix-ui/themes";
+import { Badge, Button, DataList } from "@radix-ui/themes";
 import {
   BriefcaseBusiness,
   ChevronLeft,
@@ -7,10 +7,11 @@ import {
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperTypes } from "swiper/types";
+import { gql, useQuery } from "@apollo/client";
 
 type FleetCategoriesType = {
   label: string;
@@ -30,12 +31,55 @@ const FLEET_CATEGORIES: FleetCategoriesType[] = [
   },
 ];
 
+const GET_PRODUCTS = gql`
+  query Products($categoryID: Int) {
+    products(categoryID: $categoryID) {
+      name
+      id
+      images {
+        src
+        alt
+      }
+      attributes {
+        name
+        options
+      }
+      price
+      regular_price
+      sale_price
+      date_created
+      brands {
+        name
+        slug
+      }
+      stock_quantity
+      slug
+      total_sales
+    }
+  }
+`;
+
 export const Fleet = () => {
   const swiperRef = useRef<SwiperTypes | null>(null);
+  const [products, setProducts] = useState([])
+
+  const { data, error, loading } = useQuery(GET_PRODUCTS, {
+    variables: {
+      categoryID: 21
+    }
+  });
+
+  useEffect(() => {
+    console.log({ loading, error, data });
+    setProducts(data?.products)
+  }, [data]);
+
   return (
     <div className="w-full mt-24 px-5" id="fleet">
       <div className="default_layout_width">
-        <h2 className="text-read-56 font-semibold text-center our_fleet_heading">Our Fleet</h2>
+        <h2 className="text-read-56 font-semibold text-center our_fleet_heading">
+          Our Fleet
+        </h2>
         <p className="text-center text-read-18 text-zinc-400">
           We invite you to try our service and we presonally <br /> guarantee
           you that you will be completely satisfied
@@ -57,9 +101,9 @@ export const Fleet = () => {
           </ul>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 flex justify-end items-center gap-3 buttons-fleet">
             <Button
-            onClick={() => {
-                swiperRef.current?.slidePrev()
-            }}
+              onClick={() => {
+                swiperRef.current?.slidePrev();
+              }}
               color="gray"
               variant="surface"
               radius="full"
@@ -69,9 +113,9 @@ export const Fleet = () => {
             </Button>
 
             <Button
-               onClick={() => {
-                swiperRef.current?.slideNext()
-            }}
+              onClick={() => {
+                swiperRef.current?.slideNext();
+              }}
               color="gray"
               variant="surface"
               radius="full"
@@ -86,26 +130,27 @@ export const Fleet = () => {
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
- breakpoints={{
-    1030: { // when window width is >= 1030px
-      slidesPerView: 3,
-    },
+            breakpoints={{
+              1030: {
+                // when window width is >= 1030px
+                slidesPerView: 3,
+              },
 
-     765: { // when window width is >= 1030px
-      slidesPerView: 2,
-    },
-  }}
-  centeredSlidesBounds={true}
+              765: {
+                // when window width is >= 1030px
+                slidesPerView: 2,
+              },
+            }}
+            centeredSlidesBounds={true}
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
-            
           >
-            {Array.from({ length: 10 }).map((item, i) => {
+            {products && products?.map((item: any, i: number) => {
               return (
                 <SwiperSlide key={i} className="!h-fit">
                   <Image
-                    src={""}
+                    src={item.images[0]?.src || null}
                     width={500}
                     height={400}
                     className=" h-[250px] rounded-lg outline-0 border-b bg-zinc-900 w-full"
@@ -113,7 +158,7 @@ export const Fleet = () => {
                   />
                   <div className="mt-2">
                     <h4 className="text-read-18 font-medium two_line_ellipsis">
-                      Oddi Car For Go
+                      {item.name}
                     </h4>
                     <div className="mt-2 flex justify-start items-center gap-3">
                       <Badge variant="soft" color="purple" size={"3"}>
