@@ -38,6 +38,8 @@ type Products {
   id: Int!
   images: [ProductImages]
   in_stock: Boolean
+  lat: String
+  lng: String
   name: String!
   peoples: String
   price: String
