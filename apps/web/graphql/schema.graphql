@@ -31,6 +31,7 @@ type ProductImages {
 type Products {
   attributes: [ProductAttributes]
   average_rating: String
+  bags: String
   brands: [ProductBrand]
   date_created: String!
   date_modified: String
@@ -38,6 +39,7 @@ type Products {
   images: [ProductImages]
   in_stock: Boolean
   name: String!
+  peoples: String
   price: String
   rating_count: Int
   regular_price: String

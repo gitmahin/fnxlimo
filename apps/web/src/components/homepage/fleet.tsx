@@ -40,11 +40,9 @@ const GET_PRODUCTS = gql`
         src
         alt
       }
-      attributes {
-        name
-        options
-      }
       price
+      bags
+      peoples
       regular_price
       sale_price
       date_created
@@ -61,17 +59,17 @@ const GET_PRODUCTS = gql`
 
 export const Fleet = () => {
   const swiperRef = useRef<SwiperTypes | null>(null);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const { data, error, loading } = useQuery(GET_PRODUCTS, {
     variables: {
-      categoryID: 21
-    }
+      categoryID: 21,
+    },
   });
 
   useEffect(() => {
     console.log({ loading, error, data });
-    setProducts(data?.products)
+    setProducts(data?.products);
   }, [data]);
 
   return (
@@ -146,34 +144,35 @@ export const Fleet = () => {
               swiperRef.current = swiper;
             }}
           >
-            {products && products?.map((item: any, i: number) => {
-              return (
-                <SwiperSlide key={i} className="!h-fit">
-                  <Image
-                    src={item.images[0]?.src || null}
-                    width={500}
-                    height={400}
-                    className=" h-[250px] rounded-lg outline-0 border-b bg-zinc-900 w-full"
-                    alt="slider-image"
-                  />
-                  <div className="mt-2">
-                    <h4 className="text-read-18 font-medium two_line_ellipsis">
-                      {item.name}
-                    </h4>
-                    <div className="mt-2 flex justify-start items-center gap-3">
-                      <Badge variant="soft" color="purple" size={"3"}>
-                        <UsersRound size={16} />
-                        <span>{3 * (i + 1)}</span>
-                      </Badge>
-                      <Badge variant="soft" color="purple" size={"3"}>
-                        <BriefcaseBusiness size={16} />
-                        <span>{2 * (i + 1)}</span>
-                      </Badge>
+            {products &&
+              products?.map((item: any, i: number) => {
+                return (
+                  <SwiperSlide key={i} className="!h-fit">
+                    <Image
+                      src={item.images[0]?.src || null}
+                      width={500}
+                      height={400}
+                      className=" h-[250px] rounded-lg outline-0 border-b bg-zinc-900 w-full"
+                      alt="slider-image"
+                    />
+                    <div className="mt-2">
+                      <h4 className="text-read-18 font-medium two_line_ellipsis">
+                        {item.name}
+                      </h4>
+                      <div className="mt-2 flex justify-start items-center gap-3">
+                        <Badge variant="soft" color="purple" size={"3"}>
+                          <UsersRound size={16} />
+                          <span>{item.peoples}</span>
+                        </Badge>
+                        <Badge variant="soft" color="purple" size={"3"}>
+                          <BriefcaseBusiness size={16} />
+                          <span>{item.bags}</span>
+                        </Badge>
+                      </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })}
+                  </SwiperSlide>
+                );
+              })}
           </Swiper>
         </div>
       </div>

@@ -48,6 +48,10 @@ export const Products = objectType({
     t.boolean("in_stock");
     t.int("rating_count");
     t.string("average_rating");
+    t.string("bags")
+    t.string("peoples")
+    t.string("lat")
+    t.string("lng")
     t.list.field("images", {
       type: ProductImages,
     });
