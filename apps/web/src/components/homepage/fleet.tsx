@@ -31,28 +31,20 @@ const FLEET_CATEGORIES: FleetCategoriesType[] = [
   },
 ];
 
-const GET_PRODUCTS = gql`
-  query Products($categoryID: Int) {
-    products(categoryID: $categoryID) {
+const GET_CATS_WITH_PRODUCTS = gql`
+  query GetCatsWithProducts {
+    categoriesWithProducts {
       name
       id
-      images {
-        src
-        alt
-      }
-      price
-      bags
-      peoples
-      regular_price
-      sale_price
-      date_created
-      brands {
+      products {
         name
-        slug
+        images {
+          alt
+          src
+        }
+        peoples
+        bags
       }
-      stock_quantity
-      slug
-      total_sales
     }
   }
 `;
@@ -60,8 +52,10 @@ const GET_PRODUCTS = gql`
 export const Fleet = () => {
   const swiperRef = useRef<SwiperTypes | null>(null);
   const [products, setProducts] = useState([]);
+  const [cats, setCats] = useState([]);
+  const [activeCatByID, setActiveCatByID] = useState<string>("");
 
-  const { data, error, loading } = useQuery(GET_PRODUCTS, {
+  const { data, error, loading } = useQuery(GET_CATS_WITH_PRODUCTS, {
     variables: {
       categoryID: 21,
     },
@@ -69,7 +63,7 @@ export const Fleet = () => {
 
   useEffect(() => {
     console.log({ loading, error, data });
-    setProducts(data?.products);
+    setCats(data?.categoriesWithProducts);
   }, [data]);
 
   return (
@@ -83,19 +77,29 @@ export const Fleet = () => {
           you that you will be completely satisfied
           <br />{" "}
         </p>
+        {
+          loading && <div className="text-center mt-5">
+            Loading...
+          </div>
+        }
 
         <div className="relative w-full my-10 nav-wrapper-fleet">
           <ul className="w-full flex justify-center items-center gap-2 ">
-            {FLEET_CATEGORIES.map((item, i) => {
-              return (
-                <li
-                  key={i}
-                  className="font-medium cursor-pointer px-3 py-1 rounded-md hover:bg-zinc-800 hover:text-zinc-50 transition-colors text-zinc-300"
-                >
-                  {item.label}
-                </li>
-              );
-            })}
+            {cats &&
+              cats?.map((item: any, i) => {
+                return (
+                  <li
+                    key={i}
+                    onClick={() => {
+                      setProducts(item.products);
+                      setActiveCatByID(item.id);
+                    }}
+                    className={`font-medium cursor-pointer px-3 py-1 rounded-md hover:bg-zinc-800 hover:text-zinc-50 transition-colors text-zinc-300 ${item.id === activeCatByID && "bg-zinc-800"}`}
+                  >
+                    {item.name}
+                  </li>
+                );
+              })}
           </ul>
           <div className="absolute right-0 top-1/2 -translate-y-1/2 flex justify-end items-center gap-3 buttons-fleet">
             <Button

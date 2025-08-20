@@ -1,9 +1,6 @@
 import { productService } from "@/services";
 import { extendType, intArg, objectType } from "nexus";
 
-export const NAME_QUERY_PRODUCTS = "products";
-export const NAME_QUERY_CATS_WITH_PRODUCTS = "categoriesWithProducts";
-
 const ProductImages = objectType({
   name: "ProductImages",
   definition(t) {
@@ -84,7 +81,7 @@ export const CategoriesWithProducts = objectType({
 export const ProductsQuery = extendType({
   type: "Query",
   definition(t) {
-    t.list.field(NAME_QUERY_PRODUCTS, {
+    t.list.field("products", {
       type: Products,
       args: {
         categoryID: intArg(),
@@ -103,7 +100,7 @@ export const ProductsQuery = extendType({
 export const GetCategoriesWithProducts = extendType({
   type: "Query",
   definition(t) {
-    t.list.field(NAME_QUERY_CATS_WITH_PRODUCTS, {
+    t.list.field("categoriesWithProducts", {
       type: CategoriesWithProducts,
       async resolve() {
         const response = await productService.getProductsCategories();
