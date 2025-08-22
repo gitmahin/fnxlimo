@@ -15,7 +15,7 @@ type CreateWooCustomer = {
   phone?: string;
 };
 
-export class Customer extends WooCommerceService {
+export class CustomerService extends WooCommerceService {
   createCustomer({
     email,
     first_name,

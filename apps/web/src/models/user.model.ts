@@ -37,7 +37,7 @@ const UserSchema: Schema<UserType> = new Schema(
     },
     username: {
       type: String,
-      max: 50,
+      max: 100,
       min: 6,
       required: true,
     },

@@ -4,6 +4,8 @@ import connDb from "@/lib/connDb";
 import { JWT } from "next-auth/jwt";
 import { v4 as uuidv4 } from "uuid";
 import { userModel } from "@/models/user.model";
+import { CustomerService } from "@/services";
+import crypto from "crypto";
 
 export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
@@ -18,24 +20,34 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user, account, profile, email, credentials }) {
       if (account?.provider === "google") {
         await connDb();
-
         try {
           const uniqueID = uuidv4();
           const user_existed = await userModel.findOne({ email: user.email });
+          const shortId = crypto.randomBytes(3).toString("hex");
+          const getUsername = `${user.email
+            ?.split("@")[0]
+            ?.replace(/[^a-zA-Z0-9]/g, "")
+            .trim()}${shortId}`;
           if (!user_existed && user) {
             const new_user = new userModel({
               uuid: uniqueID,
               name: user.name,
-              username: user.email
-                ?.split("@")[0]
-                ?.replace(/[^a-zA-Z0-9]/g, "")
-                .trim(),
+              username: getUsername,
               email: user.email,
               profile_image: user.image,
             });
 
             await new_user.save();
             user.uuid = uniqueID;
+            const wooCustomer = new CustomerService();
+          
+              wooCustomer.createCustomer({
+                email: user.email || "",
+                first_name: user.name?.split(" ")[0] || "",
+                last_name: user.name?.split(" ")[1] || "",
+                username: getUsername
+              });
+         
           } else {
             // if(user_existed.provider != account.provider){
             //     throw new Error("It seems you've already created an account using another social account or Single Sign-On (SSO). Please sign in using that method to proceed.")
@@ -46,11 +58,7 @@ export const authOptions: NextAuthOptions = {
             }
 
             user_existed.name = user.name ?? "";
-            user_existed.username =
-              user.email
-                ?.split("@")[0]
-                ?.replace(/[^a-zA-Z0-9]/g, "")
-                .trim() ?? "";
+            user_existed.username = getUsername;
             user_existed.profile_image = user.image ?? "";
             await user_existed.save();
 
