@@ -1,36 +1,40 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+} from "axios";
 
 export abstract class ApiService {
-  baseUrl: string;
+  baseURL: string;
   private axiosInstance: AxiosInstance;
-  constructor(baseUrl: string, headers?: AxiosRequestHeaders) {
-    this.baseUrl = baseUrl;
+  constructor(baseURL: string, headers?: AxiosRequestHeaders) {
+    this.baseURL = baseURL;
     this.axiosInstance = axios.create({
-      baseURL: baseUrl,
+      baseURL,
       withCredentials: true,
-      headers
+      headers,
     });
   }
 
-  get(url: string, params?: {}, config: AxiosRequestConfig = {} ){
+  get(url: string, params?: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.get(url, {
-        ...params,
-        ...config
-    })
+      ...params,
+      ...config,
+    });
   }
 
-  post(url: string, data: {}, params: {}, config: AxiosRequestConfig = {}) {
+  post(url: string, data: {}, params?: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.post(url, data, {
-        ...params,
-        ...config
-    })
+      ...params,
+      ...config,
+    });
   }
 
   put(url: string, data: {}, config: AxiosRequestConfig = {}) {
-    return this.axiosInstance.put(url, data, config)
+    return this.axiosInstance.put(url, data, config);
   }
 
   patch(url: string, data: {}, config: AxiosRequestConfig = {}) {
-    return this.axiosInstance.patch(url, data, config)
+    return this.axiosInstance.patch(url, data, config);
   }
 }

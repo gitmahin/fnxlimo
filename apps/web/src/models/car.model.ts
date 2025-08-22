@@ -42,7 +42,6 @@ const CarSchema: Schema<CarType> = new Schema({
   },
   wheels: {
     type: Number,
-    required: true,
     max: 100,
     min: 2,
   },

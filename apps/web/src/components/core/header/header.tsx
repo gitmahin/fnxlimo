@@ -17,7 +17,9 @@ import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import { AlignRight } from "lucide-react";
 import { reservationServiceStore } from "@/services/store";
-import { productService } from "@/services";
+import { ProductService} from "@/services";
+
+const productService = new ProductService()
 
 export const Header = () => {
   const handleGetProducts = async () => {

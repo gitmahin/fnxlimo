@@ -1,5 +1,7 @@
-import { productService } from "@/services";
+import { ProductService} from "@/services";
 import { extendType, intArg, objectType } from "nexus";
+
+const productService = new ProductService()
 
 const ProductImages = objectType({
   name: "ProductImages",
