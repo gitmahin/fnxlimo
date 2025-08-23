@@ -1,5 +1,15 @@
 "use client";
-import { Input, Label } from "@fnx/ui";
+import {
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@fnx/ui";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -9,7 +19,7 @@ type Props = {
   onChange: (value: string) => void;
   placeholder?: string;
   label: string;
-  id: string
+  id: string;
 };
 
 type LocationType = {
@@ -42,7 +52,7 @@ export const PlaceAutocompleteInput = ({
   onPlaceSelect,
   placeholder,
   label,
-  id
+  id,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [predictions, setPredictions] = useState<
@@ -78,9 +88,7 @@ export const PlaceAutocompleteInput = ({
 
     if (!inputRef.current) return;
 
-    const service = new google.maps.places.PlacesService(
-      inputRef.current
-    );
+    const service = new google.maps.places.PlacesService(inputRef.current);
     service.getDetails({ placeId: pred.place_id }, (place) => {
       if (place) onPlaceSelect(place);
     });
@@ -89,7 +97,7 @@ export const PlaceAutocompleteInput = ({
   return (
     <>
       <Label className="mb-1">{label}</Label>
-       {/* Location type radio buttons */}
+      {/* Location type radio buttons */}
       <div className="flex justify-start items-center gap-3 mb-2 mt-1">
         {LOCATION_TYPE.map((item, i) => (
           <label key={i}>
@@ -119,7 +127,7 @@ export const PlaceAutocompleteInput = ({
 
       {/* Suggestions dropdown */}
       {predictions.length > 0 && (
-        <ul className=" z-50 bg-white border w-full mt-1 rounded shadow-md max-h-60 overflow-auto">
+        <ul className=" z-[99999999] bg-white border w-full mt-1 rounded shadow-md max-h-60 overflow-auto">
           {predictions.map((pred) => (
             <li
               key={pred.place_id}
