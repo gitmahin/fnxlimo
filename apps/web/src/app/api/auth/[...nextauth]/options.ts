@@ -65,10 +65,7 @@ export const authOptions: NextAuthOptions = {
             user.uuid = user_existed?.uuid;
           }
 
-          user.username = user.email
-            ?.split("@")[0]
-            ?.replace(/[^a-zA-Z0-9]/g, "")
-            .trim();
+          user.username = getUsername
         } catch (error: any) {
           throw new Error(error);
         }
@@ -105,7 +102,7 @@ export const authOptions: NextAuthOptions = {
       options: {
         httpOnly: true,
         sameSite: "none",
-        secure: true, // ensure this is true in production
+        secure: false, // ensure this is true in production
         path: "/",
       },
     },
