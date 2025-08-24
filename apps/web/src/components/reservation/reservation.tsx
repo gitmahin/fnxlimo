@@ -324,7 +324,7 @@ export const Reservation = () => {
           <div>
             {filteredCars.map((car: any, i) => {
               return (
-                <div className="p-3 hover:bg-zinc-800 transition-colors rounded-sm flex justify-start items-start gap-5">
+                <div className="p-3 mb-3 hover:bg-zinc-800 transition-colors rounded-sm flex justify-start items-start gap-5">
                   <Image
                     src={car.images[0].src}
                     width={300}
