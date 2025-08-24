@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
               username: getUsername,
               email: user.email,
               profile_image: user.image,
-              woo_id: woo_id
+              woo_id: woo_id?.id
             });
 
             await new_user.save();
