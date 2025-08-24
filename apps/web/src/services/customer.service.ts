@@ -30,7 +30,7 @@ export class CustomerService extends WooCommerceService {
     country,
     phone,
   }: CreateWooCustomer) {
-    this.post("/wp-json/wc/v3/customers", {
+    return this.post("/wp-json/wc/v3/customers", {
       email,
       first_name,
       last_name,

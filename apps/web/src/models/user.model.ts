@@ -11,10 +11,15 @@ export type UserType = Document & {
   country: string;
   email: string;
   profile_image: string;
+  woo_id: number
 };
 
 const UserSchema: Schema<UserType> = new Schema(
   {
+    woo_id: {
+      type: Number,
+      required: true
+    },
     name: {
       type: String,
       max: 200,

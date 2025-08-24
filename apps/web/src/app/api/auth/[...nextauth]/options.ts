@@ -28,25 +28,33 @@ export const authOptions: NextAuthOptions = {
             ?.split("@")[0]
             ?.replace(/[^a-zA-Z0-9]/g, "")
             .trim()}${shortId}`;
-          if (!user_existed && user) {
+            if (!user_existed && user) {
+              
+            const wooCustomer = new CustomerService();
+            const response = wooCustomer.createCustomer({
+              email: user.email || "",
+              first_name: user.name?.split(" ")[0] || "",
+              last_name: user.name?.split(" ")[1] || "",
+              username: getUsername,
+            });
+
+            const woo_id = (await response).data.json()
+
             const new_user = new userModel({
               uuid: uniqueID,
               name: user.name,
               username: getUsername,
               email: user.email,
               profile_image: user.image,
+              woo_id: woo_id
             });
 
             await new_user.save();
             user.uuid = uniqueID;
-            const wooCustomer = new CustomerService();
 
-            wooCustomer.createCustomer({
-              email: user.email || "",
-              first_name: user.name?.split(" ")[0] || "",
-              last_name: user.name?.split(" ")[1] || "",
-              username: getUsername,
-            });
+            
+
+
           } else {
             // if(user_existed.provider != account.provider){
             //     throw new Error("It seems you've already created an account using another social account or Single Sign-On (SSO). Please sign in using that method to proceed.")
