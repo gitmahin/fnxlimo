@@ -92,6 +92,18 @@ export const Products = objectType({
   },
 });
 
+export const ProductCategories = objectType({
+  name: "ProductCategory",
+  definition(t) {
+    t.int("id")
+    t.string("name")
+    t.string("slug")
+    t.string("description")
+    t.string("image")
+    t.string("count")
+  },
+})
+
 export const CategoriesWithProducts = objectType({
   name: "CategoriesWithProducts",
   definition(t) {
@@ -127,6 +139,19 @@ export const ProductsQuery = extendType({
     });
   },
 });
+
+export const QueryProductCategories = extendType( {
+  type: "Query",
+  definition(t) {
+    t.list.field("productCategories", {
+      type: ProductCategories,
+      async resolve() {
+        const response = await productService.getProductsCategories();
+        return response.data;
+      }
+    })
+  },
+})
 
 export const GetCategoriesWithProducts = extendType({
   type: "Query",

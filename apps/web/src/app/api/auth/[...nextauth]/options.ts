@@ -52,13 +52,7 @@ export const authOptions: NextAuthOptions = {
             await new_user.save();
             user.uuid = uniqueID;
 
-            
-
-
           } else {
-            // if(user_existed.provider != account.provider){
-            //     throw new Error("It seems you've already created an account using another social account or Single Sign-On (SSO). Please sign in using that method to proceed.")
-            // }
 
             if (!user_existed) {
               throw new Error("Invalid user!");

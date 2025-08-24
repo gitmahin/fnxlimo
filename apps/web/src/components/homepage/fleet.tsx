@@ -32,18 +32,21 @@ const FLEET_CATEGORIES: FleetCategoriesType[] = [
 ];
 
 const GET_CATS_WITH_PRODUCTS = gql`
-  query GetCatsWithProducts {
+  query GetCategoryWithProducts {
     categoriesWithProducts {
+    id
       name
-      id
       products {
-        name
         images {
-          alt
           src
+          alt
         }
-        peoples
-        bags
+        name
+        custom_acf_fields {
+          bags
+          peoples
+        }
+        slug
       }
     }
   }
@@ -55,20 +58,19 @@ export const Fleet = () => {
   const [cats, setCats] = useState([]);
   const [activeCatByID, setActiveCatByID] = useState<string>("");
 
-  const { data, error, loading } = useQuery(GET_CATS_WITH_PRODUCTS, {
-    variables: {
-      categoryID: 21,
-    },
-  });
+  const { data, error, loading } = useQuery(GET_CATS_WITH_PRODUCTS);
 
   useEffect(() => {
     console.log({ loading, error, data });
     setCats(data?.categoriesWithProducts);
+    setProducts(data?.categoriesWithProducts[0].products)
+    setActiveCatByID(data?.categoriesWithProducts[0].id)
   }, [data]);
 
   return (
     <div className="w-full mt-24 px-5" id="fleet">
       <div className="default_layout_width">
+   
         <h2 className="text-read-56 font-semibold text-center our_fleet_heading">
           Our Fleet
         </h2>
@@ -77,15 +79,11 @@ export const Fleet = () => {
           you that you will be completely satisfied
           <br />{" "}
         </p>
-        {
-          loading && <div className="text-center mt-5">
-            Loading...
-          </div>
-        }
+        {loading && <div className="text-center mt-5">Loading...</div>}
 
         <div className="relative w-full my-10 nav-wrapper-fleet">
           <ul className="w-full flex justify-center items-center gap-2 ">
-            {cats &&
+            {!loading &&
               cats?.map((item: any, i) => {
                 return (
                   <li
@@ -156,7 +154,7 @@ export const Fleet = () => {
                       src={item.images[0]?.src || null}
                       width={500}
                       height={400}
-                      className=" h-[250px] rounded-lg outline-0 border-b bg-zinc-900 w-full"
+                      className=" h-[250px] rounded-lg object-cover object-center outline-0 border-b bg-zinc-900 w-full"
                       alt="slider-image"
                     />
                     <div className="mt-2">
@@ -166,11 +164,11 @@ export const Fleet = () => {
                       <div className="mt-2 flex justify-start items-center gap-3">
                         <Badge variant="soft" color="purple" size={"3"}>
                           <UsersRound size={16} />
-                          <span>{item.peoples}</span>
+                          <span>{item.custom_acf_fields.peoples}</span>
                         </Badge>
                         <Badge variant="soft" color="purple" size={"3"}>
                           <BriefcaseBusiness size={16} />
-                          <span>{item.bags}</span>
+                          <span>{item.custom_acf_fields.bags}</span>
                         </Badge>
                       </div>
                     </div>

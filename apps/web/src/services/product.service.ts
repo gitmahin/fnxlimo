@@ -18,4 +18,5 @@ export class ProductService extends WooCommerceService {
     const response = this.get("/wp-json/wc/v1/products/categories");
     return response;
   }
+
 }

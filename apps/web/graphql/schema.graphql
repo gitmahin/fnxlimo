@@ -37,6 +37,15 @@ type ProductBrand {
   slug: String
 }
 
+type ProductCategory {
+  count: String
+  description: String
+  id: Int
+  image: String
+  name: String
+  slug: String
+}
+
 type ProductImages {
   alt: String
   date_created: String!
@@ -68,6 +77,7 @@ type Products {
 
 type Query {
   categoriesWithProducts: [CategoriesWithProducts]
+  productCategories: [ProductCategory]
   products(categoryID: Int): [Products]
 }
 
