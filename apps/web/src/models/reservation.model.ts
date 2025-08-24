@@ -1,15 +1,14 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { UserType } from "./user.model";
-import { CarType } from "./car.model";
 
-type LocationType = Document & {
-  lat: string;
-  lng: string;
+export type LocationType = Document & {
+  lat: number;
+  lng: number;
 }
 
 export type ReservationType = Document & {
   user: UserType;
-  reserverd_car: CarType;
+  reserverd_car_woo_id: number;
   pickup_date: Date;
   pickup_time: Date;
   pickup_location: LocationType
@@ -21,14 +20,14 @@ const model_name = "Reservation";
 
 const LocationSchema: Schema<LocationType> = new Schema ({
   lat: {
-    type: String,
+    type: Number,
     required: true,
-    maxlength: 50
+    maxlength: 300
   },
   lng: {
-    type: String,
+    type: Number,
     required: true,
-    maxlength: 50
+    maxlength: 300
   }
 })
 
@@ -39,9 +38,8 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
       ref: "User",
       required: true,
     },
-    reserverd_car: {
-      type: Schema.Types.ObjectId,
-      ref: "Car",
+    reserverd_car_woo_id: {
+      type: Number,
       required: true,
     },
     pickup_date: {

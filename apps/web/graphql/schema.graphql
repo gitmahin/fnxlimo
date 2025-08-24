@@ -27,6 +27,15 @@ type CategoriesWithProducts {
   slug: String
 }
 
+type OrderedReservationType {
+  currency: String
+  date_created: String
+  discount_total: String
+  line_items: [ReservationProductType]
+  status: String
+  total: String
+}
+
 type ProductAttributes {
   name: String!
   options: [String]
@@ -77,8 +86,14 @@ type Products {
 
 type Query {
   categoriesWithProducts: [CategoriesWithProducts]
+  getOrderedReservations: [OrderedReservationType]
   productCategories: [ProductCategory]
   products(categoryID: Int): [Products]
+}
+
+type ReservationProductType {
+  product: Products
+  product_id: Int
 }
 
 type customACFFieldData {

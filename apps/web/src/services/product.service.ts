@@ -1,5 +1,3 @@
-import { AxiosHeaders } from "axios";
-import { ApiService } from "./api.service";
 import { WooCommerceService } from "./woo.service";
 
 // key: "ck_687f1f4bae840fd4e7711be516ebefe47b0b0360"
@@ -17,6 +15,11 @@ export class ProductService extends WooCommerceService {
   async getProductsCategories() {
     const response = this.get("/wp-json/wc/v1/products/categories");
     return response;
+  }
+
+  async getProduct(id: number) {
+    const response = this.get(`/wp-json/wc/v3/products/${id}`)
+    return response
   }
 
 }
