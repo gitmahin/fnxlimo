@@ -182,6 +182,7 @@ export const Reservation = () => {
   const [destination, setDestination] = useState<string>(""); // input text
   const [showDirections, setShowDirections] = useState(false);
   const [filteredCars, setFilteredCars] = useState<[]>([]);
+  const [gettingCars, setGettingCars] = useState(false)
 
   const [originCoords, setOriginCoords] = useState<BasicLocationType>(null);
   const [destinationCoords, setDestinationCoords] =
@@ -192,6 +193,7 @@ export const Reservation = () => {
 
   const hangleGetCars = async () => {
     try {
+      setGettingCars(true)
       const productService = new ProductService();
       const data = await productService.getNearByProducts({
         pickup_lct: originCoords,
@@ -201,6 +203,8 @@ export const Reservation = () => {
       setFilteredCars(data);
     } catch (error) {
       alert("Error");
+    } finally {
+      setGettingCars(false)
     }
   };
 
@@ -598,7 +602,10 @@ export const Reservation = () => {
                       className="!w-full shrink"
                       onClick={() => hangleGetCars()}
                     >
-                      Get Quote
+             
+                      {
+                        gettingCars ? "Searching..." : "Get Quote"
+                      }
                     </FnxButton>
                   </div>
                 </CardContent>
