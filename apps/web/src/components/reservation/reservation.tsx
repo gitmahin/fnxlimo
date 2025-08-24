@@ -52,6 +52,7 @@ import { TripDurationHours, TripDurationMins } from "./trip-duration";
 import { ProductService } from "@/services";
 import { BasicLocationType } from "@/types/global";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const DirectionsController = ({
   origin,
@@ -183,6 +184,7 @@ export const Reservation = () => {
   const [showDirections, setShowDirections] = useState(false);
   const [filteredCars, setFilteredCars] = useState<[]>([]);
   const [gettingCars, setGettingCars] = useState(false)
+  const router = useRouter()
 
   const [originCoords, setOriginCoords] = useState<BasicLocationType>(null);
   const [destinationCoords, setDestinationCoords] =
@@ -355,7 +357,7 @@ export const Reservation = () => {
                     <p className="mt-5">
                       Price: {car.price}$
                     </p>
-                    <FnxButton className="mt-3">
+                    <FnxButton className="mt-3" onClick={() => router.push(`https://cms.finixlimo.com?checkout=${car.id}`)}>
                       Create Reservation
                     </FnxButton>
                   </div>
