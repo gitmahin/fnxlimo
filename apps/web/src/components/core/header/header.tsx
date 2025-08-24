@@ -57,14 +57,6 @@ export const Header = () => {
             >
               Book Now
             </Button>
-              <Button
-              color="purple"
-              radius="large"
-              className="!cursor-pointer"
-              onClick={() => handleGetProducts()}
-            >
-              For check
-            </Button>
           </div>
           <div className="hidden mobile_menu">
             <Sheet>
