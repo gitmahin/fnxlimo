@@ -164,7 +164,6 @@ body * {
   overflow: hidden;
 }
 
-
 .fade_up_down_animation {
   animation: fade_up_down 1.5s infinite;
 }
@@ -185,6 +184,6 @@ html {
   scroll-behavior: smooth;
 }
 
-.gm-ui-hover-effect>span {
-    background-color: #000000 !important;
+.gm-ui-hover-effect > span {
+  background-color: #000000 !important;
 }

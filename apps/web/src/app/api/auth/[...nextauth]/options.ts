@@ -40,14 +40,13 @@ export const authOptions: NextAuthOptions = {
             await new_user.save();
             user.uuid = uniqueID;
             const wooCustomer = new CustomerService();
-          
-              wooCustomer.createCustomer({
-                email: user.email || "",
-                first_name: user.name?.split(" ")[0] || "",
-                last_name: user.name?.split(" ")[1] || "",
-                username: getUsername
-              });
-         
+
+            wooCustomer.createCustomer({
+              email: user.email || "",
+              first_name: user.name?.split(" ")[0] || "",
+              last_name: user.name?.split(" ")[1] || "",
+              username: getUsername,
+            });
           } else {
             // if(user_existed.provider != account.provider){
             //     throw new Error("It seems you've already created an account using another social account or Single Sign-On (SSO). Please sign in using that method to proceed.")
@@ -58,14 +57,11 @@ export const authOptions: NextAuthOptions = {
             }
 
             user_existed.name = user.name ?? "";
-            user_existed.username = getUsername;
             user_existed.profile_image = user.image ?? "";
             await user_existed.save();
-
             user.uuid = user_existed?.uuid;
+            user.username = user_existed?.username;
           }
-
-          user.username = getUsername
         } catch (error: any) {
           throw new Error(error);
         }
