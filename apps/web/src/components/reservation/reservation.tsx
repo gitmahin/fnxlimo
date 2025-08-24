@@ -348,6 +348,12 @@ export const Reservation = () => {
                         <span>{car.custom_acf_fields.bags}</span>
                       </Badge>
                     </div>
+                    <p className="mt-5">
+                      Price: {car.price}$
+                    </p>
+                    <FnxButton className="mt-3">
+                      Create Reservation
+                    </FnxButton>
                   </div>
                 </div>
               );

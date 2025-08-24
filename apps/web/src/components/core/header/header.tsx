@@ -17,15 +17,15 @@ import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import { AlignRight } from "lucide-react";
 import { reservationServiceStore } from "@/services/store";
-import { ProductService} from "@/services";
+import { ProductService } from "@/services";
 
-const productService = new ProductService()
+const productService = new ProductService();
 
 export const Header = () => {
   const handleGetProducts = async () => {
-    const response = await productService.getProducts()
-    console.log(response)
-  }
+    const response = await productService.getProducts();
+    console.log(response);
+  };
   return (
     <header className="fixed px-5 top-0 left-0 w-full h-[64px] border-b z-50 border-zinc-800 bg-zinc-950">
       <div className="default_layout_width h-full flex justify-between items-center">
