@@ -39,6 +39,10 @@ export const authOptions: NextAuthOptions = {
 
             const woo_id = (await response).data;
 
+            if(!woo_id) {
+              throw new Error("Error creating user!")
+            }
+
             const new_user = new userModel({
               uuid: uniqueID,
               name: user.name,
