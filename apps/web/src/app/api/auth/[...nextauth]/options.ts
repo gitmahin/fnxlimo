@@ -102,7 +102,7 @@ export const authOptions: NextAuthOptions = {
       options: {
         httpOnly: true,
         sameSite: "none",
-        secure: false, // ensure this is true in production
+        secure: true, // ensure this is true in production
         path: "/",
       },
     },
