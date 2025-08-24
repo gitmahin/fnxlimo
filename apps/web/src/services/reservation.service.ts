@@ -1,9 +1,10 @@
-import { LocationType } from "@/models/reservation.model";
+import { LocationType, reservationModel } from "@/models/reservation.model";
 import { ApiService } from "./api.service";
 import { WooCommerceService } from "./woo.service";
+import connDb from "@/lib/connDb";
 
 type CreateUserReservationType = {
-  user_id: string;
+  objectId: string;
   reserverd_car_woo_id: string;
   pickup_date: Date;
   pickup_time: Date;
@@ -14,14 +15,28 @@ type CreateUserReservationType = {
 
 export class ReservationService extends WooCommerceService {
   async createUserReservation({
-    user_id,
+    objectId,
     reserverd_car_woo_id,
     pickup_date,
     pickup_time,
     pickup_location,
     dropoff_location,
     stop_locations,
-  }: CreateUserReservationType) {}
+  }: CreateUserReservationType) {
+    await connDb();
+
+    const reservationData = new reservationModel({
+      user: objectId,
+      reserverd_car_woo_id,
+      pickup_date,
+      pickup_time,
+      pickup_location,
+      dropoff_location,
+      stop_locations,
+    });
+
+    await reservationData.save();
+  }
 
   getOrderedReservations() {
     const response = this.get("/wp-json/wc/v3/orders/");
