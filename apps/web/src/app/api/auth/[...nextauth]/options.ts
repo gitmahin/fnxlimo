@@ -28,8 +28,7 @@ export const authOptions: NextAuthOptions = {
             ?.split("@")[0]
             ?.replace(/[^a-zA-Z0-9]/g, "")
             .trim()}${shortId}`;
-            if (!user_existed && user) {
-              
+          if (!user_existed && user) {
             const wooCustomer = new CustomerService();
             const response = wooCustomer.createCustomer({
               email: user.email || "",
@@ -38,7 +37,7 @@ export const authOptions: NextAuthOptions = {
               username: getUsername,
             });
 
-            const woo_id = (await response).data.json()
+            const woo_id = (await response).data;
 
             const new_user = new userModel({
               uuid: uniqueID,
@@ -46,14 +45,13 @@ export const authOptions: NextAuthOptions = {
               username: getUsername,
               email: user.email,
               profile_image: user.image,
-              woo_id: woo_id?.id
+              woo_id: woo_id?.id,
             });
 
             await new_user.save();
             user.uuid = uniqueID;
-
+            user.woo_id = woo_id?.id;
           } else {
-
             if (!user_existed) {
               throw new Error("Invalid user!");
             }
@@ -63,6 +61,7 @@ export const authOptions: NextAuthOptions = {
             await user_existed.save();
             user.uuid = user_existed?.uuid;
             user.username = user_existed?.username;
+            user.woo_id = user_existed?.woo_id;
           }
         } catch (error: any) {
           throw new Error(error);

@@ -8,7 +8,8 @@ declare module "next-auth" {
         email?: string,
         image?: string,
         name?: string,
-        uuid?: string
+        uuid?: string,
+        woo_id?: number,
     }
     interface Session {
         user: {
@@ -16,7 +17,8 @@ declare module "next-auth" {
             email?: string,
             image?: string,
             name?: string,
-            uuid?: string
+            uuid?: string,
+             woo_id?: number,
         } & DefaultSession['user']
 
     }
@@ -29,6 +31,7 @@ declare module 'next-auth/jwt' {
         email?: string,
         image?: string,
         name?: string,
-        uuid?: string
+        uuid?: string,
+         woo_id?: number,
     }
 }
