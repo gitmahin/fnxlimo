@@ -171,10 +171,6 @@ enum priceQuoteTypeEnums {
 //   return null;
 // }
 
-type DirectionProps = {
-  origin: google.maps.LatLngLiteral;
-  destination: google.maps.LatLngLiteral;
-};
 
 export const Reservation = () => {
   const map = useMap();
@@ -195,34 +191,34 @@ export const Reservation = () => {
   >([]);
 
   useEffect(() => {
-    if (!map || !origin || !destination) return;
+  if (!map || !originCoords || !destinationCoords) return;
 
-    const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer({ map });
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer({ map });
 
-    directionsService.route(
-      {
-        origin,
-        destination,
-        waypoints: stops
-          .filter((s) => s.location) // only include valid stops
-          .map((s) => ({
-            location: s.location!,
-            stopover: true,
-          })),
-        travelMode: google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (status === "OK" && result) {
-          directionsRenderer.setDirections(result);
-        }
+  directionsService.route(
+    {
+      origin: originCoords,
+      destination: destinationCoords,
+      waypoints: stops
+        .filter((s) => s.location)
+        .map((s) => ({
+          location: s.location!,
+          stopover: true,
+        })),
+      travelMode: google.maps.TravelMode.DRIVING,
+    },
+    (result, status) => {
+      if (status === "OK" && result) {
+        directionsRenderer.setDirections(result);
       }
-    );
+    }
+  );
 
-    return () => {
-      directionsRenderer.setMap(null); // cleanup on unmount
-    };
-  }, [map, origin, destination]);
+  return () => {
+    directionsRenderer.setMap(null);
+  };
+}, [map, originCoords, destinationCoords, stops]); 
 
   const [priceQuoteType, setPriceQuoteType] =
     useState<keyof typeof priceQuoteTypeEnums>("TRANSFER");
