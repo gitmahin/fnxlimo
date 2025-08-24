@@ -1,7 +1,7 @@
-import { ProductService} from "@/services";
+import { ProductService } from "@/services";
 import { extendType, intArg, objectType } from "nexus";
 
-const productService = new ProductService()
+const productService = new ProductService();
 
 const ProductImages = objectType({
   name: "ProductImages",
@@ -29,6 +29,36 @@ const ProductBrands = objectType({
     t.string("slug");
   },
 });
+export const AcfGoogleMap = objectType({
+  name: "AcfGoogleMap",
+  definition(t) {
+    t.string("address");
+    t.float("lat");
+    t.float("lng");
+    t.int("zoom");
+    t.string("place_id");
+    t.string("street_number");
+    t.string("street_name");
+    t.string("street_name_short");
+    t.string("city");
+    t.string("state");
+    t.string("state_short");
+    t.string("post_code");
+    t.string("country");
+    t.string("country_short");
+  },
+});
+
+const CustomAcfFieldsData = objectType({
+  name: "customACFFieldData",
+  definition(t) {
+    t.string("bags");
+    t.string("peoples");
+    t.field("location", {
+      type: AcfGoogleMap,
+    });
+  },
+});
 
 export const Products = objectType({
   name: "Products",
@@ -47,10 +77,9 @@ export const Products = objectType({
     t.boolean("in_stock");
     t.int("rating_count");
     t.string("average_rating");
-    t.string("bags")
-    t.string("peoples")
-    t.string("lat")
-    t.string("lng")
+    t.field("custom_acf_fields", {
+      type: CustomAcfFieldsData,
+    });
     t.list.field("images", {
       type: ProductImages,
     });
@@ -92,7 +121,7 @@ export const ProductsQuery = extendType({
         const response = await productService.getProducts(
           args.categoryID as number
         );
-        
+
         return response.data;
       },
     });

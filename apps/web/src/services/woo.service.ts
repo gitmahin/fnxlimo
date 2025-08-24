@@ -6,7 +6,7 @@ export class WooCommerceService extends ApiService {
     const auth =
       "Basic " +
       btoa(
-        `${process.env.WOO_CONSUMER_KEY || "ck_687f1f4bae840fd4e7711be516ebefe47b0b0360"}:${process.env.WOO_CONSUMER_SECRET || "cs_7a31758464b5a6e67cd60753b25dbbc1885ff579"}`
+        `${process.env.WOO_CONSUMER_KEY || "ck_c1d80949dfbd6ba07de1a8b6f2250ce5fa7edca3"}:${process.env.WOO_CONSUMER_SECRET || "cs_5f123e49c84eb0c56dbfe0fc8bf9f19d904404fd"}`
       );
 
     const headers = AxiosHeaders.from({

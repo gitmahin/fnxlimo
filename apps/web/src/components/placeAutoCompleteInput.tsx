@@ -9,6 +9,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@fnx/ui";
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import React, { useEffect, useRef, useState } from "react";
@@ -54,6 +57,7 @@ export const PlaceAutocompleteInput = ({
   label,
   id,
 }: Props) => {
+  const [popup, setPopup] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [predictions, setPredictions] = useState<
     google.maps.places.AutocompletePrediction[]
@@ -94,6 +98,14 @@ export const PlaceAutocompleteInput = ({
     });
   };
 
+  useEffect(() => {
+    if (predictions.length > 0) {
+      setPopup(true);
+    } else {
+      setPopup(false);
+    }
+  }, [predictions]);
+
   return (
     <>
       <Label className="mb-1">{label}</Label>
@@ -117,28 +129,38 @@ export const PlaceAutocompleteInput = ({
       </div>
 
       {/* Input */}
-      <Input
-        ref={inputRef}
-        value={value}
-        onChange={(e) => handleInputChange(e.target.value)}
-        placeholder={placeholder || "Search location"}
-        className="w-full border px-2 py-1 rounded"
-      />
 
-      {/* Suggestions dropdown */}
-      {predictions.length > 0 && (
-        <ul className=" z-[99999999] bg-white border w-full mt-1 rounded shadow-md max-h-60 overflow-auto">
-          {predictions.map((pred) => (
-            <li
-              key={pred.place_id}
-              className="px-2 py-1 hover:bg-purple-600 hover:text-white cursor-pointer"
-              onClick={() => handleSelect(pred)}
-            >
-              {pred.description}
-            </li>
-          ))}
-        </ul>
-      )}
+      <Popover open={popup} onOpenChange={(open) => setPopup(open)}>
+        <PopoverTrigger className="w-full">
+          {" "}
+          <Input
+            ref={inputRef}
+            value={value}
+            onChange={(e) => handleInputChange(e.target.value)}
+            placeholder={placeholder || "Search location"}
+            className="w-full border px-2 py-1 rounded"
+          />
+        </PopoverTrigger>
+        {predictions.length > 0 && (
+        <PopoverContent
+          className=" !p-1"
+          align="start"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+            <ul>
+              {predictions.map((pred) => (
+                <li
+                  key={pred.place_id}
+                  className="px-2 py-1 text-zinc-300 font-medium text-sm hover:bg-zinc-800 transition-colors rounded-[5px] hover:text-white cursor-pointer"
+                  onClick={() => handleSelect(pred)}
+                >
+                  {pred.description}
+                </li>
+              ))}
+            </ul>
+        </PopoverContent>
+          )}
+      </Popover>
     </>
   );
 };

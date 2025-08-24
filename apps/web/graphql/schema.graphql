@@ -2,6 +2,23 @@
 ### Do not make changes to this file directly
 
 
+type AcfGoogleMap {
+  address: String
+  city: String
+  country: String
+  country_short: String
+  lat: Float
+  lng: Float
+  place_id: String
+  post_code: String
+  state: String
+  state_short: String
+  street_name: String
+  street_name_short: String
+  street_number: String
+  zoom: Int
+}
+
 type CategoriesWithProducts {
   count: Int
   id: Int
@@ -31,17 +48,14 @@ type ProductImages {
 type Products {
   attributes: [ProductAttributes]
   average_rating: String
-  bags: String
   brands: [ProductBrand]
+  custom_acf_fields: customACFFieldData
   date_created: String!
   date_modified: String
   id: Int!
   images: [ProductImages]
   in_stock: Boolean
-  lat: String
-  lng: String
   name: String!
-  peoples: String
   price: String
   rating_count: Int
   regular_price: String
@@ -55,4 +69,10 @@ type Products {
 type Query {
   categoriesWithProducts: [CategoriesWithProducts]
   products(categoryID: Int): [Products]
+}
+
+type customACFFieldData {
+  bags: String
+  location: AcfGoogleMap
+  peoples: String
 }
