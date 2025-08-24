@@ -41,7 +41,7 @@ const LOCATION_TYPE: LocationType[] = [
   },
   {
     label: "Address",
-    value: "address",
+    value: "street_address",
   },
   {
     label: "Landmark",
@@ -58,6 +58,7 @@ export const PlaceAutocompleteInput = ({
   id,
 }: Props) => {
   const [popup, setPopup] = useState<boolean>(false);
+  const [placeTypes, setPlaceTypes] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const [predictions, setPredictions] = useState<
     google.maps.places.AutocompletePrediction[]
@@ -77,9 +78,15 @@ export const PlaceAutocompleteInput = ({
   const handleInputChange = (val: string) => {
     onChange(val);
     if (val && serviceRef.current) {
-      serviceRef.current.getPlacePredictions({ input: val }, (preds) => {
-        setPredictions(preds || []);
-      });
+      serviceRef.current.getPlacePredictions(
+        {
+          input: val,
+          types: placeTypes, // ✅ filter by place types
+        },
+        (preds) => {
+          setPredictions(preds || []);
+        }
+      );
     } else {
       setPredictions([]);
     }
@@ -119,6 +126,7 @@ export const PlaceAutocompleteInput = ({
               id={`${i}-${item.value}`}
               value={item.value}
               className="peer hidden"
+              onChange={() => setPlaceTypes([item.value ])}
               defaultChecked={item.value === "search-all"}
             />
             <div className="peer-checked:bg-purple-600 cursor-pointer text-zinc-400 peer-checked:text-zinc-50 font-medium transition-colors rounded-[5px] px-2 py-0.5">
@@ -142,11 +150,11 @@ export const PlaceAutocompleteInput = ({
           />
         </PopoverTrigger>
         {predictions.length > 0 && (
-        <PopoverContent
-          className=" !p-1"
-          align="start"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
+          <PopoverContent
+            className=" !p-1"
+            align="start"
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
             <ul>
               {predictions.map((pred) => (
                 <li
@@ -158,8 +166,8 @@ export const PlaceAutocompleteInput = ({
                 </li>
               ))}
             </ul>
-        </PopoverContent>
-          )}
+          </PopoverContent>
+        )}
       </Popover>
     </>
   );

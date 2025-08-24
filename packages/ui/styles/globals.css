@@ -184,3 +184,7 @@ body * {
 html {
   scroll-behavior: smooth;
 }
+
+.gm-ui-hover-effect>span {
+    background-color: #000000 !important;
+}

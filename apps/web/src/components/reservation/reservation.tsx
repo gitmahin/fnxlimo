@@ -270,6 +270,7 @@ export const Reservation = () => {
     <div className="w-full h-full grid grid-cols-2 reservation-box ">
       <div className="h-full rmap">
         <Map
+        
           mapId={"price_map"}
           style={{ width: "100%", height: "100%" }}
           defaultCenter={{ lat: 22.54992, lng: 0 }}
