@@ -55,11 +55,11 @@ export default function Page() {
       const modifiedData: UpdateOrderDataTypes = {
         order_id: Number(order_id),
         bags: data.bags,
-        dropoff_location: dropoffAddress,
+        dropoff_location: pickupAddress,
         passenger: data.passenger,
         pickup_date: humanReadableDate,
         pickup_time: data.pickup_time,
-        pickup_location: pickupAddress,
+        pickup_location: dropoffAddress,
         product_id: data.reserverd_car_woo_id,
       };
       const response = await updateReservationAction(modifiedData);
@@ -127,7 +127,7 @@ export default function Page() {
   }, [order_id, data, pickupAddress, dropoffAddress]);
 
   return (
-    <div className="w-full flex justify-center items-center mt-24 ">
+    <div className="w-full flex justify-center flex-col items-center mt-24 ">
       {loading ? (
         <p className="text-center w-full mt-5 mb-10">Loading...</p>
       ) : (

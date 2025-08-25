@@ -188,9 +188,9 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     header: "Pickup From",
     cell: ({ row }) => (
       <div>
-        {useReverseGeocode(
-          Number(row.original.pickup_location.lat),
-          Number(row.original.pickup_location.lng)
+       {useReverseGeocode(
+          Number(row.original.dropoff_location.lat),
+          Number(row.original.dropoff_location.lng)
         )}
       </div>
     ),
@@ -201,9 +201,10 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     cell: ({ row }) => (
       <div>
         {useReverseGeocode(
-          Number(row.original.dropoff_location.lat),
-          Number(row.original.dropoff_location.lng)
+          Number(row.original.pickup_location.lat),
+          Number(row.original.pickup_location.lng)
         )}
+        
       </div>
     ),
   },
