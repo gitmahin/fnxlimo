@@ -125,5 +125,6 @@ type userreservationOrderedDataType {
   pickup_location: locationDataType
   pickup_time: String
   reserverd_car_woo_id: Int
+  status: String
   stop_locations: [locationDataType]
 }

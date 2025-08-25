@@ -6,7 +6,7 @@ import {
 import { ApiService } from "./api.service";
 import { WooCommerceService } from "./woo.service";
 import connDb from "@/lib/connDb";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 export type CreateUserReservationType = {
   objectId: string;
