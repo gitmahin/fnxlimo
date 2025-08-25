@@ -77,29 +77,3 @@ export const QueryUserReservationOrderedData = extendType({
     });
   },
 });
-
-export const QueryUserSingleReservationOrderedData = extendType({
-  type: "Query",
-  definition(t) {
-    t.field("queryUserSingleReservationOrderedData", {
-      type: UserReservationOrderedDataType,
-      args: {
-        id: nonNull(stringArg()),
-      },
-      // @ts-ignore
-      async resolve(_root, args: { id: string }) {
-        const reservationService = new ReservationService();
-        const session = await getServerSession(authOptions);
-        if (!session) {
-          return null;
-        }
-        const response = await reservationService.getUserSingleReservation(
-          session?.user.id || "",
-          args.id
-        );
-
-        return response ?? null;
-      },
-    });
-  },
-});
