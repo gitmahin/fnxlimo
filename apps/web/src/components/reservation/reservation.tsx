@@ -58,6 +58,7 @@ import { LocationType } from "@/models/reservation.model";
 import { observer } from "mobx-react";
 import { reservationServiceStore } from "@/services/store";
 import { createReservation } from "@/actions/server.actions";
+import toast from "react-hot-toast";
 
 const DirectionsController = ({
   origin,
@@ -202,6 +203,33 @@ export const Reservation = observer(() => {
 
   const hangleGetCars = async () => {
     try {
+      if (!pickupDate) {
+        toast.error("Please select a pickup date");
+        return;
+      }
+      if (!time) {
+        toast.error("Please select a pickup time");
+        return;
+      }
+      if (!originCoords) {
+        toast.error("Please select a pickup location");
+        return;
+      }
+      if (!destinationCoords) {
+        toast.error("Please select a dropoff location");
+        return;
+      }
+      if (
+        !reservationServiceStore.passenger ||
+        reservationServiceStore.passenger <= 0
+      ) {
+        toast.error("Please enter the number of passengers");
+        return;
+      }
+      if (!reservationServiceStore.bags || reservationServiceStore.bags < 0) {
+        toast.error("Please enter the number of bags");
+        return;
+      }
       setGettingCars(true);
       const productService = new ProductService();
       const data = await productService.getNearByProducts({
@@ -309,10 +337,10 @@ export const Reservation = observer(() => {
       });
 
       if (response.message) {
-        alert("created");
+        toast.success("Reservation created! Now checkout");
         router.push(`https://cms.finixlimo.com?checkout=${id}`);
       } else {
-        alert("error");
+        toast.error("Failed creating reservation");
       }
     } catch (error) {
       console.log(error);
@@ -354,6 +382,9 @@ export const Reservation = observer(() => {
         </Map>
       </div>
       <div className="border-r h-full overflow-y-auto p-1">
+        {filteredCars.length > 0 && (
+          <FnxButton onClick={() => setFilteredCars([])}>Close</FnxButton>
+        )}
         {filteredCars.length > 0 ? (
           <div>
             {filteredCars.map((car: any, i) => {

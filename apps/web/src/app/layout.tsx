@@ -10,7 +10,7 @@ import { Theme } from "@radix-ui/themes";
 import { ReservationPopUp } from "@/components";
 import SessionWrapper from "@/components/auth/session-wrapper";
 import { ApolloClientProvider, LocationApiProvider } from "@/components/providers";
-
+import { Toaster } from 'react-hot-toast';
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -48,6 +48,7 @@ export default function RootLayout({
               <ThemeProvider attribute={"class"} defaultTheme="dark">
                 <ReservationPopUp />
                 {children}
+                <Toaster position="top-right"/>
               </ThemeProvider>
               </LocationApiProvider>
             </Theme>
