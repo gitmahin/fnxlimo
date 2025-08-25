@@ -7,7 +7,6 @@ import mongoose, { mongo } from "mongoose";
 export type CreateUserReservationType = {
   objectId: string;
   reserverd_car_woo_id: string;
-  order_id?: string;
   pickup_date: Date;
   pickup_time: string;
   pickup_location: LocationType;
@@ -17,11 +16,21 @@ export type CreateUserReservationType = {
   bags: number;
 };
 
+type UpdateOrderDataTypes = {
+  order_id: number
+  product_id: number
+  pickup_date: string;
+  pickup_time: string;
+  pickup_location: string;
+  dropoff_location: string;
+  passenger: string
+  bags: string
+}
+
 export class ReservationService extends WooCommerceService {
   async createUserReservation({
     objectId,
     reserverd_car_woo_id,
-    order_id,
     pickup_date,
     pickup_time,
     pickup_location,
@@ -35,7 +44,6 @@ export class ReservationService extends WooCommerceService {
     const reservationData = new reservationModel({
       user: id,
       reserverd_car_woo_id,
-      order_id,
       pickup_date,
       pickup_time,
       pickup_location,
@@ -48,7 +56,7 @@ export class ReservationService extends WooCommerceService {
     await reservationData.save();
   }
 
-  async patchReservation(id: string, userid: string) {
+  async patchReservation(id: string, userid: string, data: UpdateOrderDataTypes) {
     const auth =
       "Basic " + btoa(`${"admin"}:${"tm8F w1IJ qUdB lIU1 dZiJ 1QzG"}`);
 
@@ -59,7 +67,7 @@ export class ReservationService extends WooCommerceService {
     // TODO: do patch update reservation manually by user
     this.post(
       "/wp-json/apf-api/v1/update-order-item",
-      {},
+      data,
       {},
       {
         headers: {

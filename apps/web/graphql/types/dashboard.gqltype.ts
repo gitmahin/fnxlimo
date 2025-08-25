@@ -27,6 +27,7 @@ export const UserReservationOrderedDataType = objectType({
   definition(t) {
     t.string("_id");
     t.int("reserverd_car_woo_id");
+    t.string("status")
     // @ts-ignore
     t.date("pickup_date");
     t.string("pickup_time");
