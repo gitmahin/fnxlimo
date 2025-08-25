@@ -28,7 +28,7 @@ export class ReservationService extends WooCommerceService {
     passenger,
     bags,
   }: CreateUserReservationType) {
-    await connDb()
+    await connDb();
     const id = new mongoose.Types.ObjectId(objectId);
     const reservationData = new reservationModel({
       user: id,
@@ -51,8 +51,23 @@ export class ReservationService extends WooCommerceService {
   }
 
   async getUserReservations(userId: string) {
-    await connDb()
-    const reservations = await reservationModel.find({user: new mongoose.Types.ObjectId(userId)}).lean(); 
-    return reservations
+    await connDb();
+
+    const reservations = await reservationModel
+      .find({ user: new mongoose.Types.ObjectId(userId) })
+      .lean();
+    return reservations;
+  }
+
+  async getUserSingleReservation(userId: string, id: string) {
+    await connDb();
+
+    const reservations = await reservationModel
+      .findOne({
+        _id: new mongoose.Types.ObjectId(id),
+        user: new mongoose.Types.ObjectId(userId),
+      })
+      .lean();
+    return reservations;
   }
 }

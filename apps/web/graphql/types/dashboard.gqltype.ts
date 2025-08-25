@@ -1,4 +1,10 @@
-import { extendType, objectType, asNexusMethod } from "nexus";
+import {
+  extendType,
+  objectType,
+  asNexusMethod,
+  intArg,
+  stringArg,
+} from "nexus";
 import { Products } from "./products.gqltype";
 import { ProductService, ReservationService } from "@/services";
 import { getServerSession } from "next-auth";
@@ -18,6 +24,7 @@ const LocationDataType = objectType({
 export const UserReservationOrderedDataType = objectType({
   name: "userreservationOrderedDataType",
   definition(t) {
+    t.string("_id");
     t.int("reserverd_car_woo_id");
     t.date("pickup_date");
     t.string("pickup_time");
@@ -51,14 +58,36 @@ export const QueryUserReservationOrderedData = extendType({
   definition(t) {
     t.list.field("queryUserReservationOrderedData", {
       type: UserReservationOrderedDataType,
-      async resolve() {
+      async resolve(_root) {
         const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
         const response = await reservationService.getUserReservations(
-           "68aaaeab80a24c60fe088abb"
+          "68aaaeab80a24c60fe088abb"
         );
         return response || [];
       },
     });
   },
 });
+
+export const QueryUserSingleReservationOrderedData = extendType({
+  type: "Query",
+  definition(t) {
+    t.field("queryUserSingleReservationOrderedData", {
+      type: UserReservationOrderedDataType,
+      args: {
+        id: stringArg()
+      },
+      async resolve(_root, args: {id: string}) {
+        const reservationService = new ReservationService();
+        const session = await getServerSession(authOptions);
+        const response = await reservationService.getUserSingleReservation(
+          "68aaaeab80a24c60fe088abb",
+          args.id
+        );
+        return response || {};
+      },
+    });
+  },
+});
+

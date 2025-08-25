@@ -95,6 +95,7 @@ type Query {
   productCategories: [ProductCategory]
   products(categoryID: Int): [Products]
   queryUserReservationOrderedData: [userreservationOrderedDataType]
+  queryUserSingleReservationOrderedData(id: String): userreservationOrderedDataType
 }
 
 type ReservationProductType {
@@ -114,6 +115,7 @@ type locationDataType {
 }
 
 type userreservationOrderedDataType {
+  _id: String
   bags: Int
   car_details: Products
   createdAt: DateTime

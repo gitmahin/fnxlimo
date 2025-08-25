@@ -8,16 +8,19 @@ class ReservationServiceStore {
   bags: number = 0;
   tripDurationHours: number = 0;
   tripDurationMins: number = 0;
+  reservationID: string = ""
   constructor() {
     makeObservable(this, {
       isPopup: observable,
       setIspopup: action,
       passenger: observable,
+      reservationID: observable,
       bags: observable,
       tripDurationHours: observable,
       tripDurationMins: observable,
       incdecTripDurationHours: action,
       incdecTripDurationMins: action,
+      setReservationID: action
     });
   }
 
@@ -33,6 +36,10 @@ class ReservationServiceStore {
         this.passenger++;
       }
     }
+  }
+
+  setReservationID(id: string) {
+    this.reservationID = id
   }
 
   setPassenger(val: number) {

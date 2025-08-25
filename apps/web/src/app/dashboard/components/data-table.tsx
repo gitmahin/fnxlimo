@@ -97,16 +97,56 @@ import {
   RadioGroupItem,
   RadioGroup,
 } from "@fnx/ui";
+import { reservationSchema, ReservationType } from "@/types/reservation";
+import { reservationServiceStore } from "@/services/store";
+import Image from "next/image";
+import { gql, useQuery } from "@apollo/client";
+import { observer } from "mobx-react";
 
-export const schema = z.object({
-  id: z.number(),
-  car_name: z.string(),
-  seats: z.string(),
-  bags: z.string(),
-});
+const GetUserSingleReservations = gql`
+  query GetUserSingleReservationQuery {
+    queryUserSingleReservationOrderedData {
+      bags
+      createdAt
+      passenger
+      pickup_date
+      pickup_time
+      stop_locations {
+        lat
+        lng
+      }
+      pickup_location {
+        lat
+        lng
+      }
+      dropoff_location {
+        lat
+        lng
+      }
+      car_details {
+        brands {
+          name
+        }
+        images {
+          src
+          name
+          alt
+        }
+        name
+        price
+        sale_price
+        status
+        total_sales
+        stock_quantity
+        id
+      }
+      _id
+    }
+  }
+`;
 
 // Create a separate component for the drag handle
-function DragHandle({ id }: { id: number }) {
+function DragHandle({ id }: { id: string }) {
   const { attributes, listeners } = useSortable({
     id,
   });
@@ -125,59 +165,42 @@ function DragHandle({ id }: { id: number }) {
   );
 }
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
   {
     id: "drag",
     header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original.id} />,
+    cell: ({ row }) => <DragHandle id={row.original._id} />,
   },
   {
-    id: "select",
-    header: ({ table }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      </div>
-    ),
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "car_name",
-    header: "Car",
+    id: "car_details",
+    header: "Car Details",
     cell: ({ row }) => {
-      return <TableCellViewer item={row.original} />;
+      const car = row.original.car_details;
+      return (
+        <div>
+          <TableCellViewer item={row.original}  />
+          <div className="text-sm text-gray-500">{car.brands[0]?.name}</div>
+        </div>
+      );
     },
-    enableHiding: false,
-  },
-  {
-    accessorKey: "seats",
-    header: "Total Seats",
-    cell: ({ row }) => {
-      return <div>{row.original.seats}</div>;
-    }
   },
   {
     accessorKey: "bags",
     header: "Total Bags",
+    cell: ({ row }) => <div>{row.original.bags}</div>,
+  },
+   {
+    accessorKey: "passenger",
+    header: "Passenger",
+    cell: ({ row }) => <div>{row.original.passenger}</div>,
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
     cell: ({ row }) => {
-      return <div>{row.original.bags}</div>;
-    }
+      const date = new Date(row.original.createdAt);
+      return <div>{date.toLocaleDateString()}</div>; // format as you like
+    },
   },
   {
     id: "actions",
@@ -196,16 +219,18 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         <DropdownMenuContent align="end" className="w-[200px]">
           <DropdownMenuItem>View Invoice</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Cancel Reservation</DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">
+            Cancel Reservation
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),
   },
 ];
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<z.infer<typeof reservationSchema>> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.id,
+    id: row.original._id,
   });
 
   return (
@@ -228,11 +253,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   );
 }
 
-export function DataTable({
-  data: initialData,
-}: {
-  data: z.infer<typeof schema>[];
-}) {
+export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const [data, setData] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -253,7 +274,7 @@ export function DataTable({
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
-    () => data?.map(({ id }) => id) || [],
+    () => (data ? data.map(({ _id }) => _id) : []),
     [data]
   );
 
@@ -267,7 +288,7 @@ export function DataTable({
       columnFilters,
       pagination,
     },
-    getRowId: (row) => row.id.toString(),
+    getRowId: (row) => String(row._id),
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
@@ -466,45 +487,54 @@ export function DataTable({
   );
 }
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+const  TableCellViewer = observer(({ item }: { item: z.infer<typeof reservationSchema> }) => {
+  const {data, error, loading} = useQuery(GetUserSingleReservations, {
+    variables: {
+      id: "68abc35106a7acd50c7b4cdc"
+    }
+  })
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--primary)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--primary)",
-  },
-} satisfies ChartConfig;
+  const [reservationData, setReservationData] = React.useState<ReservationType>()
 
-function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
+  React.useEffect(() => {
+    if(!loading) {
+      setReservationData(data)
+    }
+  }, [data])
+
   const isMobile = useIsMobile();
 
   return (
     <Drawer direction={isMobile ? "bottom" : "right"}>
       <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.car_name}
+        <Button onClick={()=> reservationServiceStore.setReservationID(item._id)} variant="link" className="text-foreground w-fit px-0 text-left">
+          {item.car_details.name}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.car_name}</DrawerTitle>
-          <DrawerDescription>
-            Details about {item.car_name}
-          </DrawerDescription>
+          <DrawerTitle>{item.car_details.name}</DrawerTitle>
+          <DrawerDescription>Details about {item.car_details.name}</DrawerDescription>
         </DrawerHeader>
         <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          
+          <Image src={item.car_details.images[0]?.src || ""} alt={item.car_details.images[0]?.alt || ""} className="object-cover object-center w-full h-[250px]" />
+              {loading && <p>Loading...</p>}
+          <div>
+            <p>Car Details</p>
+            <div>
+              <ul>
+                <li>Passangers: {reservationData?.passenger}</li>
+                <li>Bags: {reservationData?.bags}</li>
+              </ul>
+            </div>
+
+            <p>Location Details</p>
+            <div>
+              <ul>
+                <li>Pickup Time: {reservationData?.pickup_time}</li>
+              </ul>
+            </div>
+          </div>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>
@@ -514,4 +544,4 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
       </DrawerContent>
     </Drawer>
   );
-}
+})
