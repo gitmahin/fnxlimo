@@ -76,7 +76,7 @@ function Page() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              {loading && <div>Loading...</div>}
+              {loading && <div className="px-5">Loading...</div>}
               {!loading && (
                 <DataTable data={data.queryUserReservationOrderedData} />
               )}
