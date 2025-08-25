@@ -4,6 +4,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+     "noEmit": true,
+    "skipLibCheck": true,
+    "strict": false,
     "plugins": [
       {
         "name": "next"
