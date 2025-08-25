@@ -27,6 +27,7 @@ export const UserReservationOrderedDataType = objectType({
   definition(t) {
     t.string("_id");
     t.int("reserverd_car_woo_id");
+    // @ts-ignore
     t.date("pickup_date");
     t.string("pickup_time");
     t.field("pickup_location", {
@@ -40,6 +41,7 @@ export const UserReservationOrderedDataType = objectType({
     });
     t.int("passenger");
     t.int("bags");
+    // @ts-ignore
     t.date("createdAt");
     t.field("car_details", {
       type: Products,
@@ -59,6 +61,7 @@ export const QueryUserReservationOrderedData = extendType({
   definition(t) {
     t.list.field("queryUserReservationOrderedData", {
       type: UserReservationOrderedDataType,
+      // @ts-ignore
       async resolve(_root) {
         const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
@@ -82,6 +85,7 @@ export const QueryUserSingleReservationOrderedData = extendType({
       args: {
         id: nonNull(stringArg()),
       },
+      // @ts-ignore
       async resolve(_root, args: { id: string }) {
         const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
