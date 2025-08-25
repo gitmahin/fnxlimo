@@ -61,21 +61,22 @@ export class ReservationService extends WooCommerceService {
     await reservationData.save();
   }
 
-  async updateReservation(
-    data: UpdateOrderDataTypes,
-    userId: string
-  ) {
+  async updateReservation(data: UpdateOrderDataTypes, userId: string) {
     const auth =
       "Basic " + btoa(`${"admin"}:${"tm8F w1IJ qUdB lIU1 dZiJ 1QzG"}`);
-    
-      await connDb();
+
+    await connDb();
 
     const reservation = await reservationModel.findOne({
       user: new mongoose.Types.ObjectId(userId),
       status: ReservationStatusType.CURRENT,
-    }).lean();
+    });
 
-    if (!reservation) {throw new Error("No active reservation found")};
+    const resdata = JSON.parse(JSON.stringify(reservation));
+
+    if (!resdata) {
+      return { error: "Error" };
+    }
 
     // TODO: do patch update reservation manually by user
     await this.post(
@@ -89,11 +90,11 @@ export class ReservationService extends WooCommerceService {
       }
     );
 
-    // reservation.order_id = data.order_id
-    // reservation.status = ReservationStatusType.OLD
-    // await reservation.save({
-    //   validateBeforeSave: false
-    // })
+    reservation.order_id = data.order_id;
+    reservation.status = ReservationStatusType.OLD;
+    await reservation.save({
+      validateBeforeSave: false,
+    });
   }
 
   getOrderedReservations() {
@@ -113,10 +114,12 @@ export class ReservationService extends WooCommerceService {
   async getUserSingleReservation(userId: string) {
     await connDb();
 
-    const reservation = await reservationModel.findOne({
-      user: new mongoose.Types.ObjectId(userId),
-      status: ReservationStatusType.CURRENT,
-    }).lean();
+    const reservation = await reservationModel
+      .findOne({
+        user: new mongoose.Types.ObjectId(userId),
+        status: ReservationStatusType.CURRENT,
+      })
+      .lean();
 
     return reservation;
   }
