@@ -5,6 +5,7 @@ import {
 } from "@/actions/server.actions";
 import { useReverseGeocode } from "@/hooks";
 import { UpdateOrderDataTypes } from "@/services";
+import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -15,10 +16,12 @@ export default function Page() {
   const order_id = params.get("order");
   const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState(false);
+  const {data: session, status} = useSession()
 
   const handleGetSingleReservation = async () => {
     try {
       setLoading(true);
+  
       const response = await getSingleUserReservationAction();
       if (response.error) {
         toast.error("Invalid user");

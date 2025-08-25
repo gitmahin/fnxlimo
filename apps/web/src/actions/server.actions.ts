@@ -53,9 +53,8 @@ export async function getSingleUserReservationAction() {
   try {
     const reservationService = new ReservationService();
     const session = await getServerSession(authOptions);
-    if(!session) {
-      NextResponse.redirect("/auth/login")
-      return {error: "Invalid user"}
+    if (!session) {
+      return { error: "Invalid user" };
     }
     const response = await reservationService.getUserSingleReservation(
       session.user.id
@@ -69,6 +68,10 @@ export async function getSingleUserReservationAction() {
 export async function updateReservationAction(data: UpdateOrderDataTypes) {
   try {
     const reservationService = new ReservationService();
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return { error: "Invalid user" };
+    }
     await reservationService.updateReservation(data);
     return { message: "success" };
   } catch (error) {
