@@ -84,9 +84,7 @@ export function NavUser({
             <DropdownMenuGroup>
              
               <DropdownMenuItem>
-                ID: 
-           
-                  {user.id}
+                ID:{" "}{user.id}
                
               </DropdownMenuItem>
                 <DropdownMenuSeparator />

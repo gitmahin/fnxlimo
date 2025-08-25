@@ -73,7 +73,7 @@ export class ReservationService extends WooCommerceService {
     const reservation = await reservationModel.findOne({
       user: new mongoose.Types.ObjectId(userId),
       status: ReservationStatusType.CURRENT,
-    });
+    }).lean();
 
     if (!reservation) {throw new Error("No active reservation found")};
 
@@ -89,11 +89,11 @@ export class ReservationService extends WooCommerceService {
       }
     );
 
-    reservation.order_id = data.order_id
-    reservation.status = ReservationStatusType.OLD
-    await reservation.save({
-      validateBeforeSave: false
-    })
+    // reservation.order_id = data.order_id
+    // reservation.status = ReservationStatusType.OLD
+    // await reservation.save({
+    //   validateBeforeSave: false
+    // })
   }
 
   getOrderedReservations() {
