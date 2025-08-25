@@ -1,4 +1,8 @@
-import { LocationType, reservationModel } from "@/models/reservation.model";
+import {
+  LocationType,
+  reservationModel,
+  ReservationStatusType,
+} from "@/models/reservation.model";
 import { ApiService } from "./api.service";
 import { WooCommerceService } from "./woo.service";
 import connDb from "@/lib/connDb";
@@ -16,16 +20,16 @@ export type CreateUserReservationType = {
   bags: number;
 };
 
-type UpdateOrderDataTypes = {
-  order_id: number
-  product_id: number
+export type UpdateOrderDataTypes = {
+  order_id: number;
+  product_id: number;
   pickup_date: string;
   pickup_time: string;
   pickup_location: string;
   dropoff_location: string;
-  passenger: string
-  bags: string
-}
+  passenger: string;
+  bags: string;
+};
 
 export class ReservationService extends WooCommerceService {
   async createUserReservation({
@@ -56,14 +60,12 @@ export class ReservationService extends WooCommerceService {
     await reservationData.save();
   }
 
-  async patchReservation(id: string, userid: string, data: UpdateOrderDataTypes) {
+  async updateReservation(
+    data: UpdateOrderDataTypes
+  ) {
     const auth =
       "Basic " + btoa(`${"admin"}:${"tm8F w1IJ qUdB lIU1 dZiJ 1QzG"}`);
 
-    const reservation = await reservationModel.findOne({
-      _id: new mongoose.Types.ObjectId(id),
-      user: new mongoose.Types.ObjectId(userid),
-    });
     // TODO: do patch update reservation manually by user
     this.post(
       "/wp-json/apf-api/v1/update-order-item",
@@ -91,15 +93,14 @@ export class ReservationService extends WooCommerceService {
     return reservations;
   }
 
-  async getUserSingleReservation(userId: string, id: string) {
+  async getUserSingleReservation(userId: string) {
     await connDb();
 
-    const reservations = await reservationModel
-      .findOne({
-        _id: new mongoose.Types.ObjectId(id),
-        user: new mongoose.Types.ObjectId(userId),
-      })
-      .lean();
-    return reservations;
+    const reservation = await reservationModel.findOne({
+      user: new mongoose.Types.ObjectId(userId),
+      status: ReservationStatusType.CURRENT,
+    }).sort({ createdAt: -1 });
+
+    return reservation;
   }
 }

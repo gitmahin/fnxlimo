@@ -6,6 +6,11 @@ export type LocationType = Document & {
   lng: number;
 };
 
+export enum ReservationStatusType {
+  CURRENT = "CURRENT",
+  OLD = "OLD",
+}
+
 export type ReservationType = Document & {
   user: UserType;
   reserverd_car_woo_id: number;
@@ -17,6 +22,7 @@ export type ReservationType = Document & {
   stop_locations: LocationType[];
   passenger: number;
   bags: number;
+  status: ReservationStatusType;
 };
 
 const model_name = "Reservation";
@@ -67,6 +73,11 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
     },
     bags: {
       type: Number,
+    },
+    status: {
+      type: String,
+      enum: ReservationStatusType,
+      default: ReservationStatusType.CURRENT
     },
   },
   {
