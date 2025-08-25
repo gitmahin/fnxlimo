@@ -116,7 +116,7 @@ export class ReservationService extends WooCommerceService {
     const reservation = await reservationModel.findOne({
       user: new mongoose.Types.ObjectId(userId),
       status: ReservationStatusType.CURRENT,
-    }).sort({ createdAt: -1 }).lean();
+    }).lean();
 
     return reservation;
   }
