@@ -7,6 +7,8 @@ import { ApiService } from "./api.service";
 import { WooCommerceService } from "./woo.service";
 import connDb from "@/lib/connDb";
 import mongoose from "mongoose";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
 export type CreateUserReservationType = {
   objectId: string;
@@ -65,6 +67,13 @@ export class ReservationService extends WooCommerceService {
   ) {
     const auth =
       "Basic " + btoa(`${"admin"}:${"tm8F w1IJ qUdB lIU1 dZiJ 1QzG"}`);
+    
+      await connDb();
+const session = await getServerSession(authOptions)
+    const reservation = await reservationModel.findOne({
+      user: new mongoose.Types.ObjectId(session.user.id),
+      status: ReservationStatusType.CURRENT,
+    }).sort({ createdAt: -1 });
 
     // TODO: do patch update reservation manually by user
     this.post(
@@ -77,6 +86,11 @@ export class ReservationService extends WooCommerceService {
         },
       }
     );
+
+    reservation.order_id = data.order_id
+    await reservation.save({
+      validateBeforeSave: false
+    })
   }
 
   getOrderedReservations() {
