@@ -202,6 +202,11 @@ export const Reservation = observer(() => {
   >([]);
 
   const hangleGetCars = async () => {
+    const {data: session, status} = useSession()
+    if(!session) {
+      toast.error("You must login to create any reservation!")
+      return
+    }
     try {
       if (!pickupDate) {
         toast.error("Please select a pickup date");
