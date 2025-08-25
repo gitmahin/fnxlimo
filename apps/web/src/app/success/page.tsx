@@ -3,7 +3,7 @@ import { Button } from "@fnx/ui";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-const page = () => {
+export default function Page() {
   const params = useSearchParams();
   const router = useRouter();
   const order_id = params.get("order");
@@ -17,6 +17,4 @@ const page = () => {
       </Button>
     </div>
   );
-};
-
-export default page;
+}

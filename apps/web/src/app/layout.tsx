@@ -9,8 +9,12 @@ import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
 import { ReservationPopUp } from "@/components";
 import SessionWrapper from "@/components/auth/session-wrapper";
-import { ApolloClientProvider, LocationApiProvider } from "@/components/providers";
-import { Toaster } from 'react-hot-toast';
+import {
+  ApolloClientProvider,
+  LocationApiProvider,
+} from "@/components/providers";
+import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -35,25 +39,26 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionWrapper>
-          <ApolloClientProvider>
-            <Theme
-              accentColor="purple"
-              grayColor="slate"
-              appearance="inherit"
-              hasBackground={false}
-            >
-              <LocationApiProvider>
-
-              <ThemeProvider attribute={"class"} defaultTheme="dark">
-                <ReservationPopUp />
-                {children}
-                <Toaster position="top-right"/>
-              </ThemeProvider>
-              </LocationApiProvider>
-            </Theme>
-          </ApolloClientProvider>
-        </SessionWrapper>
+        <Suspense>
+          <SessionWrapper>
+            <ApolloClientProvider>
+              <Theme
+                accentColor="purple"
+                grayColor="slate"
+                appearance="inherit"
+                hasBackground={false}
+              >
+                <LocationApiProvider>
+                  <ThemeProvider attribute={"class"} defaultTheme="dark">
+                    <ReservationPopUp />
+                    {children}
+                    <Toaster position="top-right" />
+                  </ThemeProvider>
+                </LocationApiProvider>
+              </Theme>
+            </ApolloClientProvider>
+          </SessionWrapper>
+        </Suspense>
       </body>
     </html>
   );
