@@ -27,6 +27,11 @@ type CategoriesWithProducts {
   slug: String
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type OrderedReservationType {
   currency: String
   date_created: String
@@ -89,6 +94,7 @@ type Query {
   getOrderedReservations: [OrderedReservationType]
   productCategories: [ProductCategory]
   products(categoryID: Int): [Products]
+  queryUserReservationOrderedData: [userreservationOrderedDataType]
 }
 
 type ReservationProductType {
@@ -100,4 +106,22 @@ type customACFFieldData {
   bags: String
   location: AcfGoogleMap
   peoples: String
+}
+
+type locationDataType {
+  lat: Float
+  lng: Float
+}
+
+type userreservationOrderedDataType {
+  bags: Int
+  car_details: Products
+  createdAt: DateTime
+  dropoff_location: locationDataType
+  passenger: Int
+  pickup_date: DateTime
+  pickup_location: locationDataType
+  pickup_time: String
+  reserverd_car_woo_id: Int
+  stop_locations: [locationDataType]
 }

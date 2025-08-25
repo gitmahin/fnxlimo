@@ -34,6 +34,7 @@
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
     "graphql": "^16.11.0",
+    "graphql-scalars": "^1.24.2",
     "graphql-yoga": "^5.15.1",
     "lucide-react": "^0.536.0",
     "mongoose": "^8.17.1",

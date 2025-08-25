@@ -54,11 +54,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       url: "#",
       icon: IconDashboard,
     },
-    {
-      title: "Inbox",
-      url: "#",
-      icon: IconInbox,
-    },
   ],
   navClouds: [
     {

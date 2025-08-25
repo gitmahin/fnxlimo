@@ -49,4 +49,10 @@ export class ReservationService extends WooCommerceService {
     const response = this.get("/wp-json/wc/v3/orders/");
     return response;
   }
+
+  async getUserReservations(userId: string) {
+    await connDb()
+    const reservations = await reservationModel.find({user: new mongoose.Types.ObjectId(userId)}).lean(); 
+    return reservations
+  }
 }

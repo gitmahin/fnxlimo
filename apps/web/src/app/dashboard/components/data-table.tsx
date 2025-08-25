@@ -296,25 +296,6 @@ export function DataTable({
   return (
     <div className="w-full flex-col justify-start gap-6">
       <div className="flex items-center justify-between px-4 lg:px-6 mb-4">
-
-       
-        <div className="**:data-[slot=badge]:bg-muted-foreground/30 hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1 @4xl/main:flex ">
-        
-
-          <RadioGroup
-            defaultValue="all"
-            className="flex justify-start items-center gap-3"
-          >
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="all" id="r1" />
-              <Label htmlFor="r1">All</Label>
-            </div>
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="past_reservations" id="r2" />
-              <Label htmlFor="r2">Past Reservations</Label>
-            </div>
-          </RadioGroup>
-        </div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
