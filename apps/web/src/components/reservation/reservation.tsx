@@ -200,9 +200,9 @@ export const Reservation = observer(() => {
   const [stops, setStops] = useState<
     { id: string; value: string; location?: { lat: number; lng: number } }[]
   >([]);
+  const {data: session, status} = useSession()
 
   const hangleGetCars = async () => {
-    const {data: session, status} = useSession()
     if(!session) {
       toast.error("You must login to create any reservation!")
       return
