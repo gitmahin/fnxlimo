@@ -59,7 +59,8 @@ export async function getSingleUserReservationAction() {
     const response = await reservationService.getUserSingleReservation(
       session.user.id
     );
-    return { data: response };
+    const plain = JSON.parse(JSON.stringify(response));
+    return { data: plain };
   } catch (error) {
     return { error: "Error" };
   }
@@ -72,9 +73,10 @@ export async function updateReservationAction(data: UpdateOrderDataTypes) {
     if (!session) {
       return { error: "Invalid user" };
     }
-    await reservationService.updateReservation(data);
+    await reservationService.updateReservation(data, session.user.id);
     return { message: "success" };
   } catch (error) {
+    console.log(error);
     return { error: "Error" };
   }
 }

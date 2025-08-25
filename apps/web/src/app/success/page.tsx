@@ -5,10 +5,13 @@ import {
 } from "@/actions/server.actions";
 import { useReverseGeocode } from "@/hooks";
 import { UpdateOrderDataTypes } from "@/services";
+import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
+
 
 export default function Page() {
   const params = useSearchParams();
@@ -16,19 +19,22 @@ export default function Page() {
   const order_id = params.get("order");
   const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState(false);
-  const {data: session, status} = useSession()
+  const geocodingLibrary = useMapsLibrary("geocoding");
+  const [pickupAddress, setPickupAddress] = useState("");
+  const [dropoffAddress, setDropoffAddress] = useState("");
 
   const handleGetSingleReservation = async () => {
     try {
       setLoading(true);
-  
+
       const response = await getSingleUserReservationAction();
       if (response.error) {
         toast.error("Invalid user");
       }
+      console.log("data mahin", response.data);
       setData(response.data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -36,48 +42,39 @@ export default function Page() {
   };
 
   const handleUpdateReservation = async () => {
+
     setLoading(true);
-    const dropoff_location = useReverseGeocode(
-      data.dropoff_location.lat,
-      data.dropoff_location.lng
-    );
-
-    const pickup_location = useReverseGeocode(
-      data.pickup_location.lat,
-      data.pickup_location.lng
-    );
-
-    const pickupDate = new Date(data.pickup_date);
-
-    // Format as human-readable string
-    const humanReadableDate = pickupDate.toLocaleDateString("en-US", {
-      weekday: "long", // "Wednesday"
-      year: "numeric",
-      month: "long", // "August"
-      day: "numeric", // "27"
-    });
-
-    const modifiedData: UpdateOrderDataTypes = {
-      order_id: Number(order_id),
-      bags: data.bags,
-      dropoff_location,
-      passenger: data.passenger,
-      pickup_date: humanReadableDate,
-      pickup_time: data.pickup_time,
-      pickup_location,
-      product_id: data.reserverd_car_woo_id,
-    };
-
     try {
+      const pickupDate = new Date(data.pickup_date);
+
+      // Format as human-readable string
+      const humanReadableDate = pickupDate.toLocaleDateString("en-US", {
+        weekday: "long", // "Wednesday"
+        year: "numeric",
+        month: "long", // "August"
+        day: "numeric", // "27"
+      });
+
+ 
+      const modifiedData: UpdateOrderDataTypes = {
+        order_id: Number(order_id),
+        bags: data.bags,
+        dropoff_location: dropoffAddress,
+        passenger: data.passenger,
+        pickup_date: humanReadableDate,
+        pickup_time: data.pickup_time,
+        pickup_location: pickupAddress,
+        product_id: data.reserverd_car_woo_id,
+      };
       const response = await updateReservationAction(modifiedData);
       if (response.message) {
         toast.success("Reservation created success");
         router.push("/auth/login");
       } else {
-        toast.error("Cannot create reservation");
+        toast.error(response.error || "Cannot create reservation");
       }
     } catch (error) {
-         console.log(error)
+      console.log(error);
       toast.error("Something went wrong");
       router.push("/auth/login");
     } finally {
@@ -86,13 +83,41 @@ export default function Page() {
   };
 
   useEffect(() => {
-    console.log("order id", order_id)
     handleGetSingleReservation();
   }, []);
 
+    useEffect(() => {
+    if (!geocodingLibrary || !data?.pickup_location || !data?.dropoff_location) return;
+
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode(
+      { location: { lat: data.pickup_location.lat, lng: data.pickup_location.lng } },
+      (results, status) => {
+        if (status === "OK" && results?.[0]) {
+          setPickupAddress(results[0].formatted_address);
+        }
+      }
+    );
+
+    geocoder.geocode(
+      { location: { lat: data.dropoff_location.lat, lng: data.dropoff_location.lng } },
+      (results, status) => {
+        if (status === "OK" && results?.[0]) {
+          setDropoffAddress(results[0].formatted_address);
+        }
+      }
+    );
+  }, [geocodingLibrary, data]);
+
   useEffect(() => {
-    handleUpdateReservation();
-  }, [data]);
+    const fetchAndUpdate = async () => {
+      await handleUpdateReservation();
+    };
+    if (order_id) {
+      fetchAndUpdate();
+    }
+  }, [order_id, data, pickupAddress, dropoffAddress]);
 
   return (
     <div className="w-full flex justify-center items-center mt-24 ">
