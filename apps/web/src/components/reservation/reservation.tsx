@@ -192,6 +192,7 @@ export const Reservation = observer(() => {
   const [gettingCars, setGettingCars] = useState(false);
   const router = useRouter();
   const [pickupDate, setPickupDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [time, setTime] = useState<string>("10:30:00");
   const [originCoords, setOriginCoords] = useState<BasicLocationType>(null);
@@ -200,12 +201,12 @@ export const Reservation = observer(() => {
   const [stops, setStops] = useState<
     { id: string; value: string; location?: { lat: number; lng: number } }[]
   >([]);
-  const {data: session, status} = useSession()
+  const { data: session, status } = useSession();
 
   const hangleGetCars = async () => {
-    if(!session) {
-      toast.error("You must login to create any reservation!")
-      return
+    if (!session) {
+      toast.error("You must login to create any reservation!");
+      return;
     }
     try {
       if (!pickupDate) {
@@ -324,6 +325,7 @@ export const Reservation = observer(() => {
 
   const handleCreateReservations = async (id: number) => {
     try {
+      setLoading(true);
       const stopLocations: BasicLocationType[] = stops
         ?.filter((stop) => stop.location) // remove stops without a location
         ?.map((stop) => ({
@@ -350,6 +352,8 @@ export const Reservation = observer(() => {
     } catch (error) {
       console.log(error);
       alert("Error creatingh reservation");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -429,7 +433,7 @@ export const Reservation = observer(() => {
                       className="mt-3"
                       onClick={() => handleCreateReservations(car.id)}
                     >
-                      Create Reservation
+                      {loading ? "Creating..." : "Create Reservation"}
                     </FnxButton>
                   </div>
                 </div>

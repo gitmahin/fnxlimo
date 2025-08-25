@@ -11,8 +11,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-
-
 export default function Page() {
   const params = useSearchParams();
   const router = useRouter();
@@ -42,7 +40,6 @@ export default function Page() {
   };
 
   const handleUpdateReservation = async () => {
-
     setLoading(true);
     try {
       const pickupDate = new Date(data.pickup_date);
@@ -55,7 +52,6 @@ export default function Page() {
         day: "numeric", // "27"
       });
 
- 
       const modifiedData: UpdateOrderDataTypes = {
         order_id: Number(order_id),
         bags: data.bags,
@@ -86,13 +82,19 @@ export default function Page() {
     handleGetSingleReservation();
   }, []);
 
-    useEffect(() => {
-    if (!geocodingLibrary || !data?.pickup_location || !data?.dropoff_location) return;
+  useEffect(() => {
+    if (!geocodingLibrary || !data?.pickup_location || !data?.dropoff_location)
+      return;
 
     const geocoder = new google.maps.Geocoder();
 
     geocoder.geocode(
-      { location: { lat: data.pickup_location.lat, lng: data.pickup_location.lng } },
+      {
+        location: {
+          lat: data.pickup_location.lat,
+          lng: data.pickup_location.lng,
+        },
+      },
       (results, status) => {
         if (status === "OK" && results?.[0]) {
           setPickupAddress(results[0].formatted_address);
@@ -101,7 +103,12 @@ export default function Page() {
     );
 
     geocoder.geocode(
-      { location: { lat: data.dropoff_location.lat, lng: data.dropoff_location.lng } },
+      {
+        location: {
+          lat: data.dropoff_location.lat,
+          lng: data.dropoff_location.lng,
+        },
+      },
       (results, status) => {
         if (status === "OK" && results?.[0]) {
           setDropoffAddress(results[0].formatted_address);
@@ -128,6 +135,10 @@ export default function Page() {
           Reservation created success
         </p>
       )}
+      <p className="text-center text-[20px] font-medium  w-full mt-16 mb-10">
+        Please Wait For A Moment! Do not Close the Browser Or Tab! Setting up
+        order...
+      </p>
     </div>
   );
 }
