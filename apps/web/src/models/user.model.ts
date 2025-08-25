@@ -4,11 +4,7 @@ const model_name = "User";
 
 export type UserType = Document & {
   name: string;
-  uuid: string;
   username: string;
-  color: string;
-  number: string;
-  country: string;
   email: string;
   profile_image: string;
   woo_id: number
@@ -34,30 +30,11 @@ const UserSchema: Schema<UserType> = new Schema(
       type: String,
       max: 300,
     },
-    uuid: {
-      type: String,
-      max: 200,
-      min: 20,
-      required: true,
-    },
     username: {
       type: String,
       max: 100,
       min: 6,
       required: true,
-    },
-    color: {
-      type: String,
-      max: 100,
-    },
-    number: {
-      type: String,
-      max: 50,
-      min: 4,
-    },
-    country: {
-      type: String,
-      max: 100,
     },
   },
   {

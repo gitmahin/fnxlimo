@@ -97,7 +97,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    error: "/login",
+    error: "/auth/login",
   },
   cookies: {
     sessionToken: {
