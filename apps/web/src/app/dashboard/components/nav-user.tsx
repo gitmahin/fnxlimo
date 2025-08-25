@@ -55,8 +55,6 @@ export function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
                   {user.email}
-                </span><span className="text-muted-foreground truncate text-xs">
-                  {user.id}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -85,6 +83,13 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
              
+              <DropdownMenuItem>
+                ID: 
+           
+                  {user.id}
+               
+              </DropdownMenuItem>
+                <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <IconCreditCard />
                 Billing
