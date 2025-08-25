@@ -28,12 +28,12 @@ export async function createReservation({
   bags,
 }: Omit<CreateUserReservationType, "objectId">) {
   try {
-    // const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions);
     const reservationService = new ReservationService();
     await reservationService.createUserReservation({
       dropoff_location: pickup_location as LocationType,
       pickup_location: dropoff_location as LocationType,
-      objectId: "68aaaeab80a24c60fe088abb",
+      objectId: session.user.id,
       pickup_date: pickup_date,
       pickup_time: String(pickup_time) || "",
       reserverd_car_woo_id: String(reserverd_car_woo_id),
