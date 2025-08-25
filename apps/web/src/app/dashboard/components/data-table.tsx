@@ -165,6 +165,20 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     cell: ({ row }) => <div>{row.original.passenger}</div>,
   },
   {
+    accessorKey: "pickup_date",
+    header: "Pickup Date",
+    cell: ({ row }) => {
+      const date = new Date(row.original.pickup_date);
+      const humanReadable = date.toLocaleDateString("en-US", {
+        weekday: "long", // "Wednesday"
+        year: "numeric",
+        month: "long", // "August"
+        day: "numeric", // "27"
+      });
+      return <div>{humanReadable}</div>;
+    },
+  },
+  {
     accessorKey: "pickup_time",
     header: "Pickup Time",
     cell: ({ row }) => <div>{row.original.pickup_time}</div>,

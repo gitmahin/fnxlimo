@@ -95,7 +95,6 @@ type Query {
   productCategories: [ProductCategory]
   products(categoryID: Int): [Products]
   queryUserReservationOrderedData: [userreservationOrderedDataType]
-  queryUserSingleReservationOrderedData(id: String!): userreservationOrderedDataType
 }
 
 type ReservationProductType {

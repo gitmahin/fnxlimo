@@ -75,10 +75,10 @@ export class ReservationService extends WooCommerceService {
       status: ReservationStatusType.CURRENT,
     }).sort({ createdAt: -1 });
 
-    if (!reservation) throw new Error("No active reservation found");
+    if (!reservation) {throw new Error("No active reservation found")};
 
     // TODO: do patch update reservation manually by user
-    this.post(
+    await this.post(
       "/wp-json/apf-api/v1/update-order-item",
       data,
       {},
