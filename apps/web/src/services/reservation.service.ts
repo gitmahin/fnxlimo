@@ -84,7 +84,6 @@ export class ReservationService extends WooCommerceService {
         user: new mongoose.Types.ObjectId(userId),
         status: ReservationStatusType.CURRENT,
       })
-      .lean();
 
     reservation.order_id = data.order_id;
     reservation.status = ReservationStatusType.OLD;
