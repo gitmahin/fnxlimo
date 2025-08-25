@@ -67,17 +67,6 @@ export class ReservationService extends WooCommerceService {
 
     await connDb();
 
-    const reservation = await reservationModel.findOne({
-      user: new mongoose.Types.ObjectId(userId),
-      status: ReservationStatusType.CURRENT,
-    });
-
-    const resdata = JSON.parse(JSON.stringify(reservation));
-
-    if (!resdata) {
-      return { error: "Error" };
-    }
-
     // TODO: do patch update reservation manually by user
     await this.post(
       "/wp-json/apf-api/v1/update-order-item",
@@ -89,6 +78,13 @@ export class ReservationService extends WooCommerceService {
         },
       }
     );
+
+    const reservation = await reservationModel
+      .findOne({
+        user: new mongoose.Types.ObjectId(userId),
+        status: ReservationStatusType.CURRENT,
+      })
+      .lean();
 
     reservation.order_id = data.order_id;
     reservation.status = ReservationStatusType.OLD;
