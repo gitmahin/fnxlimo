@@ -26,7 +26,18 @@ function formatDate(date: Date | undefined) {
   });
 }
 
-export function Calendar29() {
+type Calendar29Props = {
+  onValueChange?: (value: string) => void;
+};
+
+function toLocalISODate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`; // YYYY-MM-DD in local timezone
+}
+
+export function Calendar29({ onValueChange }: Calendar29Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(() => {
     const tomorrow = new Date();
@@ -46,14 +57,6 @@ export function Calendar29() {
           value={value}
           placeholder="Tomorrow or next week"
           className="bg-background pr-10 w-full"
-          onChange={(e) => {
-            setValue(e.target.value);
-            const date = parseDate(e.target.value);
-            if (date) {
-              setDate(date);
-              setMonth(date);
-            }
-          }}
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
               e.preventDefault();
@@ -80,9 +83,15 @@ export function Calendar29() {
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
+                if (!date) return;
                 setDate(date);
-                setValue(formatDate(date));
+
+                const iso = toLocalISODate(date); // ✅ local date
+                setValue(iso);
+                console.log("Local date:", iso);
+
                 setOpen(false);
+                if (onValueChange) onValueChange(iso);
               }}
             />
           </PopoverContent>

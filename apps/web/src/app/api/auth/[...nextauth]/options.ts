@@ -21,7 +21,6 @@ export const authOptions: NextAuthOptions = {
       if (account?.provider === "google") {
         await connDb();
         try {
-          const uniqueID = uuidv4();
           const user_existed = await userModel.findOne({ email: user.email });
           const shortId = crypto.randomBytes(3).toString("hex");
           const getUsername = `${user.email
@@ -39,12 +38,11 @@ export const authOptions: NextAuthOptions = {
 
             const woo_id = (await response).data;
 
-            if(!woo_id) {
-              throw new Error("Error creating user!")
+            if (!woo_id) {
+              throw new Error("Error creating user!");
             }
 
             const new_user = new userModel({
-              uuid: uniqueID,
               name: user.name,
               username: getUsername,
               email: user.email,
@@ -53,8 +51,9 @@ export const authOptions: NextAuthOptions = {
             });
 
             await new_user.save();
-            user.uuid = uniqueID;
             user.woo_id = woo_id?.id;
+            user.username = getUsername;
+            user.id = new_user.id;
           } else {
             if (!user_existed) {
               throw new Error("Invalid user!");
@@ -63,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             user_existed.name = user.name ?? "";
             user_existed.profile_image = user.image ?? "";
             await user_existed.save();
-            user.uuid = user_existed?.uuid;
+            user.id = user_existed.id;
             user.username = user_existed?.username;
             user.woo_id = user_existed?.woo_id;
           }
@@ -79,7 +78,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.email = user.email;
         token.image = user.image;
-        token.uuid = user.uuid;
+        token.id = user.id;
       }
       return token;
     },
@@ -89,7 +88,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name;
         session.user.image = token.image;
         session.user.email = token.email;
-        session.user.uuid = token.uuid;
+        session.user.id = token.id;
       }
       return session;
     },

@@ -49,10 +49,15 @@ import { v4 as uuidv4 } from "uuid";
 import { QuickReservation } from "./quick-reservation";
 import { ValueOf } from "next/dist/shared/lib/constants";
 import { TripDurationHours, TripDurationMins } from "./trip-duration";
-import { ProductService } from "@/services";
+import { ProductService, ReservationService } from "@/services";
 import { BasicLocationType } from "@/types/global";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { LocationType } from "@/models/reservation.model";
+import { observer } from "mobx-react";
+import { reservationServiceStore } from "@/services/store";
+import { createReservation } from "@/actions/server.actions";
 
 const DirectionsController = ({
   origin,
@@ -177,15 +182,17 @@ enum priceQuoteTypeEnums {
 //   return null;
 // }
 
-export const Reservation = () => {
+export const Reservation = observer(() => {
   const map = useMap();
   const [origin, setOrigin] = useState<string>(""); // input text
   const [destination, setDestination] = useState<string>(""); // input text
   const [showDirections, setShowDirections] = useState(false);
   const [filteredCars, setFilteredCars] = useState<[]>([]);
-  const [gettingCars, setGettingCars] = useState(false)
-  const router = useRouter()
+  const [gettingCars, setGettingCars] = useState(false);
+  const router = useRouter();
+  const [pickupDate, setPickupDate] = useState("");
 
+  const [time, setTime] = useState<string>("10:30:00");
   const [originCoords, setOriginCoords] = useState<BasicLocationType>(null);
   const [destinationCoords, setDestinationCoords] =
     useState<BasicLocationType>(null);
@@ -195,7 +202,7 @@ export const Reservation = () => {
 
   const hangleGetCars = async () => {
     try {
-      setGettingCars(true)
+      setGettingCars(true);
       const productService = new ProductService();
       const data = await productService.getNearByProducts({
         pickup_lct: originCoords,
@@ -206,7 +213,7 @@ export const Reservation = () => {
     } catch (error) {
       alert("Error");
     } finally {
-      setGettingCars(false)
+      setGettingCars(false);
     }
   };
 
@@ -282,10 +289,37 @@ export const Reservation = () => {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowDirections(true);
+  const handleCreateReservations = async (id: number) => {
+    try {
+      const stopLocations: BasicLocationType[] = stops
+        ?.filter((stop) => stop.location) // remove stops without a location
+        ?.map((stop) => ({
+          lat: stop.location!.lat,
+          lng: stop.location!.lng,
+        }));
+      const response = await createReservation({
+        reserverd_car_woo_id: `${id}`,
+        pickup_date: new Date(pickupDate),
+        pickup_location: originCoords as LocationType,
+        dropoff_location: destinationCoords as LocationType,
+        bags: reservationServiceStore.bags,
+        passenger: reservationServiceStore.passenger,
+        pickup_time: String(time),
+        stop_locations: stopLocations as LocationType[],
+      });
+
+      if (response.message) {
+        alert("created");
+        router.push(`https://cms.finixlimo.com?checkout=${id}`);
+      } else {
+        alert("error");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error creatingh reservation");
+    }
   };
+
   return (
     <div className="w-full h-full grid grid-cols-2 reservation-box ">
       <div className="h-full rmap">
@@ -354,10 +388,11 @@ export const Reservation = () => {
                         <span>{car.custom_acf_fields.bags}</span>
                       </Badge>
                     </div>
-                    <p className="mt-5">
-                      Price: {car.price}$
-                    </p>
-                    <FnxButton className="mt-3" onClick={() => router.push(`https://cms.finixlimo.com?checkout=${car.id}`)}>
+                    <p className="mt-5">Price: {car.price}$</p>
+                    <FnxButton
+                      className="mt-3"
+                      onClick={() => handleCreateReservations(car.id)}
+                    >
                       Create Reservation
                     </FnxButton>
                   </div>
@@ -414,7 +449,11 @@ export const Reservation = () => {
                   <div className="flex justify-center items-center gap-5 p-5 w-full">
                     <div className="w-full ">
                       <Label className="mb-1">Pickup Date</Label>
-                      <Calendar29 />
+                      <Calendar29
+                        onValueChange={(dateStr) => {
+                          setPickupDate(dateStr);
+                        }}
+                      />
                     </div>
 
                     <div className="shrink-0">
@@ -424,7 +463,7 @@ export const Reservation = () => {
                         type="time"
                         id="time-picker"
                         step="1"
-                        defaultValue="10:30:00"
+                        onChange={(e) => setTime(e.target.value)}
                         className="bg-background appearance-none mt-1 [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                       />
                     </div>
@@ -604,10 +643,7 @@ export const Reservation = () => {
                       className="!w-full shrink"
                       onClick={() => hangleGetCars()}
                     >
-             
-                      {
-                        gettingCars ? "Searching..." : "Get Quote"
-                      }
+                      {gettingCars ? "Searching..." : "Get Quote"}
                     </FnxButton>
                   </div>
                 </CardContent>
@@ -632,4 +668,4 @@ export const Reservation = () => {
       </div>
     </div>
   );
-};
+});

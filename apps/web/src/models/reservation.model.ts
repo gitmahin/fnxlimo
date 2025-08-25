@@ -10,10 +10,12 @@ export type ReservationType = Document & {
   user: UserType;
   reserverd_car_woo_id: number;
   pickup_date: Date;
-  pickup_time: Date;
+  pickup_time: String;
   pickup_location: LocationType
   dropoff_location: LocationType
   stop_locations: LocationType[]
+  passenger: number;
+  bags: number
 };
 
 const model_name = "Reservation";
@@ -48,13 +50,19 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
       maxlength: 50
     },
     pickup_time: {
-      type: Date,
+      type: String,
       required: true,
       maxlength: 20
     },
     pickup_location: LocationSchema,
     dropoff_location: LocationSchema,
-    stop_locations: [LocationSchema]
+    stop_locations: [LocationSchema],
+    passenger: {
+      type: Number,
+    },
+    bags: {
+      type: Number
+    }
   },
   {
     timestamps: true,
