@@ -16,7 +16,7 @@ export type ReservationType = Document & {
   reserverd_car_woo_id: number;
   order_id: number;
   pickup_date: Date;
-  pickup_time: String;
+  pickup_time: string;
   pickup_location: LocationType;
   dropoff_location: LocationType;
   stop_locations: LocationType[];
@@ -53,7 +53,6 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
     },
     order_id: {
       type: Number,
-      required: true,
     },
     pickup_date: {
       type: Date,
