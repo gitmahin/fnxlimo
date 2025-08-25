@@ -4,6 +4,7 @@ import {
   asNexusMethod,
   intArg,
   stringArg,
+  nonNull,
 } from "nexus";
 import { Products } from "./products.gqltype";
 import { ProductService, ReservationService } from "@/services";
@@ -61,10 +62,13 @@ export const QueryUserReservationOrderedData = extendType({
       async resolve(_root) {
         const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
+        if (!session) {
+          return null;
+        }
         const response = await reservationService.getUserReservations(
-          "68aaaeab80a24c60fe088abb"
+          session?.user.id || ""
         );
-        return response || [];
+        return response ?? null;
       },
     });
   },
@@ -76,18 +80,21 @@ export const QueryUserSingleReservationOrderedData = extendType({
     t.field("queryUserSingleReservationOrderedData", {
       type: UserReservationOrderedDataType,
       args: {
-        id: stringArg()
+        id: nonNull(stringArg()),
       },
-      async resolve(_root, args: {id: string}) {
+      async resolve(_root, args: { id: string }) {
         const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
+        if (!session) {
+          return null;
+        }
         const response = await reservationService.getUserSingleReservation(
-          "68aaaeab80a24c60fe088abb",
+          session?.user.id || "",
           args.id
         );
-        return response || {};
+
+        return response ?? null;
       },
     });
   },
 });
-

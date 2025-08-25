@@ -24,7 +24,7 @@ export class ProductService extends WooCommerceService {
     return response;
   }
 
-  async getProduct(id: number) {
+  getProduct(id: number) {
     const response = this.get(`/wp-json/wc/v3/products/${id}`);
     return response;
   }

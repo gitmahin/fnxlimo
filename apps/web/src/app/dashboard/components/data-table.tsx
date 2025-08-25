@@ -69,6 +69,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Badge,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Button,
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -102,48 +105,8 @@ import { reservationServiceStore } from "@/services/store";
 import Image from "next/image";
 import { gql, useQuery } from "@apollo/client";
 import { observer } from "mobx-react";
-
-const GetUserSingleReservations = gql`
-  query GetUserSingleReservationQuery {
-    queryUserSingleReservationOrderedData {
-      bags
-      createdAt
-      passenger
-      pickup_date
-      pickup_time
-      stop_locations {
-        lat
-        lng
-      }
-      pickup_location {
-        lat
-        lng
-      }
-      dropoff_location {
-        lat
-        lng
-      }
-      car_details {
-        brands {
-          name
-        }
-        images {
-          src
-          name
-          alt
-        }
-        name
-        price
-        sale_price
-        status
-        total_sales
-        stock_quantity
-        id
-      }
-      _id
-    }
-  }
-`;
+import { useReverseGeocode } from "@/hooks";
+import { TableCellViewer } from "./SingleCarView";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
@@ -178,7 +141,14 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       const car = row.original.car_details;
       return (
         <div>
-          <TableCellViewer item={row.original}  />
+          <div
+            className="font-medium text-zinc-50"
+            onClick={() =>
+              reservationServiceStore.setReservationID(row.original._id)
+            }
+          >
+            {car.name}
+          </div>
           <div className="text-sm text-gray-500">{car.brands[0]?.name}</div>
         </div>
       );
@@ -189,10 +159,67 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     header: "Total Bags",
     cell: ({ row }) => <div>{row.original.bags}</div>,
   },
-   {
+  {
     accessorKey: "passenger",
     header: "Passenger",
     cell: ({ row }) => <div>{row.original.passenger}</div>,
+  },
+  {
+    accessorKey: "pickup_time",
+    header: "Pickup Time",
+    cell: ({ row }) => <div>{row.original.pickup_time}</div>,
+  },
+  {
+    accessorKey: "pickup_location",
+    header: "Pickup From",
+    cell: ({ row }) => (
+      <div>
+        {useReverseGeocode(
+          Number(row.original.pickup_location.lat),
+          Number(row.original.pickup_location.lng)
+        )}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "dropoff_location",
+    header: "Drop Of",
+    cell: ({ row }) => (
+      <div>
+        {useReverseGeocode(
+          Number(row.original.dropoff_location.lat),
+          Number(row.original.dropoff_location.lng)
+        )}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "stop_locations",
+    header: "Stopages",
+    cell: ({ row }) => (
+      <div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline">Show Locations</Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80">
+            <div className="grid gap-4 leading-5">
+              {row.original.stop_locations.length > 0 ? (
+                row.original.stop_locations.map((item, i) => {
+                  return (
+                    <li>
+                      {useReverseGeocode(Number(item.lat), Number(item.lng))}
+                    </li>
+                  );
+                })
+              ) : (
+                <div>No stopages</div>
+              )}
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -202,33 +229,13 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       return <div>{date.toLocaleDateString()}</div>; // format as you like
     },
   },
-  {
-    id: "actions",
-    cell: () => (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-            size="icon"
-          >
-            <IconDotsVertical />
-            <span className="sr-only">Open menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[200px]">
-          <DropdownMenuItem>View Invoice</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">
-            Cancel Reservation
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-  },
 ];
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof reservationSchema>> }) {
+function DraggableRow({
+  row,
+}: {
+  row: Row<z.infer<typeof reservationSchema>>;
+}) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original._id,
   });
@@ -486,62 +493,3 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
     </div>
   );
 }
-
-const  TableCellViewer = observer(({ item }: { item: z.infer<typeof reservationSchema> }) => {
-  const {data, error, loading} = useQuery(GetUserSingleReservations, {
-    variables: {
-      id: "68abc35106a7acd50c7b4cdc"
-    }
-  })
-
-  const [reservationData, setReservationData] = React.useState<ReservationType>()
-
-  React.useEffect(() => {
-    if(!loading) {
-      setReservationData(data)
-    }
-  }, [data])
-
-  const isMobile = useIsMobile();
-
-  return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
-      <DrawerTrigger asChild>
-        <Button onClick={()=> reservationServiceStore.setReservationID(item._id)} variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.car_details.name}
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.car_details.name}</DrawerTitle>
-          <DrawerDescription>Details about {item.car_details.name}</DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          <Image src={item.car_details.images[0]?.src || ""} alt={item.car_details.images[0]?.alt || ""} className="object-cover object-center w-full h-[250px]" />
-              {loading && <p>Loading...</p>}
-          <div>
-            <p>Car Details</p>
-            <div>
-              <ul>
-                <li>Passangers: {reservationData?.passenger}</li>
-                <li>Bags: {reservationData?.bags}</li>
-              </ul>
-            </div>
-
-            <p>Location Details</p>
-            <div>
-              <ul>
-                <li>Pickup Time: {reservationData?.pickup_time}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Ok</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  );
-})
