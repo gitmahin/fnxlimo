@@ -28,6 +28,7 @@ export default function Page() {
       }
       setData(response.data);
     } catch (error) {
+      console.log(error)
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -76,6 +77,7 @@ export default function Page() {
         toast.error("Cannot create reservation");
       }
     } catch (error) {
+         console.log(error)
       toast.error("Something went wrong");
       router.push("/auth/login");
     } finally {
@@ -84,6 +86,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+    console.log("order id", order_id)
     handleGetSingleReservation();
   }, []);
 
