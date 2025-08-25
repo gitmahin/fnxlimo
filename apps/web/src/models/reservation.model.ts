@@ -4,34 +4,35 @@ import { UserType } from "./user.model";
 export type LocationType = Document & {
   lat: number;
   lng: number;
-}
+};
 
 export type ReservationType = Document & {
   user: UserType;
   reserverd_car_woo_id: number;
+  order_id: number;
   pickup_date: Date;
   pickup_time: String;
-  pickup_location: LocationType
-  dropoff_location: LocationType
-  stop_locations: LocationType[]
+  pickup_location: LocationType;
+  dropoff_location: LocationType;
+  stop_locations: LocationType[];
   passenger: number;
-  bags: number
+  bags: number;
 };
 
 const model_name = "Reservation";
 
-const LocationSchema: Schema<LocationType> = new Schema ({
+const LocationSchema: Schema<LocationType> = new Schema({
   lat: {
     type: Number,
     required: true,
-    maxlength: 300
+    maxlength: 300,
   },
   lng: {
     type: Number,
     required: true,
-    maxlength: 300
-  }
-})
+    maxlength: 300,
+  },
+});
 
 const ReservationSchema: Schema<ReservationType> = new Schema(
   {
@@ -44,15 +45,19 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
       type: Number,
       required: true,
     },
-    pickup_date: {
-      type: Date ,
+    order_id: {
+      type: Number,
       required: true,
-      maxlength: 50
+    },
+    pickup_date: {
+      type: Date,
+      required: true,
+      maxlength: 50,
     },
     pickup_time: {
       type: String,
       required: true,
-      maxlength: 20
+      maxlength: 20,
     },
     pickup_location: LocationSchema,
     dropoff_location: LocationSchema,
@@ -61,8 +66,8 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
       type: Number,
     },
     bags: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   {
     timestamps: true,

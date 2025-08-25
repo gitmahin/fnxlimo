@@ -1,4 +1,4 @@
-
+"use client"
 import { Header } from "@/components/core";
 import { Footer } from "@/components/core/footer";
 import { Fleet, HeroSection, Services } from "@/components/homepage";

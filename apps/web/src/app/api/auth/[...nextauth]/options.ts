@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
             await new_user.save();
             user.woo_id = woo_id?.id;
             user.username = getUsername;
-            user.id = new_user.id;
+            user.id = new_user._id as string;
           } else {
             if (!user_existed) {
               throw new Error("Invalid user!");
@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             user_existed.name = user.name ?? "";
             user_existed.profile_image = user.image ?? "";
             await user_existed.save();
-            user.id = user_existed.id;
+            user.id = user_existed._id as string;
             user.username = user_existed?.username;
             user.woo_id = user_existed?.woo_id;
           }
@@ -79,6 +79,7 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.image = user.image;
         token.id = user.id;
+        token.woo_id = user.woo_id;
       }
       return token;
     },
@@ -89,6 +90,7 @@ export const authOptions: NextAuthOptions = {
         session.user.image = token.image;
         session.user.email = token.email;
         session.user.id = token.id;
+        session.user.woo_id = token.woo_id;
       }
       return session;
     },

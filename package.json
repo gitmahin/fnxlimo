@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-     "lint": "turbo run lint",
+    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "clean": "turbo run clean && rm -rf node_modules dist .turbo && echo 'Root Cleanup complete!'"
@@ -21,6 +21,7 @@
     "node": ">=18"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.4.0",
     "@escape.tech/graphql-armor-character-limit": "^2.3.1",
     "@escape.tech/graphql-armor-cost-limit": "^2.4.3",
     "@escape.tech/graphql-armor-max-aliases": "^2.6.2",

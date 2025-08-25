@@ -16,20 +16,6 @@ import { gql, useQuery } from "@apollo/client";
 type FleetCategoriesType = {
   label: string;
 };
-const FLEET_CATEGORIES: FleetCategoriesType[] = [
-  {
-    label: "All",
-  },
-  {
-    label: "Luxury",
-  },
-  {
-    label: "Business",
-  },
-  {
-    label: "Crossover",
-  },
-];
 
 const GET_CATS_WITH_PRODUCTS = gql`
   query GetCategoryWithProducts {
