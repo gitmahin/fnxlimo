@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 const secret = process.env.NEXT_AUTH_SECRET;
 
 export async function middleware(request: NextRequest) {
-   const { pathname } = request.nextUrl;
+  const { pathname } = request.nextUrl;
 
   const token = await getToken({ req: request, secret });
 
@@ -27,8 +27,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if(!token && pathname.startsWith("/dashboard")) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+  if (!token && pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
   return NextResponse.next(); // Allow normal flow
