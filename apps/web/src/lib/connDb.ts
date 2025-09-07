@@ -22,7 +22,7 @@ async function connDb(): Promise<void> {
 
   try {
     const db = await mongoose.connect(
-      "mongodb+srv://finixlimo_3445:tVvoQ5kFwLDeLDuS@cluster0.ssnme5e.mongodb.net/finixlimo?retryWrites=true&w=majority&appName=Cluster0"
+      process.env.MONGO_URI
     );
     connection.isConnected = db.connections[0]?.readyState;
     console.log("Database connected successfully");
