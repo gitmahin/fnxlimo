@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ["cms.finixlimo.com"],
+images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cms.finixlimo.com",
+      },
+    ],
   },
 };
 
