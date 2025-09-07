@@ -55,9 +55,13 @@ type ProductCategory {
   count: String
   description: String
   id: Int
-  image: String
+  image: ProductCategoryImageType
   name: String
   slug: String
+}
+
+type ProductCategoryImageType {
+  src: String
 }
 
 type ProductImages {

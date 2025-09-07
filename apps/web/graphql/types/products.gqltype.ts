@@ -92,6 +92,13 @@ export const Products = objectType({
   },
 });
 
+const ProductCategoryImageType = objectType({
+  name: "ProductCategoryImageType",
+  definition(t) {
+    t.string("src")
+  },
+})
+
 export const ProductCategories = objectType({
   name: "ProductCategory",
   definition(t) {
@@ -99,7 +106,9 @@ export const ProductCategories = objectType({
     t.string("name")
     t.string("slug")
     t.string("description")
-    t.string("image")
+    t.field("image", {
+      type: ProductCategoryImageType
+    })
     t.string("count")
   },
 })
