@@ -43,7 +43,7 @@ export const Services = () => {
                 className="flex justify-center items-start gap-5 p-1 rounded-lg border border-zinc-800 service-box"
               >
                 <Image
-                  src={item.image  || null}
+                  src={item.products[0].images[0].src  || null}
                   className="object-cover object-center shrink-0 w-[300px] h-[200px] border rounded-md service-img"
                   alt="service-image"
                 />
