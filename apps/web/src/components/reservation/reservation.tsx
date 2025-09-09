@@ -204,10 +204,10 @@ export const Reservation = observer(() => {
   const { data: session, status } = useSession();
 
   const hangleGetCars = async () => {
-    if (!session) {
-      toast.error("You must login to create any reservation!");
-      return;
-    }
+    // if (!session) {
+    //   toast.error("You must login to create any reservation!");
+    //   return;
+    // }
     try {
       if (!pickupDate) {
         toast.error("Please select a pickup date");
@@ -238,12 +238,9 @@ export const Reservation = observer(() => {
       }
       setGettingCars(true);
       const productService = new ProductService();
-      const data = await productService.getNearByProducts({
-        pickup_lct: originCoords,
-        drop_off_lct: destinationCoords,
-      });
-
-      setFilteredCars(data);
+      const data = await productService.getProducts();
+      // actually not filtered. but can be filtered in future by using .getNearByProducts() method
+      setFilteredCars(data.data);
     } catch (error) {
       alert("Error");
     } finally {
