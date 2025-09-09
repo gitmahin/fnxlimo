@@ -46,13 +46,15 @@ export const Services = () => {
                   key={i}
                   className="flex justify-center items-start gap-5 p-1 rounded-lg border border-zinc-800 service-box"
                 >
+              
                   <Image
-                    src={item.image.src || null}
-                    className="object-cover object-center shrink-0 w-[300px] h-[200px] border rounded-md service-img"
-                    alt="service-image"
-                    width={500}
-                    height={300}
+                  src={item?.image?.src ?? null}
+                  className="object-cover object-center shrink-0 w-[300px] h-[200px] border rounded-md service-img"
+                  alt="service-image"
+                  width={500}
+                  height={300}
                   />
+             
                   <div className="w-full py-5 service-box-content">
                     <h3 className="text-read-18 font-medium">{item.name}</h3>
                     <p className="three_line_ellipsis text-read-14 text-zinc-400 mt-1">
