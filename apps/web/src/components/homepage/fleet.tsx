@@ -25,6 +25,7 @@ const GET_CATS_WITH_PRODUCTS = gql`
       id
       name
       products {
+        id
         images {
           src
           alt
@@ -144,6 +145,7 @@ export const Fleet = () => {
               products?.map((item: any, i: number) => {
                 return (
                   <SwiperSlide key={i} className="!h-fit">
+                   
                     <Image
                       src={item.images[0]?.src || null}
                       width={500}
