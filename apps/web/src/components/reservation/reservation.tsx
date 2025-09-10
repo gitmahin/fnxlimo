@@ -241,7 +241,6 @@ export const Reservation = observer(() => {
 
       if (reservationServiceStore.reservationID !== "") {
         handleCreateReservations(Number(reservationServiceStore.reservationID));
-        window.alert(reservationServiceStore.reservationID)
         return;
       }
 
