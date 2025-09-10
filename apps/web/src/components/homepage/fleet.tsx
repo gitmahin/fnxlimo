@@ -12,6 +12,8 @@ import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperTypes } from "swiper/types";
 import { gql, useQuery } from "@apollo/client";
+import { reservationServiceStore } from "@/services/store";
+import toast from "react-hot-toast";
 
 type FleetCategoriesType = {
   label: string;
@@ -20,7 +22,7 @@ type FleetCategoriesType = {
 const GET_CATS_WITH_PRODUCTS = gql`
   query GetCategoryWithProducts {
     categoriesWithProducts {
-    id
+      id
       name
       products {
         images {
@@ -49,14 +51,20 @@ export const Fleet = () => {
   useEffect(() => {
     console.log({ loading, error, data });
     setCats(data?.categoriesWithProducts);
-    setProducts(data?.categoriesWithProducts[0].products)
-    setActiveCatByID(data?.categoriesWithProducts[0].id)
+    setProducts(data?.categoriesWithProducts[0].products);
+    setActiveCatByID(data?.categoriesWithProducts[0].id);
   }, [data]);
+
+  const handleCreateCustomReservation = (id: string) => {
+    reservationServiceStore.setReservationID(id);
+    reservationServiceStore.setIspopup(true);
+    toast.success("Car reserved successfully!");
+    toast("Next, please provide reservation details");
+  };
 
   return (
     <div className="w-full mt-24 px-5" id="fleet">
       <div className="default_layout_width">
-   
         <h2 className="text-read-56 font-semibold text-center our_fleet_heading">
           Our Fleet
         </h2>
@@ -156,6 +164,15 @@ export const Fleet = () => {
                           <BriefcaseBusiness size={16} />
                           <span>{item.custom_acf_fields.bags}</span>
                         </Badge>
+                      </div>
+                      <div className="mt-4">
+                        <Button
+                          onClick={() =>
+                            handleCreateCustomReservation(item.id as string)
+                          }
+                        >
+                          Select
+                        </Button>
                       </div>
                     </div>
                   </SwiperSlide>

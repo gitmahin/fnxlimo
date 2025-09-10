@@ -32,6 +32,45 @@ export type UpdateOrderDataTypes = {
   bags: string;
 };
 
+export type CreateCustomReservationType = {
+  payment_method?: string;
+  payment_method_title?: string;
+  set_paid?: boolean;
+  billing?: {
+    first_name?: string;
+    last_name?: string;
+    address_1?: string;
+    address_2?: string;
+    city?: string;
+    state?: string;
+    postcode?: string;
+    country?: string;
+    email?: string;
+    phone?: string;
+  };
+  shipping?: {
+    first_name?: string;
+    last_name?: string;
+    address_1?: string;
+    address_2?: string;
+    city?: string;
+    state?: string;
+    postcode?: string;
+    country?: string;
+  };
+  line_items?: {
+    product_id?: number;
+    variation_id?: number;
+    quantity?: number;
+  }[];
+  shipping_lines?: {
+    method_id?: string;
+    method_title?: string;
+    total?: string;
+  }[];
+};
+
+
 export class ReservationService extends WooCommerceService {
   async createUserReservation({
     objectId,
@@ -117,5 +156,11 @@ export class ReservationService extends WooCommerceService {
       .lean();
 
     return reservation;
+  }
+
+  async createCustomReservation(data: CreateCustomReservationType) {
+    const response = await this.post("/wp-json/wc/v3/orders", data)
+    
+
   }
 }

@@ -236,7 +236,14 @@ export const Reservation = observer(() => {
         toast.error("Please enter the number of bags");
         return;
       }
+
       setGettingCars(true);
+
+      if (reservationServiceStore.reservationID) {
+        handleCreateReservations(Number(reservationServiceStore.reservationID));
+        return;
+      }
+
       const productService = new ProductService();
       const data = await productService.getProducts();
       // actually not filtered. but can be filtered in future by using .getNearByProducts() method
@@ -448,10 +455,7 @@ export const Reservation = observer(() => {
               <Card className="!p-0 !rounded-none !border-0">
                 <CardHeader>
                   <CardTitle>Price Quote</CardTitle>
-                  <CardDescription>
-                    Make changes to your account here. Click save when
-                    you&apos;re done.
-                  </CardDescription>
+
                   <div className="shrink-0 mt-5">
                     <RadioGroup
                       defaultValue={`${priceQuoteTypeEnums.TRANSFER}`}
@@ -690,10 +694,6 @@ export const Reservation = observer(() => {
               <Card className="!p-0 !rounded-none !border-0">
                 <CardHeader>
                   <CardTitle>Quick Receipt</CardTitle>
-                  <CardDescription>
-                    Change your password here. After saving, you&apos;ll be
-                    logged out.
-                  </CardDescription>
                 </CardHeader>
                 <CardContent className="!p-0 ">
                   <QuickReservation />
