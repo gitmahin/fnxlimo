@@ -239,7 +239,7 @@ export const Reservation = observer(() => {
 
       setGettingCars(true);
 
-      if (reservationServiceStore.reservationID) {
+      if (reservationServiceStore.reservationID !== "") {
         handleCreateReservations(Number(reservationServiceStore.reservationID));
         return;
       }
