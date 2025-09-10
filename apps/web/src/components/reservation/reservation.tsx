@@ -204,6 +204,7 @@ export const Reservation = observer(() => {
   const { data: session, status } = useSession();
 
   const hangleGetCars = async () => {
+    setGettingCars(true);
     if (!session) {
       toast.error("You must login to create any reservation!");
       return;
@@ -237,7 +238,6 @@ export const Reservation = observer(() => {
         return;
       }
 
-      setGettingCars(true);
 
       if (reservationServiceStore.reservationID !== "") {
         handleCreateReservations(Number(reservationServiceStore.reservationID));
