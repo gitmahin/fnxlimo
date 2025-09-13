@@ -4,6 +4,7 @@ import "@radix-ui/themes/styles.css";
 import "@fnx/ui/styles/globals.css";
 // Import Swiper styles
 import "swiper/css";
+import 'swiper/css/pagination';
 import "./styles/home.styles.css";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";

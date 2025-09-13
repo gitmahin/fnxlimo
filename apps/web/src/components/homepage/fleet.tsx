@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperTypes } from "swiper/types";
 import { gql, useQuery } from "@apollo/client";
 import { reservationServiceStore } from "@/services/store";
+import { Pagination } from 'swiper/modules';
 import toast from "react-hot-toast";
 
 type FleetCategoriesType = {
@@ -41,11 +42,21 @@ const GET_CATS_WITH_PRODUCTS = gql`
   }
 `;
 
+
+    const pagination = {
+    clickable: true,
+    renderBullet: function (index, className) {
+      return '<span class="' + className + '">' + (index + 1) + '</span>';
+    },
+  };
+
 export const Fleet = () => {
   const swiperRef = useRef<SwiperTypes | null>(null);
   const [products, setProducts] = useState([]);
   const [cats, setCats] = useState([]);
   const [activeCatByID, setActiveCatByID] = useState<string>("");
+
+
 
   const { data, error, loading } = useQuery(GET_CATS_WITH_PRODUCTS);
 
@@ -94,37 +105,15 @@ export const Fleet = () => {
                 );
               })}
           </ul>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 flex justify-end items-center gap-3 buttons-fleet">
-            <Button
-              onClick={() => {
-                swiperRef.current?.slidePrev();
-              }}
-              color="gray"
-              variant="surface"
-              radius="full"
-              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
-            >
-              <ChevronLeft />
-            </Button>
-
-            <Button
-              onClick={() => {
-                swiperRef.current?.slideNext();
-              }}
-              color="gray"
-              variant="surface"
-              radius="full"
-              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
-            >
-              <ChevronRight />
-            </Button>
-          </div>
+          
         </div>
 
         <div className="w-full">
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
+               pagination={pagination}
+        modules={[Pagination]}
             breakpoints={{
               1030: {
                 // when window width is >= 1030px
@@ -153,7 +142,7 @@ export const Fleet = () => {
                       className=" h-[250px] rounded-lg object-cover object-center outline-0 border-b bg-zinc-900 w-full"
                       alt="slider-image"
                     />
-                    <div className="mt-2">
+                    <div className="mt-2 mb-14">
                       <h4 className="text-read-18 font-medium two_line_ellipsis">
                         {item.name}
                       </h4>
@@ -173,7 +162,7 @@ export const Fleet = () => {
                             handleCreateCustomReservation(item.id as string)
                           }
                         >
-                          Select
+                          Book Now
                         </Button>
                       </div>
                     </div>
@@ -182,6 +171,31 @@ export const Fleet = () => {
               })}
           </Swiper>
         </div>
+        <div className=" w-full flex justify-between items-center gap-3  mt-5 ">
+            <Button
+              onClick={() => {
+                swiperRef.current?.slidePrev();
+              }}
+           
+              variant="surface"
+              radius="full"
+              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
+            >
+              <ChevronLeft />
+            </Button>
+
+            <Button
+              onClick={() => {
+                swiperRef.current?.slideNext();
+              }}
+           
+              variant="surface"
+              radius="full"
+              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
+            >
+              <ChevronRight />
+            </Button>
+          </div>
       </div>
     </div>
   );
