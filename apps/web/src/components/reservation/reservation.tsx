@@ -451,7 +451,7 @@ export const Reservation = observer(() => {
           <Tabs defaultValue="price-quote">
             <TabsList className="mx-5 my-5 sticky top-5 z-20">
               <TabsTrigger value="price-quote">Price Quote</TabsTrigger>
-              <TabsTrigger value="quick-receipt">Quick Receipt</TabsTrigger>
+              {/* <TabsTrigger value="quick-receipt">Quick Receipt</TabsTrigger> */}
             </TabsList>
 
             <TabsContent value="price-quote">
