@@ -106,11 +106,16 @@ export async function updateReservationAction(data: UpdateOrderDataTypes) {
 
 
 export async function deleteReservationById(_id: string) {
-  const session = await getServerSession(authOptions)
-  if(!session) {
-    return {error: "Unauthorized User"}
+  try {
+    if(!_id) return {error: "Reservation id not provided"}
+    const session = await getServerSession(authOptions)
+    if(!session) {
+      return {error: "Unauthorized User"}
+    }
+    const reservationService = new ReservationService()
+    await reservationService.deleteUserReservations(_id, session.user.id)
+    return {message: "Deleted Reservation successfully"}
+  } catch (error) {
+    return {error: "Server error"}
   }
-  const reservationService = new ReservationService()
-  reservationService.deleteUserReservations(_id, session.user.id)
-  return {message: "Deleted Reservation successfully"}
 }
