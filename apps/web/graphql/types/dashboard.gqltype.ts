@@ -58,9 +58,9 @@ export const UserReservationOrderedDataType = objectType({
           root.reserverd_car_woo_id as number,
         );
 
-        if (!response.data) {
-          await reservationService.deleteUserReservations(session.user.id)
-        }
+
+        await reservationService.deleteUserReservations(session.user.id)
+
         return response.data;
       },
     });
