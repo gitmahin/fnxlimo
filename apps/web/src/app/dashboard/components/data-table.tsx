@@ -249,32 +249,37 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     id: "manage",
     header: " ",
     cell: ({ row }) => {
-     const deleteReservation = async () => {
-  const confirmDelete = window.confirm(
-    "Are you sure you want to delete this reservation?"
-  );
+      const deleteReservation = async () => {
+        const confirmDelete = window.confirm(
+          "Are you sure you want to delete this reservation?"
+        );
 
-  if (!confirmDelete) return;
+        if (!confirmDelete) return;
 
-  // show loading toast
-  const loadingToastId = toast.loading("Deleting reservation...");
+        try {
+          const response = await deleteReservationById(row.original._id);
 
-  try {
-    const response = await deleteReservationById(row.original._id);
-
-    if (response.error) {
-      toast.error(response.error, { id: loadingToastId });
-    } else {
-      toast.success(response.message, { id: loadingToastId });
-    }
-  } catch (err) {
-    toast.error("Something went wrong!", { id: loadingToastId });
-  }
-};
+          if (response.error) {
+            throw new Error(toast.error.toString());
+          } else {
+            return;
+          }
+        } catch (err) {
+          throw new Error(err);
+        }
+      };
 
       return (
-        <Button onClick={() => deleteReservation()}>
-          <Trash2  size={24} />
+        <Button
+          onClick={() =>
+            toast.promise(deleteReservation, {
+              loading: "Loading",
+              success: "Deleted successfully",
+              error: "Error deleting reservation",
+            })
+          }
+        >
+          <Trash2 size={24} />
         </Button>
       ); // format as you like
     },
