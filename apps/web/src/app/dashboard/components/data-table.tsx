@@ -130,167 +130,6 @@ function DragHandle({ id }: { id: string }) {
   );
 }
 
-const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
-  {
-    id: "drag",
-    header: () => null,
-    cell: ({ row }) => <DragHandle id={row.original._id} />,
-  },
-  {
-    id: "car_details",
-    header: "Car Details",
-    cell: ({ row }) => {
-      const car = row.original.car_details;
-      return (
-        <div>
-          <div
-            className="font-medium text-zinc-50"
-            onClick={() =>
-              reservationServiceStore.setReservationID(row.original._id)
-            }
-          >
-            {car.name}
-          </div>
-          <div className="text-sm text-gray-500">{car.brands[0]?.name}</div>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "bags",
-    header: "Total Bags",
-    cell: ({ row }) => <div>{row.original.bags}</div>,
-  },
-  {
-    accessorKey: "passenger",
-    header: "Passenger",
-    cell: ({ row }) => <div>{row.original.passenger}</div>,
-  },
-  {
-    accessorKey: "pickup_date",
-    header: "Pickup Date",
-    cell: ({ row }) => {
-      const date = new Date(row.original.pickup_date);
-      const humanReadable = date.toLocaleDateString("en-US", {
-        weekday: "long", // "Wednesday"
-        year: "numeric",
-        month: "long", // "August"
-        day: "numeric", // "27"
-      });
-      return <div>{humanReadable}</div>;
-    },
-  },
-  {
-    accessorKey: "pickup_time",
-    header: "Pickup Time",
-    cell: ({ row }) => <div>{row.original.pickup_time}</div>,
-  },
-  {
-    accessorKey: "pickup_location",
-    header: "Pickup From",
-    cell: ({ row }) => (
-      <div>
-        {useReverseGeocode(
-          Number(row.original.dropoff_location.lat),
-          Number(row.original.dropoff_location.lng)
-        )}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "dropoff_location",
-    header: "Drop Of",
-    cell: ({ row }) => (
-      <div>
-        {useReverseGeocode(
-          Number(row.original.pickup_location.lat),
-          Number(row.original.pickup_location.lng)
-        )}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "stop_locations",
-    header: "Stopages",
-    cell: ({ row }) => (
-      <div>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline">Show Locations</Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80">
-            <div className="grid gap-4 leading-5">
-              {row.original.stop_locations.length > 0 ? (
-                row.original.stop_locations.map((item, i) => {
-                  return (
-                    <li>
-                      {useReverseGeocode(Number(item.lat), Number(item.lng))}
-                    </li>
-                  );
-                })
-              ) : (
-                <div>No stopages</div>
-              )}
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-    cell: ({ row }) => {
-      const date = new Date(row.original.createdAt);
-      return <div>{date.toLocaleDateString()}</div>; // format as you like
-    },
-  },
-  {
-    id: "manage",
-    header: " ",
-    cell: ({ row }) => {
-      const [loading, setLoading] = React.useState(false);
-      const deleteReservation = async () => {
-        const confirmDelete = window.confirm(
-          "Are you sure you want to delete this reservation?"
-        );
-
-        if (!confirmDelete) return;
-
-        try {
-          setLoading(true);
-          const response = await deleteReservationById(row.original._id);
-
-          if (response.error) {
-            console.log("Error deleting reservation");
-            throw new Error(toast.error.toString());
-          } else {
-            return;
-          }
-        } catch (err) {
-          throw new Error(err);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      return (
-        <Button
-          onClick={() =>
-            toast.promise(deleteReservation, {
-              loading: "Loading",
-              success: "Deleted Successfully",
-              error: "Error deleting reservation",
-            })
-          }
-        >
-          {loading ? "Deleting..." : <Trash2 size={24} />}
-        </Button>
-      ); // format as you like
-    },
-  },
-];
-
 function DraggableRow({
   row,
 }: {
@@ -322,6 +161,164 @@ function DraggableRow({
 
 export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const [data, setData] = React.useState(() => initialData);
+  const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
+    {
+      id: "drag",
+      header: () => null,
+      cell: ({ row }) => <DragHandle id={row.original._id} />,
+    },
+    {
+      id: "car_details",
+      header: "Car Details",
+      cell: ({ row }) => {
+        const car = row.original.car_details;
+        return (
+          <div>
+            <div
+              className="font-medium text-zinc-50"
+              onClick={() =>
+                reservationServiceStore.setReservationID(row.original._id)
+              }
+            >
+              {car.name}
+            </div>
+            <div className="text-sm text-gray-500">{car.brands[0]?.name}</div>
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "bags",
+      header: "Total Bags",
+      cell: ({ row }) => <div>{row.original.bags}</div>,
+    },
+    {
+      accessorKey: "passenger",
+      header: "Passenger",
+      cell: ({ row }) => <div>{row.original.passenger}</div>,
+    },
+    {
+      accessorKey: "pickup_date",
+      header: "Pickup Date",
+      cell: ({ row }) => {
+        const date = new Date(row.original.pickup_date);
+        const humanReadable = date.toLocaleDateString("en-US", {
+          weekday: "long", // "Wednesday"
+          year: "numeric",
+          month: "long", // "August"
+          day: "numeric", // "27"
+        });
+        return <div>{humanReadable}</div>;
+      },
+    },
+    {
+      accessorKey: "pickup_time",
+      header: "Pickup Time",
+      cell: ({ row }) => <div>{row.original.pickup_time}</div>,
+    },
+    {
+      accessorKey: "pickup_location",
+      header: "Pickup From",
+      cell: ({ row }) => (
+        <div>
+          {useReverseGeocode(
+            Number(row.original.dropoff_location.lat),
+            Number(row.original.dropoff_location.lng)
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "dropoff_location",
+      header: "Drop Of",
+      cell: ({ row }) => (
+        <div>
+          {useReverseGeocode(
+            Number(row.original.pickup_location.lat),
+            Number(row.original.pickup_location.lng)
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "stop_locations",
+      header: "Stopages",
+      cell: ({ row }) => (
+        <div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline">Show Locations</Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="grid gap-4 leading-5">
+                {row.original.stop_locations.length > 0 ? (
+                  row.original.stop_locations.map((item, i) => {
+                    return (
+                      <li>
+                        {useReverseGeocode(Number(item.lat), Number(item.lng))}
+                      </li>
+                    );
+                  })
+                ) : (
+                  <div>No stopages</div>
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) => {
+        const date = new Date(row.original.createdAt);
+        return <div>{date.toLocaleDateString()}</div>; // format as you like
+      },
+    },
+    {
+      id: "manage",
+      header: " ",
+      cell: ({ row }) => {
+        const [loading, setLoading] = React.useState(false);
+        const deleteReservation = async () => {
+          console.log("Deleting...");
+          const confirmDelete = window.confirm(
+            "Are you sure you want to delete this reservation?"
+          );
+
+          if (!confirmDelete) return;
+
+          try {
+            setLoading(true);
+            const response = await deleteReservationById(row.original._id);
+            console.log("getting the deletion response from server");
+            if (response.error) {
+              console.log("Error deleting reservation");
+              throw new Error(toast.error.toString());
+            } else {
+              setData((prev) =>
+                prev.filter((item) => item._id !== row.original._id)
+              );
+              return;
+            }
+          } catch (err) {
+            console.log(err);
+
+            throw new Error(err);
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        return (
+          <Button onClick={async () => await deleteReservation()}>
+            {loading ? "Deleting..." : <Trash2 size={24} />}
+          </Button>
+        ); // format as you like
+      },
+    },
+  ];
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
