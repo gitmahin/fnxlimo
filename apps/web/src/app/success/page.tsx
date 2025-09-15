@@ -53,13 +53,13 @@ export default function Page() {
       });
 
       const modifiedData: UpdateOrderDataTypes = {
-        order_id: Number(order_id),
+        order_id: Number(order_id || 0),
         bags: data.bags,
-        dropoff_location: pickupAddress,
+        dropoff_location: dropoffAddress,
         passenger: data.passenger,
         pickup_date: humanReadableDate,
         pickup_time: data.pickup_time,
-        pickup_location: dropoffAddress,
+        pickup_location: pickupAddress,
         product_id: data.reserverd_car_woo_id,
       };
       const response = await updateReservationAction(modifiedData);
@@ -117,14 +117,13 @@ export default function Page() {
     );
   }, [geocodingLibrary, data]);
 
-  useEffect(() => {
-    const fetchAndUpdate = async () => {
-      await handleUpdateReservation();
-    };
-    if (order_id) {
-      fetchAndUpdate();
-    }
-  }, [order_id, data, pickupAddress, dropoffAddress]);
+useEffect(() => {
+  const fetchAndUpdate = async () => {
+    if (!order_id || !data?.bags || !pickupAddress || !dropoffAddress) return;
+    await handleUpdateReservation();
+  };
+  fetchAndUpdate();
+}, [order_id, data, pickupAddress, dropoffAddress]);
 
   return (
     <div className="w-full flex justify-center flex-col items-center mt-24 ">
