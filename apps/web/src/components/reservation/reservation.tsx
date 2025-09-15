@@ -693,7 +693,7 @@ export const Reservation = observer(() => {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="quick-receipt">
+            {/* <TabsContent value="quick-receipt">
               <Card className="!p-0 !rounded-none !border-0 !bg-transparent !pb-10">
                 <CardHeader>
                   <CardTitle>Quick Receipt</CardTitle>
@@ -702,7 +702,7 @@ export const Reservation = observer(() => {
                   <QuickReservation />
                 </CardContent>
               </Card>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         )}
       </div>
