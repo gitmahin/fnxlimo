@@ -106,7 +106,6 @@ export async function updateReservationAction(data: UpdateOrderDataTypes) {
 
 
 export async function deleteReservationById(_id: string) {
-  if(!_id) return {error: "Reservation not provided"}
   const session = await getServerSession(authOptions)
   if(!session) {
     return {error: "Unauthorized User"}
