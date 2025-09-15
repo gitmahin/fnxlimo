@@ -251,7 +251,6 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     cell: ({ row }) => {
       const [loading, setLoading] = React.useState(false);
       const deleteReservation = async () => {
-        console.log("Deleting...");
         const confirmDelete = window.confirm(
           "Are you sure you want to delete this reservation?"
         );
@@ -261,7 +260,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
         try {
           setLoading(true);
           const response = await deleteReservationById(row.original._id);
-          console.log("getting the deletion response from server");
+
           if (response.error) {
             console.log("Error deleting reservation");
             throw new Error(toast.error.toString());
@@ -269,8 +268,6 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
             return;
           }
         } catch (err) {
-          console.log(err);
-
           throw new Error(err);
         } finally {
           setLoading(false);
@@ -278,11 +275,16 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       };
 
       return (
-        <Button onClick={async () => await deleteReservation()}>
-          {
-            loading ? "Deleting..." :
-          <Trash2 size={24} />
+        <Button
+          onClick={() =>
+            toast.promise(deleteReservation, {
+              loading: "Loading",
+              success: "Deleted Successfully",
+              error: "Error deleting reservation",
+            })
           }
+        >
+          {loading ? "Deleting..." : <Trash2 size={24} />}
         </Button>
       ); // format as you like
     },
