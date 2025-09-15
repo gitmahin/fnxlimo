@@ -70,25 +70,22 @@ export const Header = () => {
                   <AlignRight size={18} />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="px-2">
+              <SheetContent className="px-2 text-left">
                 <Link href="/auth/login">
-                  <Button color="gray" variant="soft" radius="large">
+                 
                     Login
-                  </Button>
+               
                 </Link>
                 <Link href="/auth/signup">
-                  <Button color="purple" variant="surface" radius="large">
+             
                     Sign up
-                  </Button>
+           
                 </Link>
-                <Button
-                  color="purple"
-                  radius="large"
-                  className="!cursor-pointer"
+                <div
                   onClick={() => reservationServiceStore.setIspopup(true)}
                 >
                   Book Now
-                </Button>
+                </div>
                 <MainMenu />
               </SheetContent>
             </Sheet>

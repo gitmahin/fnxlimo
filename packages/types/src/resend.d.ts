@@ -5,5 +5,5 @@ export type SendOrderConfirmationEmailDataType = {
   dropoff_location: string;
   passenger: string;
   bags: string;
-  order_id: number;
+  order_id: string;
 };

@@ -32,7 +32,7 @@ export default function Page() {
       console.log("data mahin", response.data);
       setData(response.data);
     } catch (error) {
-      console.log(error);
+  
       toast.error("Something went wrong");
     } finally {
       setLoading(false);
@@ -67,10 +67,10 @@ export default function Page() {
         toast.success("Reservation created success");
         router.push("/auth/login");
       } else {
-        toast.error(response.error || "Cannot create reservation");
+        toast.error("Cannot create reservation");
       }
     } catch (error) {
-      console.log(error);
+  
       toast.error("Something went wrong");
       router.push("/auth/login");
     } finally {
