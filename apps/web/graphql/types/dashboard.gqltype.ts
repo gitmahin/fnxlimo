@@ -13,6 +13,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { GraphQLDateTime } from "graphql-scalars";
 
 export const GQLDate = asNexusMethod(GraphQLDateTime, "date");
+const reservationService = new ReservationService();
 
 const LocationDataType = objectType({
   name: "locationDataType",
@@ -48,9 +49,18 @@ export const UserReservationOrderedDataType = objectType({
       type: Products,
       async resolve(root) {
         const productService = new ProductService();
+
+        const session = await getServerSession(authOptions)
+        if (!session) {
+          return null
+        }
         const response = await productService.getProduct(
           root.reserverd_car_woo_id as number,
         );
+
+        if (!response.data) {
+          await reservationService.deleteUserReservations(session.user.id)
+        }
         return response.data;
       },
     });
@@ -64,7 +74,6 @@ export const QueryUserReservationOrderedData = extendType({
       type: UserReservationOrderedDataType,
       // @ts-ignore
       async resolve(_root) {
-        const reservationService = new ReservationService();
         const session = await getServerSession(authOptions);
         if (!session) {
           return null;
