@@ -16,25 +16,25 @@ export abstract class ApiService {
     });
   }
 
-  protected get(url: string, params?: {}, config: AxiosRequestConfig = {}) {
+  get(url: string, params?: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.get(url, {
       ...params,
       ...config,
     });
   }
 
-  protected post(url: string, data: {}, params?: {}, config: AxiosRequestConfig = {}) {
+  post(url: string, data: {}, params?: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.post(url, data, {
       ...params,
       ...config,
     });
   }
 
-  protected put(url: string, data: {}, config: AxiosRequestConfig = {}) {
+  put(url: string, data: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.put(url, data, config);
   }
 
-  protected patch(url: string, data: {}, config: AxiosRequestConfig = {}) {
+  patch(url: string, data: {}, config: AxiosRequestConfig = {}) {
     return this.axiosInstance.patch(url, data, config);
   }
 }
