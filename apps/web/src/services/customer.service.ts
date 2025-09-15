@@ -15,7 +15,7 @@ type CreateWooCustomer = {
   phone?: string;
 };
 
-type CustomerGetType = {
+export type CustomerGetType = {
   email: string
   first_name: string
   last_name: string
