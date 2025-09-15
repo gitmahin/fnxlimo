@@ -249,30 +249,28 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     id: "manage",
     header: " ",
     cell: ({ row }) => {
-      const deleteReservation = async () => {
-        const confirmDelete = window.confirm(
-          "Are you sure you want to delete this reservation?"
-        );
+     const deleteReservation = async () => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this reservation?"
+  );
 
-        if (!confirmDelete) {
-          // User clicked cancel
-          return;
-        }
+  if (!confirmDelete) return;
 
-        try {
-          const response = await deleteReservationById(
-            row.original._id
-          );
+  // show loading toast
+  const loadingToastId = toast.loading("Deleting reservation...");
 
-          if (response.error) {
-            window.alert(response.error);
-          } else {
-            toast.success(response.message);
-          }
-        } catch (err) {
-          window.alert("Something went wrong!");
-        }
-      };
+  try {
+    const response = await deleteReservationById(row.original._id);
+
+    if (response.error) {
+      toast.error(response.error, { id: loadingToastId });
+    } else {
+      toast.success(response.message, { id: loadingToastId });
+    }
+  } catch (err) {
+    toast.error("Something went wrong!", { id: loadingToastId });
+  }
+};
 
       return (
         <Button onClick={() => deleteReservation()}>
