@@ -1,0 +1,55 @@
+import { SendOrderConfirmationEmailDataType } from "@fnx/types";
+import {
+  Html,
+  Head,
+  Preview,
+  Heading,
+  Row,
+  Section,
+  Text,
+  Link,
+  Column,
+} from "@react-email/components";
+
+interface ConfirmationEmail {
+  name: string;
+  email: string;
+  data: SendOrderConfirmationEmailDataType;
+}
+
+export default function ConfirmationEmail({
+  name,
+  email,
+  data,
+}: ConfirmationEmail) {
+  return (
+    <Html>
+      <Head>
+        <title>Reservation Confirmed</title>
+      </Head>
+      <Preview>
+        Hey {name} your reservation has been confirmed successfully. Here is
+        your reservation details.
+      </Preview>
+      <Section>
+        <Row>
+          <Heading>Hello {name}</Heading>
+        </Row>
+        <Row>
+          <Heading>Your Reservation Details</Heading>
+          <Text>Your Email: {email}</Text>
+        </Row>
+        <Section>
+          <Row>
+            <Column>Pickup Date: {data.pickup_date}</Column>
+            <Column>Pickup Time: {data.pickup_time}</Column>
+            <Column>Pickup Location: {data.pickup_location}</Column>
+            <Column>DropOff Location: {data.dropoff_location}</Column>
+            <Column>Passenger: {data.passenger}</Column>
+            <Column>Bags: {data.bags}</Column>
+          </Row>
+        </Section>
+      </Section>
+    </Html>
+  );
+}

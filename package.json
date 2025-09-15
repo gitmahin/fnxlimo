@@ -31,6 +31,7 @@
     "@graphql-yoga/plugin-disable-introspection": "^2.16.1",
     "@radix-ui/themes": "^3.2.1",
     "@tailwindcss/postcss": "^4.1.11",
+        "@fnx/types": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "crypto": "^1.0.1",
