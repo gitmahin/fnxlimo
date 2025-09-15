@@ -77,28 +77,26 @@ export async function updateReservationAction(data: UpdateOrderDataTypes) {
     }
     await reservationService.updateReservation(data, session.user.id);
 
-    try {
-      await resend.sendOrderConfirmationEmail(
-        "Reservation Confirmed",
-        "reservation",
-        {
-          name: session.user.name,
-          email: session.user.email,
-          subject: "Your reservation has been confirmed successfully",
-        },
-        {
-          pickup_date: data.pickup_date.toString(),
-          pickup_time: data.pickup_time.toString(),
-          pickup_location: data.pickup_location.toString(),
-          dropoff_location: data.dropoff_location.toString(),
-          passenger: data.passenger.toString(),
-          bags: data.bags.toString(),
-          order_id: data.order_id.toString(),
-        },
-      );
-    } catch (error) {
-      return { error: "Error confirmation email sending." };
-    }
+
+    await resend.sendOrderConfirmationEmail(
+      "Reservation Confirmed",
+      "reservation",
+      {
+        name: session.user.name,
+        email: session.user.email,
+        subject: "Your reservation has been confirmed successfully",
+      },
+      {
+        pickup_date: data.pickup_date.toString(),
+        pickup_time: data.pickup_time.toString(),
+        pickup_location: data.pickup_location.toString(),
+        dropoff_location: data.dropoff_location.toString(),
+        passenger: data.passenger.toString(),
+        bags: data.bags.toString(),
+        order_id: data?.order_id?.toString(),
+      },
+    );
+
     return { message: "success" };
   } catch (error) {
     console.log(error);
