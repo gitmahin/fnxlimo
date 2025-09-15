@@ -26,7 +26,7 @@ export default function ProfilePage() {
             <b>Email: </b> {data?.user.email}
           </p>
           <p>
-            <b>Username: </b> {data?.user.email}
+            <b>Username: </b> {data?.user.username}
           </p>
           <p>
             <b>Customer Id: </b> {data?.user.woo_id}
