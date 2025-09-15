@@ -1,8 +1,10 @@
 {
   "extends": "@fnx/typescript-config/react-library.json",
   "compilerOptions": {
+  "outDir": "dist",
+    "jsx": "react",
     "lib": ["esnext", "dom"]
   },
   "include": ["."],
-  "exclude": ["node_modules"]
+ "exclude": ["dist", "build", "node_modules"]
 }
