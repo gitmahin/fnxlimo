@@ -42,6 +42,7 @@ export const reservationSchema = z.object({
   pickup_location: locationSchema,
   dropoff_location: locationSchema,
   car_details: carDetailsSchema,
+  reserverd_car_woo_id: z.number()
 });
 
 // Type from schema

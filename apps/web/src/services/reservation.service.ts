@@ -138,7 +138,7 @@ export class ReservationService extends WooCommerceService {
     await connDb();
 
     const reservations = await reservationModel
-      .find({ user: new mongoose.Types.ObjectId(userId) })
+      .find({ user: new mongoose.Types.ObjectId(userId) }).sort({createdAt: -1})
       .lean();
     return reservations;
   }

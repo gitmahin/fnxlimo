@@ -107,6 +107,8 @@ import { gql, useQuery } from "@apollo/client";
 import { observer } from "mobx-react";
 import { useReverseGeocode } from "@/hooks";
 import { TableCellViewer } from "./SingleCarView";
+import { Delete } from "lucide-react";
+import { deleteReservationById } from "@/actions/server.actions";
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: string }) {
@@ -190,7 +192,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       <div>
         {useReverseGeocode(
           Number(row.original.dropoff_location.lat),
-          Number(row.original.dropoff_location.lng),
+          Number(row.original.dropoff_location.lng)
         )}
       </div>
     ),
@@ -202,7 +204,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       <div>
         {useReverseGeocode(
           Number(row.original.pickup_location.lat),
-          Number(row.original.pickup_location.lng),
+          Number(row.original.pickup_location.lng)
         )}
       </div>
     ),
@@ -243,6 +245,42 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       return <div>{date.toLocaleDateString()}</div>; // format as you like
     },
   },
+  {
+    id: "manage",
+    header: " ",
+    cell: ({ row }) => {
+      const deleteReservation = async () => {
+        const confirmDelete = window.confirm(
+          "Are you sure you want to delete this reservation?"
+        );
+
+        if (!confirmDelete) {
+          // User clicked cancel
+          return;
+        }
+
+        try {
+          const response = await deleteReservationById(
+            row.original.reserverd_car_woo_id
+          );
+
+          if (response.error) {
+            window.alert(response.error);
+          } else {
+            toast.success(response.message);
+          }
+        } catch (err) {
+          window.alert("Something went wrong!");
+        }
+      };
+
+      return (
+        <Button onClick={() => deleteReservation()}>
+          <Delete size={24} />
+        </Button>
+      ); // format as you like
+    },
+  },
 ];
 
 function DraggableRow({
@@ -280,7 +318,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -291,12 +329,12 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {}),
+    useSensor(KeyboardSensor, {})
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => (data ? data.map(({ _id }) => _id) : []),
-    [data],
+    [data]
   );
 
   const table = useReactTable({
@@ -354,7 +392,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
                 .filter(
                   (column) =>
                     typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide(),
+                    column.getCanHide()
                 )
                 .map((column) => {
                   return (
@@ -394,7 +432,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext(),
+                                header.getContext()
                               )}
                         </TableHead>
                       );

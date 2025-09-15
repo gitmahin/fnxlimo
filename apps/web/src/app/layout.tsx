@@ -54,7 +54,12 @@ export default function RootLayout({
                   <ThemeProvider attribute={"class"} defaultTheme="dark">
                     <ReservationPopUp />
                     {children}
-                    <Toaster position="top-right" />
+                    <Toaster
+                    
+          position="top-right"
+          containerStyle={{ zIndex: 2147483647 }}
+          toastOptions={{ style: { zIndex: 2147483647 } }}
+        />
                   </ThemeProvider>
                 </LocationApiProvider>
               </Theme>

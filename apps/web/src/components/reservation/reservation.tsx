@@ -397,7 +397,7 @@ export const Reservation = observer(() => {
           </div>
         </Map>
       </div>
-      <div className="border-r h-full overflow-y-auto p-1">
+      <div className="border-r h-full overflow-y-auto p-1 ">
         {filteredCars.length > 0 && (
           <FnxButton onClick={() => setFilteredCars([])}>Close</FnxButton>
         )}
@@ -455,7 +455,7 @@ export const Reservation = observer(() => {
             </TabsList>
 
             <TabsContent value="price-quote">
-              <Card className="!p-0 !rounded-none !border-0">
+              <Card className="!p-0 !rounded-none !border-0 !bg-transparent !pb-10">
                 <CardHeader>
                   <CardTitle>Price Quote</CardTitle>
 
@@ -490,7 +490,7 @@ export const Reservation = observer(() => {
                   </div>
                 </CardHeader>
                 <CardContent className="!p-0 overflow-y-auto h-full">
-                  <div className="flex justify-center items-center gap-5 p-5 w-full">
+                  <div className="flex justify-center items-center gap-5 p-2 py-5 w-full">
                     <div className="w-full ">
                       <Label className="mb-1">Pickup Date</Label>
                       <Calendar29
@@ -514,7 +514,7 @@ export const Reservation = observer(() => {
                   </div>
 
                   {priceQuoteType === priceQuoteTypeEnums.HOURLY && (
-                    <div className="w-full px-5 mb-10">
+                    <div className="w-full px-2 mb-10">
                       <div className="flex justify-start items-center gap-3">
                         <Label>Trip calculation</Label>
                         <RadioGroup
@@ -580,7 +580,7 @@ export const Reservation = observer(() => {
                     </div>
                   )}
 
-                  <div className="w-full h-fit px-5">
+                  <div className="w-full h-fit px-2">
                     <div>
                       <PlaceAutocompleteInput
                         id="pickup"
@@ -668,7 +668,7 @@ export const Reservation = observer(() => {
                     </div>
                   </div>
 
-                  <div className="w-full flex justify-start items-center gap-5 px-5 py-5">
+                  <div className="w-full flex justify-start items-center gap-5 px-2 py-5 counters">
                     <div>
                       <Label className="mb-1">Passengers</Label>
                       <PassengerCounter />
@@ -678,7 +678,7 @@ export const Reservation = observer(() => {
                       <BagsCounter />
                     </div>
                   </div>
-                  <div className="p-5 pt-0 flex justify-center items-center gap-5">
+                  <div className="p-2 py-5 pt-0 flex justify-center items-center gap-5">
                     <FnxButton variant="destructive" className="!w-full shrink">
                       Cancel
                     </FnxButton>
@@ -694,7 +694,7 @@ export const Reservation = observer(() => {
               </Card>
             </TabsContent>
             <TabsContent value="quick-receipt">
-              <Card className="!p-0 !rounded-none !border-0">
+              <Card className="!p-0 !rounded-none !border-0 !bg-transparent !pb-10">
                 <CardHeader>
                   <CardTitle>Quick Receipt</CardTitle>
                 </CardHeader>

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import {
+  Button,
   Command,
   CommandDialog,
   CommandEmpty,
@@ -19,10 +20,19 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
 } from "@fnx/ui";
 import React, { useEffect } from "react";
 import { Reservation } from "./reservation/reservation";
 import { reservationServiceStore } from "@/services/store";
+import toast from "react-hot-toast";
 
 export const ReservationPopUp = observer(() => {
   useEffect(() => {
@@ -36,14 +46,18 @@ export const ReservationPopUp = observer(() => {
     return () => document.removeEventListener("keydown", down);
   }, []);
   return (
-    <CommandDialog
+    <Drawer
       open={reservationServiceStore.isPopup}
       onOpenChange={(open) => reservationServiceStore.setIspopup(open)}
-      className="!max-w-[900px] !w-full"
     >
-      <div className="h-[calc(100vh-200px)] rpopup">
-        <Reservation />
-      </div>
-    </CommandDialog>
+      <DrawerContent className="!h-screen">
+        <DrawerClose className="absolute right-2 top-2">
+          <Button variant="outline">Cancel</Button>
+        </DrawerClose>
+        <div className="!h-full rpopup">
+          <Reservation />
+        </div>
+      </DrawerContent>
+    </Drawer>
   );
 });

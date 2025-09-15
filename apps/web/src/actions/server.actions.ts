@@ -103,3 +103,15 @@ export async function updateReservationAction(data: UpdateOrderDataTypes) {
     return { error: "Error" };
   }
 }
+
+
+export async function deleteReservationById(reserved_car_id: number) {
+  if(!reserved_car_id) return {error: "Reservation not provided"}
+  const session = await getServerSession(authOptions)
+  if(!session) {
+    return {error: "Unauthorized User"}
+  }
+  const reservationService = new ReservationService()
+  reservationService.deleteUserReservations(reserved_car_id)
+  return {message: "Deleted Reservation successfully"}
+}

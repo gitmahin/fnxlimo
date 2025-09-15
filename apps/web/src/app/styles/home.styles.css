@@ -33,11 +33,11 @@
 
 @media screen and (max-width: 810px) {
   .reservation-box{
-    @apply !grid-cols-1 grid-rows-[250px_1fr];
+    @apply !grid-cols-1 grid-rows-[150px_1fr];
   }
 
   .rpopup{
-    @apply !h-[100vh]
+    @apply !h-[calc(100vh-150px)]
   }
 
 }
@@ -80,6 +80,12 @@
 
   .hero-car-image {
     @apply opacity-30;
+  }
+
+  .counters{
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
   }
 }
 
@@ -151,4 +157,18 @@
 .main_hero_heading_sync {
   font-size: clamp(35px, 5vw, 56px);
   line-height: 1.2;
+}
+
+
+.custom-toast{
+  z-index: 99999999999999999999999999 !important;
+}
+
+.sonner_id {
+  z-index: 99999999999999999999999999 !important;
+
+}
+
+[data-react-hot-toast] {
+  z-index: 99999999999999999999999999 !important;
 }

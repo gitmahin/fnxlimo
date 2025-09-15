@@ -14,24 +14,35 @@ function my_acf_google_map_api( $api ){
 }
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 
-add_action('template_redirect', function() {
-    // Only run if ?checkout=ID exists
+add_action('wp', function() {
     if (isset($_GET['checkout'])) {
         $product_id = intval($_GET['checkout']);
 
         if ($product_id > 0 && function_exists('WC')) {
-            // Empty existing cart (optional)
-            WC()->cart->empty_cart();
+            $product = wc_get_product($product_id);
+
+
+            // Ensure cart exists
+            if (!WC()->cart) {
+                wc_load_cart();
+            }
+
+            // Empty existing cart and save immediately
+            WC()->cart->empty_cart(true);
 
             // Add product to cart
             WC()->cart->add_to_cart($product_id);
 
-            // Redirect to checkout page
+            // Save cart cookies
+            WC()->cart->maybe_set_cart_cookies();
+
+            // Redirect to checkout
             wp_safe_redirect(wc_get_checkout_url());
             exit;
         }
     }
 });
+
 
 
 
@@ -107,4 +118,6 @@ function custom_redirect_after_checkout($url, $order) {
     $redirect_url = "https://finixlimo.com/success?order=" . $order_id;
 
     return $redirect_url;
-}
+};
+
+add_action('woocommerce_order_status_completed', 'send_custom_order_email', 10, 1);
