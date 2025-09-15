@@ -42,10 +42,20 @@ export default function ConfirmationEmail({
         <Section>
           <Row>
             <Column>Pickup Date: {data.pickup_date}</Column>
+          </Row>
+          <Row>
             <Column>Pickup Time: {data.pickup_time}</Column>
+          </Row>
+          <Row>
             <Column>Pickup Location: {data.pickup_location}</Column>
+          </Row>
+          <Row>
             <Column>DropOff Location: {data.dropoff_location}</Column>
+          </Row>
+          <Row>
             <Column>Passenger: {data.passenger}</Column>
+          </Row>
+          <Row>
             <Column>Bags: {data.bags}</Column>
           </Row>
         </Section>
