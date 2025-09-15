@@ -188,9 +188,9 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     header: "Pickup From",
     cell: ({ row }) => (
       <div>
-       {useReverseGeocode(
+        {useReverseGeocode(
           Number(row.original.dropoff_location.lat),
-          Number(row.original.dropoff_location.lng)
+          Number(row.original.dropoff_location.lng),
         )}
       </div>
     ),
@@ -202,9 +202,8 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
       <div>
         {useReverseGeocode(
           Number(row.original.pickup_location.lat),
-          Number(row.original.pickup_location.lng)
+          Number(row.original.pickup_location.lng),
         )}
-        
       </div>
     ),
   },
@@ -281,7 +280,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
@@ -292,12 +291,12 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
-    useSensor(KeyboardSensor, {})
+    useSensor(KeyboardSensor, {}),
   );
 
   const dataIds = React.useMemo<UniqueIdentifier[]>(
     () => (data ? data.map(({ _id }) => _id) : []),
-    [data]
+    [data],
   );
 
   const table = useReactTable({
@@ -355,7 +354,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
                 .filter(
                   (column) =>
                     typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide()
+                    column.getCanHide(),
                 )
                 .map((column) => {
                   return (
@@ -395,7 +394,7 @@ export function DataTable({ data: initialData }: { data: ReservationType[] }) {
                             ? null
                             : flexRender(
                                 header.column.columnDef.header,
-                                header.getContext()
+                                header.getContext(),
                               )}
                         </TableHead>
                       );

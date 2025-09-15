@@ -1,2 +1,2 @@
-export * from "./apollo-client-provider"
-export * from "./LocationApiProvider"
+export * from "./apollo-client-provider";
+export * from "./LocationApiProvider";

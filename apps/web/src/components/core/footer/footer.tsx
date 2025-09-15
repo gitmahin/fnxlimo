@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Badge, Button } from "@radix-ui/themes";
 import { MainMenu } from "../header/main-menu";
 import Link from "next/link";
@@ -24,7 +24,7 @@ const SOCIAL_LINKS: SocialLinksType[] = [
 ];
 
 export const Footer = () => {
-      const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="w-full mt-28 border-t py-10 px-5" id="contact">
       <div className="default_layout_width">
@@ -37,7 +37,9 @@ export const Footer = () => {
           </Button>
         </div>
         <div className="flex justify-between items-end foot_menu_header">
-          <h2 className="text-read-56 font-medium our_fleet_heading">Ready To Travel?</h2>
+          <h2 className="text-read-56 font-medium our_fleet_heading">
+            Ready To Travel?
+          </h2>
 
           <MainMenu />
         </div>
@@ -90,12 +92,11 @@ export const Footer = () => {
           </div>
         </div>
 
-
         {/* copyright */}
         <div className="w-full mt-10">
-            <p className="w-full text-center text-read-14 font-medium text-zinc-400">
+          <p className="w-full text-center text-read-14 font-medium text-zinc-400">
             © {currentYear} Prime Limo. All rights reserved.
-            </p>
+          </p>
         </div>
       </div>
     </footer>

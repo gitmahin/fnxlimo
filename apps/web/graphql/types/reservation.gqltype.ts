@@ -13,7 +13,7 @@ const ReservationProductType = objectType({
       type: Products,
       async resolve(root) {
         const response = await productService.getProduct(
-          root.product_id as number
+          root.product_id as number,
         );
         return response.data;
       },

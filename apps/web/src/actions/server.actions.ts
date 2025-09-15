@@ -5,6 +5,7 @@ import connDb from "@/lib/connDb";
 import { LocationType } from "@/models/reservation.model";
 import {
   CreateUserReservationType,
+  ResendService,
   ReservationService,
   UpdateOrderDataTypes,
 } from "@/services";
@@ -57,7 +58,7 @@ export async function getSingleUserReservationAction() {
       return { error: "Invalid user" };
     }
     const response = await reservationService.getUserSingleReservation(
-      session.user.id
+      session.user.id,
     );
     const plain = JSON.parse(JSON.stringify(response));
     return { data: plain };
@@ -69,11 +70,35 @@ export async function getSingleUserReservationAction() {
 export async function updateReservationAction(data: UpdateOrderDataTypes) {
   try {
     const reservationService = new ReservationService();
+    const resend = new ResendService();
     const session = await getServerSession(authOptions);
     if (!session) {
       return { error: "Invalid user" };
     }
     await reservationService.updateReservation(data, session.user.id);
+
+    try {
+      await resend.sendOrderConfirmationEmail(
+        "Reservation Confirmed",
+        "reservation",
+        {
+          name: session.user.name,
+          email: session.user.email,
+          subject: "Your reservation has been confirmed successfully",
+        },
+        {
+          pickup_date: data.pickup_date,
+          pickup_time: data.pickup_time,
+          pickup_location: data.pickup_location,
+          dropoff_location: data.dropoff_location,
+          passenger: data.passenger,
+          bags: data.bags,
+          order_id: data.order_id,
+        },
+      );
+    } catch (error) {
+      return { error: "Error confirmation email sending." };
+    }
     return { message: "success" };
   } catch (error) {
     console.log(error);

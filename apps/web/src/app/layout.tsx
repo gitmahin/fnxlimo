@@ -4,7 +4,7 @@ import "@radix-ui/themes/styles.css";
 import "@fnx/ui/styles/globals.css";
 // Import Swiper styles
 import "swiper/css";
-import 'swiper/css/pagination';
+import "swiper/css/pagination";
 import "./styles/home.styles.css";
 import { ThemeProvider } from "next-themes";
 import { Theme } from "@radix-ui/themes";
@@ -27,7 +27,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Reserve Your Best Car | Finixlimo",
-  description: "Car Reservation Software. Made by DEB Team. Contact: https://debbd.com/contact-us",
+  description:
+    "Car Reservation Software. Made by DEB Team. Contact: https://debbd.com/contact-us",
 };
 
 export default function RootLayout({

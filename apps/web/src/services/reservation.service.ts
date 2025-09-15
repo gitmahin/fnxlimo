@@ -70,7 +70,6 @@ export type CreateCustomReservationType = {
   }[];
 };
 
-
 export class ReservationService extends WooCommerceService {
   async createUserReservation({
     objectId,
@@ -115,14 +114,13 @@ export class ReservationService extends WooCommerceService {
         headers: {
           Authorization: auth,
         },
-      }
+      },
     );
 
-    const reservation = await reservationModel
-      .findOne({
-        user: new mongoose.Types.ObjectId(userId),
-        status: ReservationStatusType.CURRENT,
-      })
+    const reservation = await reservationModel.findOne({
+      user: new mongoose.Types.ObjectId(userId),
+      status: ReservationStatusType.CURRENT,
+    });
 
     reservation.order_id = data.order_id;
     reservation.status = ReservationStatusType.OLD;
@@ -159,8 +157,6 @@ export class ReservationService extends WooCommerceService {
   }
 
   async createCustomReservation(data: CreateCustomReservationType) {
-    const response = await this.post("/wp-json/wc/v3/orders", data)
-    
-
+    const response = await this.post("/wp-json/wc/v3/orders", data);
   }
 }

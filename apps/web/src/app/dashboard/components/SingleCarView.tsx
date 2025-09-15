@@ -83,16 +83,19 @@ export const TableCellViewer = observer(() => {
 
   const pickupLocation = useReverseGeocode(
     Number(reservationData?.pickup_location.lat),
-    Number(reservationData?.pickup_location.lng)
+    Number(reservationData?.pickup_location.lng),
   );
 
   const dropOff = useReverseGeocode(
     Number(reservationData?.dropoff_location.lat),
-    Number(reservationData?.dropoff_location.lng)
+    Number(reservationData?.dropoff_location.lng),
   );
 
   return (
-    <Drawer direction={isMobile ? "bottom" : "right"} open={reservationServiceStore.reservationID !== ""}>
+    <Drawer
+      direction={isMobile ? "bottom" : "right"}
+      open={reservationServiceStore.reservationID !== ""}
+    >
       <DrawerContent draggable={false}>
         <DrawerHeader className="gap-1">
           <DrawerTitle>{reservationData?.car_details.name}</DrawerTitle>

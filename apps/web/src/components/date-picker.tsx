@@ -45,7 +45,7 @@ export function Calendar29({ onValueChange }: Calendar29Props) {
     return `${tomorrow.toISOString().split("T")[0]}`; // format: YYYY-MM-DD
   });
   const [date, setDate] = React.useState<Date | undefined>(
-    parseDate(value) || undefined
+    parseDate(value) || undefined,
   );
   const [month, setMonth] = React.useState<Date | undefined>(date);
 

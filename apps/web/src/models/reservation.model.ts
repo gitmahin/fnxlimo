@@ -76,12 +76,12 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
     status: {
       type: String,
       enum: ReservationStatusType,
-      default: ReservationStatusType.CURRENT
+      default: ReservationStatusType.CURRENT,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const reservationModel =

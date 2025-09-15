@@ -95,23 +95,23 @@ export const Products = objectType({
 const ProductCategoryImageType = objectType({
   name: "ProductCategoryImageType",
   definition(t) {
-    t.string("src")
+    t.string("src");
   },
-})
+});
 
 export const ProductCategories = objectType({
   name: "ProductCategory",
   definition(t) {
-    t.int("id")
-    t.string("name")
-    t.string("slug")
-    t.string("description")
+    t.int("id");
+    t.string("name");
+    t.string("slug");
+    t.string("description");
     t.field("image", {
-      type: ProductCategoryImageType
-    })
-    t.string("count")
+      type: ProductCategoryImageType,
+    });
+    t.string("count");
   },
-})
+});
 
 export const CategoriesWithProducts = objectType({
   name: "CategoriesWithProducts",
@@ -140,7 +140,7 @@ export const ProductsQuery = extendType({
       },
       async resolve(_root, args: { categoryID?: number | null }) {
         const response = await productService.getProducts(
-          args.categoryID as number
+          args.categoryID as number,
         );
 
         return response.data;
@@ -149,7 +149,7 @@ export const ProductsQuery = extendType({
   },
 });
 
-export const QueryProductCategories = extendType( {
+export const QueryProductCategories = extendType({
   type: "Query",
   definition(t) {
     t.list.field("productCategories", {
@@ -157,10 +157,10 @@ export const QueryProductCategories = extendType( {
       async resolve() {
         const response = await productService.getProductsCategories();
         return response.data;
-      }
-    })
+      },
+    });
   },
-})
+});
 
 export const GetCategoriesWithProducts = extendType({
   type: "Query",

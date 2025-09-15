@@ -1,7 +1,3 @@
-type OurFleetType = {
+type OurFleetType = {};
 
-}
-
-export const OUR_FLEETS = {
-
-}
+export const OUR_FLEETS = {};

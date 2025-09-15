@@ -13,7 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperTypes } from "swiper/types";
 import { gql, useQuery } from "@apollo/client";
 import { reservationServiceStore } from "@/services/store";
-import { Pagination } from 'swiper/modules';
+import { Pagination } from "swiper/modules";
 import toast from "react-hot-toast";
 
 type FleetCategoriesType = {
@@ -42,21 +42,18 @@ const GET_CATS_WITH_PRODUCTS = gql`
   }
 `;
 
-
-    const pagination = {
-    clickable: true,
-    renderBullet: function (index, className) {
-      return '<span class="' + className + '">' + (index + 1) + '</span>';
-    },
-  };
+const pagination = {
+  clickable: true,
+  renderBullet: function (index, className) {
+    return '<span class="' + className + '">' + (index + 1) + "</span>";
+  },
+};
 
 export const Fleet = () => {
   const swiperRef = useRef<SwiperTypes | null>(null);
   const [products, setProducts] = useState([]);
   const [cats, setCats] = useState([]);
   const [activeCatByID, setActiveCatByID] = useState<string>("");
-
-
 
   const { data, error, loading } = useQuery(GET_CATS_WITH_PRODUCTS);
 
@@ -105,15 +102,14 @@ export const Fleet = () => {
                 );
               })}
           </ul>
-          
         </div>
 
         <div className="w-full">
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
-               pagination={pagination}
-        modules={[Pagination]}
+            pagination={pagination}
+            modules={[Pagination]}
             breakpoints={{
               1030: {
                 // when window width is >= 1030px
@@ -134,7 +130,6 @@ export const Fleet = () => {
               products?.map((item: any, i: number) => {
                 return (
                   <SwiperSlide key={i} className="!h-fit">
-                   
                     <Image
                       src={item.images[0]?.src || null}
                       width={500}
@@ -172,30 +167,28 @@ export const Fleet = () => {
           </Swiper>
         </div>
         <div className=" w-full flex justify-between items-center gap-3  mt-5 ">
-            <Button
-              onClick={() => {
-                swiperRef.current?.slidePrev();
-              }}
-           
-              variant="surface"
-              radius="full"
-              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
-            >
-              <ChevronLeft />
-            </Button>
+          <Button
+            onClick={() => {
+              swiperRef.current?.slidePrev();
+            }}
+            variant="surface"
+            radius="full"
+            className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
+          >
+            <ChevronLeft />
+          </Button>
 
-            <Button
-              onClick={() => {
-                swiperRef.current?.slideNext();
-              }}
-           
-              variant="surface"
-              radius="full"
-              className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
-            >
-              <ChevronRight />
-            </Button>
-          </div>
+          <Button
+            onClick={() => {
+              swiperRef.current?.slideNext();
+            }}
+            variant="surface"
+            radius="full"
+            className="!w-[40px] !h-[40px] !flex !justify-center !items-center !p-0"
+          >
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
     </div>
   );

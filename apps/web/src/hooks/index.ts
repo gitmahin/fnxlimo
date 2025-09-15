@@ -1,1 +1,1 @@
-export * from "./useReverseGeoCode"
+export * from "./useReverseGeoCode";

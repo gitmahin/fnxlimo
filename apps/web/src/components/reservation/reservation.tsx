@@ -93,7 +93,7 @@ const DirectionsController = ({
         } else {
           alert("Directions request failed due to " + status);
         }
-      }
+      },
     );
   }, [origin, destination, map]);
 
@@ -122,7 +122,7 @@ const PanToCurrentLocationButton = () => {
             position: pos,
           }).open(map);
         },
-        () => {}
+        () => {},
       );
     } else {
     }
@@ -238,11 +238,10 @@ export const Reservation = observer(() => {
         return;
       }
 
-
       if (reservationServiceStore.reservationID !== "") {
         handleCreateReservations(Number(reservationServiceStore.reservationID));
-        
-      setGettingCars(false);
+
+        setGettingCars(false);
         return;
       }
 
@@ -279,7 +278,7 @@ export const Reservation = observer(() => {
         if (status === "OK" && result) {
           directionsRenderer.setDirections(result);
         }
-      }
+      },
     );
 
     return () => {
@@ -303,13 +302,15 @@ export const Reservation = observer(() => {
 
   const handleChange = (id: string, newValue: string) => {
     setStops((prev) =>
-      prev.map((stop) => (stop.id === id ? { ...stop, value: newValue } : stop))
+      prev.map((stop) =>
+        stop.id === id ? { ...stop, value: newValue } : stop,
+      ),
     );
   };
 
   const handlePlaceSelect = (
     id: string,
-    place: google.maps.places.PlaceResult
+    place: google.maps.places.PlaceResult,
   ) => {
     if (!place.geometry?.location) return;
 
@@ -324,8 +325,8 @@ export const Reservation = observer(() => {
               value: place.formatted_address || stop.value,
               location: { lat, lng },
             }
-          : stop
-      )
+          : stop,
+      ),
     );
   };
 

@@ -57,8 +57,8 @@ const GetUserReservations = gql`
 function Page() {
   const { data, error, loading } = useQuery(GetUserReservations, {
     variables: {
-      rID: reservationServiceStore.reservationID
-    }
+      rID: reservationServiceStore.reservationID,
+    },
   });
 
   return (
@@ -88,4 +88,4 @@ function Page() {
   );
 }
 
-export default Page
+export default Page;

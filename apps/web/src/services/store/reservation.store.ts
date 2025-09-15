@@ -8,7 +8,7 @@ class ReservationServiceStore {
   bags: number = 0;
   tripDurationHours: number = 0;
   tripDurationMins: number = 0;
-  reservationID: string = ""
+  reservationID: string = "";
   constructor() {
     makeObservable(this, {
       isPopup: observable,
@@ -20,7 +20,7 @@ class ReservationServiceStore {
       tripDurationMins: observable,
       incdecTripDurationHours: action,
       incdecTripDurationMins: action,
-      setReservationID: action
+      setReservationID: action,
     });
   }
 
@@ -32,25 +32,25 @@ class ReservationServiceStore {
     if (type === "decrement" && this.passenger != 0) {
       this.passenger--;
     } else {
-      if(this.passenger < max) {
+      if (this.passenger < max) {
         this.passenger++;
       }
     }
   }
 
   setReservationID(id: string) {
-    this.reservationID = id
+    this.reservationID = id;
   }
 
   setPassenger(val: number) {
     this.passenger = val;
   }
 
-  incdecBag(type: NumberIndecActionType = "decrement" , max: number = 99) {
+  incdecBag(type: NumberIndecActionType = "decrement", max: number = 99) {
     if (type === "decrement" && this.bags != 0) {
       this.bags--;
     } else {
-      if(this.bags < max) {
+      if (this.bags < max) {
         this.bags++;
       }
     }
@@ -59,11 +59,14 @@ class ReservationServiceStore {
   setBag(val: number) {
     this.bags = val;
   }
-  incdecTripDurationHours(type: NumberIndecActionType = "decrement", max: number = 99) {
+  incdecTripDurationHours(
+    type: NumberIndecActionType = "decrement",
+    max: number = 99,
+  ) {
     if (type === "decrement" && this.tripDurationHours != 0) {
       this.tripDurationHours--;
     } else {
-      if(this.tripDurationHours < max) {
+      if (this.tripDurationHours < max) {
         this.tripDurationHours++;
       }
     }
@@ -73,12 +76,15 @@ class ReservationServiceStore {
     this.tripDurationHours = val;
   }
 
-  incdecTripDurationMins(type: NumberIndecActionType = "decrement", max: number = 99) {
+  incdecTripDurationMins(
+    type: NumberIndecActionType = "decrement",
+    max: number = 99,
+  ) {
     if (type === "decrement" && this.tripDurationMins != 0) {
       this.tripDurationMins--;
     } else {
-      if(this.tripDurationMins < max) {
-       this.tripDurationMins++;
+      if (this.tripDurationMins < max) {
+        this.tripDurationMins++;
       }
     }
   }

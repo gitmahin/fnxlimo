@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import {cn} from "@fnx/ui";
+import { cn } from "@fnx/ui";
 
 import {
   NavigationMenu,
@@ -13,20 +13,21 @@ import {
 } from "@fnx/ui";
 
 export function MainMenu() {
-
   const goTotop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
-    })
-  }
+      behavior: "smooth",
+    });
+  };
 
   return (
     <NavigationMenu viewport={false} className="shrink-0 ">
       <NavigationMenuList className="shrink-0 main_menu_header_f">
-        <NavigationMenuItem  className="shrink-0">
+        <NavigationMenuItem className="shrink-0">
           <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <div onClick={goTotop} className="cursor-pointer">Home</div>
+            <div onClick={goTotop} className="cursor-pointer">
+              Home
+            </div>
           </NavigationMenuLink>
         </NavigationMenuItem>
 

@@ -15,7 +15,7 @@ export const carBrandSchema = z.object({
 export const carImageSchema = z.object({
   src: z.string(),
   name: z.string(),
-  alt: z.string()
+  alt: z.string(),
 });
 
 // Car Details
