@@ -143,9 +143,9 @@ export class ReservationService extends WooCommerceService {
     return reservations;
   }
 
-  async deleteUserReservations(reserverd_car_id: number) {
+  async deleteUserReservations(_id: string, user_id: string) {
     await connDb()
-    await reservationModel.deleteOne({ reserverd_car_woo_id: reserverd_car_id })
+    await reservationModel.deleteOne({ _id: new mongoose.Types.ObjectId(_id), user: new mongoose.Types.ObjectId(user_id) })
   }
 
   async getUserSingleReservation(userId: string) {

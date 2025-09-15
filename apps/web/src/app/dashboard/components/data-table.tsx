@@ -107,7 +107,7 @@ import { gql, useQuery } from "@apollo/client";
 import { observer } from "mobx-react";
 import { useReverseGeocode } from "@/hooks";
 import { TableCellViewer } from "./SingleCarView";
-import { Delete } from "lucide-react";
+import { Delete, Trash2 } from "lucide-react";
 import { deleteReservationById } from "@/actions/server.actions";
 
 // Create a separate component for the drag handle
@@ -261,7 +261,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
 
         try {
           const response = await deleteReservationById(
-            row.original.reserverd_car_woo_id
+            row.original._id
           );
 
           if (response.error) {
@@ -276,7 +276,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
 
       return (
         <Button onClick={() => deleteReservation()}>
-          <Delete size={24} />
+          <Trash2  size={24} />
         </Button>
       ); // format as you like
     },
