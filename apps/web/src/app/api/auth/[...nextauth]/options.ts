@@ -99,17 +99,17 @@ export const authOptions: NextAuthOptions = {
   pages: {
     error: "/auth/login",
   },
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true, // ensure this is true in production
-        path: "/",
-      },
-    },
-  },
+  // cookies: {
+  //   sessionToken: {
+  //     name: `__Secure-next-auth.session-token`,
+  //     options: {
+  //       httpOnly: true,
+  //       sameSite: "none",
+  //       secure: true, // ensure this is true in production
+  //       path: "/",
+  //     },
+  //   },
+  // },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days for token expiration

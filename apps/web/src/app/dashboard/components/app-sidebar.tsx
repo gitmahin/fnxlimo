@@ -105,13 +105,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     navSecondary: [
       {
         title: "My Profile",
-        url: "#",
+        url: "/dashboard/profile",
         icon: IconUserCircle,
-      },
-      {
-        title: "Get Help",
-        url: "#",
-        icon: IconHelp,
       },
     ],
   };

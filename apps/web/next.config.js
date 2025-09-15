@@ -6,6 +6,10 @@ images: {
         protocol: "https",
         hostname: "cms.finixlimo.com",
       },
+       {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+      },
     ],
   },
 };

@@ -15,6 +15,14 @@ type CreateWooCustomer = {
   phone?: string;
 };
 
+type CustomerGetType = {
+  email: string
+  first_name: string
+  last_name: string
+  username: string
+  avatar_url: string
+}
+
 export class CustomerService extends WooCommerceService {
   createCustomer({
     email,
@@ -49,5 +57,10 @@ export class CustomerService extends WooCommerceService {
         email,
       },
     });
+  }
+
+  async getCustomer(id: number): Promise<CustomerGetType> {
+    const response = await this.get(`/wp-json/wc/v3/customers/${id}`)
+    return response.data as CustomerGetType;
   }
 }
