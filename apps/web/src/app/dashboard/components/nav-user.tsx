@@ -33,7 +33,7 @@ export function NavUser({
     name: string;
     email: string;
     avatar: string;
-    id: string
+    id: string;
   };
 }) {
   const { isMobile } = useSidebar();
@@ -82,17 +82,12 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-             
-              <DropdownMenuItem>
-                ID:{" "}{user.id}
-               
-              </DropdownMenuItem>
-                <DropdownMenuSeparator />
+              <DropdownMenuItem>ID: {user.id}</DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <IconCreditCard />
                 Billing
               </DropdownMenuItem>
-             
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut()} variant="destructive">

@@ -99,7 +99,7 @@ export default function Page() {
         if (status === "OK" && results?.[0]) {
           setPickupAddress(results[0].formatted_address);
         }
-      }
+      },
     );
 
     geocoder.geocode(
@@ -113,7 +113,7 @@ export default function Page() {
         if (status === "OK" && results?.[0]) {
           setDropoffAddress(results[0].formatted_address);
         }
-      }
+      },
     );
   }, [geocodingLibrary, data]);
 

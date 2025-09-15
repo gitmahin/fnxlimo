@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
             });
 
             const woo_id = (await response).data;
-            console.log("woo id is ",woo_id)
+            console.log("woo id is ", woo_id);
 
             if (!woo_id) {
               throw new Error("Error creating user!");

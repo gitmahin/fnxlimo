@@ -7,14 +7,14 @@ export type UserType = Document & {
   username: string;
   email: string;
   profile_image: string;
-  woo_id: number
+  woo_id: number;
 };
 
 const UserSchema: Schema<UserType> = new Schema(
   {
     woo_id: {
       type: Number,
-      required: true
+      required: true,
     },
     name: {
       type: String,
@@ -24,7 +24,7 @@ const UserSchema: Schema<UserType> = new Schema(
     email: {
       type: String,
       max: 200,
-      required: true
+      required: true,
     },
     profile_image: {
       type: String,
@@ -39,7 +39,7 @@ const UserSchema: Schema<UserType> = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const userModel =

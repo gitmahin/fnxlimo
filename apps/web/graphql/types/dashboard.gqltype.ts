@@ -27,7 +27,7 @@ export const UserReservationOrderedDataType = objectType({
   definition(t) {
     t.string("_id");
     t.int("reserverd_car_woo_id");
-    t.string("status")
+    t.string("status");
     // @ts-ignore
     t.date("pickup_date");
     t.string("pickup_time");
@@ -49,7 +49,7 @@ export const UserReservationOrderedDataType = objectType({
       async resolve(root) {
         const productService = new ProductService();
         const response = await productService.getProduct(
-          root.reserverd_car_woo_id as number
+          root.reserverd_car_woo_id as number,
         );
         return response.data;
       },
@@ -70,7 +70,7 @@ export const QueryUserReservationOrderedData = extendType({
           return null;
         }
         const response = await reservationService.getUserReservations(
-          session?.user.id || ""
+          session?.user.id || "",
         );
         return response ?? null;
       },

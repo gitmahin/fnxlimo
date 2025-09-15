@@ -14,7 +14,7 @@ export class ProductService extends WooCommerceService {
   async getProducts(categoryID?: number) {
     const response = this.get(
       `/wp-json/wc/v1/products?category=${categoryID || 0}`,
-      {}
+      {},
     );
     return response;
   }
@@ -61,14 +61,14 @@ export class ProductService extends WooCommerceService {
         pickup.lat,
         pickup.lng,
         lat,
-        lng
+        lng,
       );
 
       const dropoffDistance = ProductService.getDistance(
         dropoff.lat,
         dropoff.lng,
         lat,
-        lng
+        lng,
       );
 
       // Keep product if it's near pickup OR dropoff

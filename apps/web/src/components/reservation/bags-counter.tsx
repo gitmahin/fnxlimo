@@ -10,7 +10,7 @@ export const BagsCounter = observer(() => {
       increment={() => reservationServiceStore.incdecBag("increment")}
       decrement={() => reservationServiceStore.incdecBag("decrement")}
       value={reservationServiceStore.bags}
-    onChange={(val) => reservationServiceStore.setBag(val)}
+      onChange={(val) => reservationServiceStore.setBag(val)}
     />
   );
 });

@@ -1,4 +1,4 @@
 export type BasicLocationType = {
-    lat: number ;
-    lng: number
-} | null
+  lat: number;
+  lng: number;
+} | null;

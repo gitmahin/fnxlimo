@@ -64,7 +64,7 @@ export const PlaceAutocompleteInput = ({
     google.maps.places.AutocompletePrediction[]
   >([]);
   const serviceRef = useRef<google.maps.places.AutocompleteService | null>(
-    null
+    null,
   );
   const placesLib = useMapsLibrary("places");
 
@@ -85,7 +85,7 @@ export const PlaceAutocompleteInput = ({
         },
         (preds) => {
           setPredictions(preds || []);
-        }
+        },
       );
     } else {
       setPredictions([]);
@@ -126,7 +126,7 @@ export const PlaceAutocompleteInput = ({
               id={`${i}-${item.value}`}
               value={item.value}
               className="peer hidden"
-              onChange={() => setPlaceTypes([item.value ])}
+              onChange={() => setPlaceTypes([item.value])}
               defaultChecked={item.value === "search-all"}
             />
             <div className="peer-checked:bg-purple-600 cursor-pointer text-zinc-400 peer-checked:text-zinc-50 font-medium transition-colors rounded-[5px] px-2 py-0.5">
