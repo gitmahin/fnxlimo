@@ -250,6 +250,7 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
     header: " ",
     cell: ({ row }) => {
       const deleteReservation = async () => {
+        console.log("Deleting...")
         const confirmDelete = window.confirm(
           "Are you sure you want to delete this reservation?"
         );
@@ -258,13 +259,15 @@ const columns: ColumnDef<z.infer<typeof reservationSchema>>[] = [
 
         try {
           const response = await deleteReservationById(row.original._id);
-
+          console.log("getting the deletion response from server")
           if (response.error) {
+            console.log("Error deleting reservation")
             throw new Error(toast.error.toString());
           } else {
             return;
           }
         } catch (err) {
+          console.log(err)
           throw new Error(err);
         }
       };
