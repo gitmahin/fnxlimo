@@ -1,3 +1,4 @@
+import { reservationServiceStore } from "@/services/store";
 import { SidebarTrigger, Separator, Button } from "@fnx/ui";
 
 export function SiteHeader() {
@@ -10,7 +11,11 @@ export function SiteHeader() {
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         <h1 className="text-base font-medium">Dashboard</h1>
-        <div className="ml-auto flex items-center gap-2"></div>
+        <div className="ml-auto flex items-center justify-end pr-5 gap-2">
+          <Button onClick={() => reservationServiceStore.setIspopup(true)}>
+            Create New Reservation
+          </Button>
+        </div>
       </div>
     </header>
   );
