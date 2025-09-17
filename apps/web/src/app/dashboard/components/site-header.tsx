@@ -1,6 +1,9 @@
 "use client"
 import { reservationServiceStore } from "@/services/store";
-import { SidebarTrigger, Separator, Button } from "@fnx/ui";
+import { SidebarTrigger, Separator, Button,   Tooltip,
+  TooltipContent,
+  TooltipTrigger, } from "@fnx/ui";
+import { PlusCircleIcon } from "lucide-react";
 
 export function SiteHeader() {
   return (
@@ -12,10 +15,18 @@ export function SiteHeader() {
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         <h1 className="text-base font-medium">Dashboard</h1>
-        <div className="ml-auto flex items-center justify-end pr-5 gap-2">
-          <Button onClick={() => reservationServiceStore.setIspopup(true)}>
-            Create New Reservation
-          </Button>
+        <div className="ml-auto flex items-center justify-end pr-2 gap-2">
+           <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline" onClick={() => reservationServiceStore.setIspopup(true)}>
+            <PlusCircleIcon/>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Create New Reservation</p>
+      </TooltipContent>
+    </Tooltip>
+        
         </div>
       </div>
     </header>
