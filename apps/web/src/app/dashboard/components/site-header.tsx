@@ -1,3 +1,4 @@
+"use client"
 import { reservationServiceStore } from "@/services/store";
 import { SidebarTrigger, Separator, Button } from "@fnx/ui";
 
