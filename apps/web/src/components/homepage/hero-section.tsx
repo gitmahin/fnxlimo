@@ -31,7 +31,7 @@ export const HeroSection = () => {
               We offer professional car rental & limousis services in our range
               of high -end vehicles
             </p> 
-            <Button
+            <Button    
               radius="large"
               size={"3"}
               className="relative z-30"
