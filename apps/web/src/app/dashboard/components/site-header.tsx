@@ -3,7 +3,7 @@ import { reservationServiceStore } from "@/services/store";
 import { SidebarTrigger, Separator, Button,   Tooltip,
   TooltipContent,
   TooltipTrigger, } from "@fnx/ui";
-import { PlusCircleIcon } from "lucide-react";
+import { Plus, PlusCircleIcon } from "lucide-react";
 
 export function SiteHeader() {
   return (
@@ -19,7 +19,7 @@ export function SiteHeader() {
            <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="outline" onClick={() => reservationServiceStore.setIspopup(true)}>
-            <PlusCircleIcon/>
+            <Plus size={24} />
         </Button>
       </TooltipTrigger>
       <TooltipContent>
