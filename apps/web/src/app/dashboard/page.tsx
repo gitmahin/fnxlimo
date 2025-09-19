@@ -37,7 +37,7 @@ const GetUserReservations = gql`
   }
 `;
 
-export function formatDateTime(date: string, time: string) {
+function formatDateTime(date: string, time: string) {
   try {
     const combined = new Date(`${date}T${time}`);
     return format(combined, "PPP 'at' p");
