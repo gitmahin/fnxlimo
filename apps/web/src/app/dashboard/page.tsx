@@ -56,10 +56,30 @@ export default function Page() {
 
   const [items, setItems] = React.useState<any[]>([]);
   const [loadingDelete, setLoadingDelete] = React.useState<string | null>(null);
+  const [addresses, setAddresses] = React.useState<{
+    [key: string]: { pickup: string; dropoff: string };
+  }>({});
 
   React.useEffect(() => {
     if (data?.queryUserReservationOrderedData) {
       setItems(data.queryUserReservationOrderedData);
+
+      // Fetch all addresses
+      data.queryUserReservationOrderedData.forEach(async (res: any) => {
+        const pickup = await useReverseGeocode(
+          Number(res.pickup_location.lat),
+          Number(res.pickup_location.lng)
+        );
+        const dropoff = await useReverseGeocode(
+          Number(res.dropoff_location.lat),
+          Number(res.dropoff_location.lng)
+        );
+
+        setAddresses((prev) => ({
+          ...prev,
+          [res._id]: { pickup, dropoff },
+        }));
+      });
     }
   }, [data]);
 
@@ -117,17 +137,11 @@ export default function Page() {
             </p>
             <p>
               <strong>Pickup Location:</strong>{" "}
-              {useReverseGeocode(
-                Number(res.pickup_location.lat),
-                Number(res.pickup_location.lng)
-              )}
+              {addresses[res._id]?.pickup ?? "Loading..."}
             </p>
             <p>
               <strong>Dropoff Location:</strong>{" "}
-              {useReverseGeocode(
-                Number(res.dropoff_location.lat),
-                Number(res.dropoff_location.lng)
-              )}
+              {addresses[res._id]?.dropoff ?? "Loading..."}
             </p>
             <p>
               <strong>Price:</strong>{" "}
