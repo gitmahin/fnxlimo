@@ -84,7 +84,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>ID: {user.id}</DropdownMenuItem>
-              <DropdownMenuItem>Customer ID: {user.woo_id}</DropdownMenuItem>
+              <DropdownMenuItem>Customer ID: {user?.woo_id}</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <IconCreditCard />
