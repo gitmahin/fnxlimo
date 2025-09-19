@@ -29,7 +29,7 @@ export default function Page() {
       if (response.error) {
         toast.error("Invalid user");
       }
-      console.log("data mahin", response.data);
+    
       setData(response.data);
     } catch (error) {
   
@@ -61,6 +61,8 @@ export default function Page() {
         pickup_time: data.pickup_time,
         pickup_location: pickupAddress,
         product_id: data.reserverd_car_woo_id,
+        flight_name: data.flight_name,
+        flight_number: data.flight_number
       };
       const response = await updateReservationAction(modifiedData);
       if (response.message) {

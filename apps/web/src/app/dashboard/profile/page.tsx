@@ -14,9 +14,9 @@ export default function ProfilePage() {
         <div className="p-3">
           <Image
             src={`${data?.user.image}` || null}
-            width={200}
-            height={200}
-            className="w-[130px] h-[130px] rounded-md overflow-hidden object-cover object-center mb-5"
+            width={100}
+            height={100}
+            className="w-[80px] h-[80px] rounded-md overflow-hidden object-cover object-center mb-5"
             alt="profile-image"
           />
           <p className="text-2xl font-medium mb-5">

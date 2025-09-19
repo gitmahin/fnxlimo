@@ -27,6 +27,8 @@ export async function createReservation({
   stop_locations,
   passenger,
   bags,
+  flight_name,
+  flight_number
 }: Omit<CreateUserReservationType, "objectId">) {
   try {
     const session = await getServerSession(authOptions);
@@ -41,6 +43,8 @@ export async function createReservation({
       stop_locations: stop_locations as LocationType[],
       passenger: passenger,
       bags: bags,
+      flight_name,
+      flight_number
     });
 
     return { message: "Reservation Created" };

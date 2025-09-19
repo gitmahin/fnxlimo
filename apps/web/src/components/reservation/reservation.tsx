@@ -93,7 +93,7 @@ const DirectionsController = ({
         } else {
           alert("Directions request failed due to " + status);
         }
-      },
+      }
     );
   }, [origin, destination, map]);
 
@@ -122,7 +122,7 @@ const PanToCurrentLocationButton = () => {
             position: pos,
           }).open(map);
         },
-        () => {},
+        () => {}
       );
     } else {
     }
@@ -190,6 +190,8 @@ export const Reservation = observer(() => {
   const [showDirections, setShowDirections] = useState(false);
   const [filteredCars, setFilteredCars] = useState<[]>([]);
   const [gettingCars, setGettingCars] = useState(false);
+  const [flightName, setFlightName] = useState("");
+  const [flightNumber, setFlightNumber] = useState("");
   const router = useRouter();
   const [pickupDate, setPickupDate] = useState("");
   const [loading, setLoading] = useState(false);
@@ -278,7 +280,7 @@ export const Reservation = observer(() => {
         if (status === "OK" && result) {
           directionsRenderer.setDirections(result);
         }
-      },
+      }
     );
 
     return () => {
@@ -302,15 +304,13 @@ export const Reservation = observer(() => {
 
   const handleChange = (id: string, newValue: string) => {
     setStops((prev) =>
-      prev.map((stop) =>
-        stop.id === id ? { ...stop, value: newValue } : stop,
-      ),
+      prev.map((stop) => (stop.id === id ? { ...stop, value: newValue } : stop))
     );
   };
 
   const handlePlaceSelect = (
     id: string,
-    place: google.maps.places.PlaceResult,
+    place: google.maps.places.PlaceResult
   ) => {
     if (!place.geometry?.location) return;
 
@@ -325,8 +325,8 @@ export const Reservation = observer(() => {
               value: place.formatted_address || stop.value,
               location: { lat, lng },
             }
-          : stop,
-      ),
+          : stop
+      )
     );
   };
 
@@ -348,6 +348,8 @@ export const Reservation = observer(() => {
         passenger: reservationServiceStore.passenger,
         pickup_time: String(time),
         stop_locations: stopLocations as LocationType[],
+        flight_name: flightName,
+        flight_number: flightNumber
       });
 
       if (response.message) {
@@ -664,6 +666,23 @@ export const Reservation = observer(() => {
                           }
                         }}
                         placeholder="Type destination"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-5 px-3">
+                    <div className="mb-3">
+                      <Label className="mb-2">Flight Name</Label>
+                      <Input
+                        value={flightName}
+                        onChange={(e) => setFlightName(e.target.value)}
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="mb-2">Flight Number</Label>
+                      <Input
+                        value={flightNumber}
+                        onChange={(e) => setFlightNumber(e.target.value)}
                       />
                     </div>
                   </div>

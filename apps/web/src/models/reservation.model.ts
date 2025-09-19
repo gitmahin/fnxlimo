@@ -23,6 +23,8 @@ export type ReservationType = Document & {
   passenger: number;
   bags: number;
   status: ReservationStatusType;
+  flight_name: string;
+  flight_number: string
 };
 
 const model_name = "Reservation";
@@ -78,6 +80,12 @@ const ReservationSchema: Schema<ReservationType> = new Schema(
       enum: ReservationStatusType,
       default: ReservationStatusType.CURRENT,
     },
+    flight_name: {
+      type: String,
+    },
+    flight_number: {
+      type: String,
+    }
   },
   {
     timestamps: true,

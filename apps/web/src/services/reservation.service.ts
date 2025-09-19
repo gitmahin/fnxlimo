@@ -19,6 +19,8 @@ export type CreateUserReservationType = {
   stop_locations: LocationType[];
   passenger: number;
   bags: number;
+  flight_name?: string;
+  flight_number?: string;
 };
 
 export type UpdateOrderDataTypes = {
@@ -30,6 +32,8 @@ export type UpdateOrderDataTypes = {
   dropoff_location: string;
   passenger: string;
   bags: string;
+  flight_name: string,
+  flight_number: string
 };
 
 export type CreateCustomReservationType = {
@@ -81,6 +85,8 @@ export class ReservationService extends WooCommerceService {
     stop_locations,
     passenger,
     bags,
+    flight_name,
+    flight_number
   }: CreateUserReservationType) {
     await connDb();
     const id = new mongoose.Types.ObjectId(objectId);
@@ -94,6 +100,8 @@ export class ReservationService extends WooCommerceService {
       stop_locations,
       passenger,
       bags,
+      flight_name,
+      flight_number
     });
 
     await reservationData.save();
@@ -138,7 +146,7 @@ export class ReservationService extends WooCommerceService {
     await connDb();
 
     const reservations = await reservationModel
-      .find({ user: new mongoose.Types.ObjectId(userId) }).sort({createdAt: -1})
+      .find({ user: new mongoose.Types.ObjectId(userId) }).sort({ createdAt: -1 })
       .lean();
     return reservations;
   }
