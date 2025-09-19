@@ -5,6 +5,8 @@ import { gql, useQuery } from "@apollo/client";
 import { reservationServiceStore } from "@/services/store";
 import { Card, CardContent, CardHeader, CardTitle, Button } from "@fnx/ui";
 import { Trash2 } from "lucide-react";
+import { deleteReservationById } from "@/actions/server.actions";
+import toast from "react-hot-toast";
 
 const GetUserReservations = gql`
   query GetReservationQuery {
@@ -58,9 +60,14 @@ export default function Page() {
 
     try {
       setLoadingDelete(id);
-      // replace with your deleteReservationById logic
-      // const response = await deleteReservationById(id);
-      setItems((prev) => prev.filter((item) => item._id !== id));
+      const response = await deleteReservationById(data._id);
+      if (response.error) {
+        console.log("Error deleting reservation");
+        throw new Error(toast.error.toString());
+      } else {
+        setItems((prev) => prev.filter((item) => item._id !== id));
+        return;
+      }
     } catch (err) {
       console.error(err);
     } finally {
