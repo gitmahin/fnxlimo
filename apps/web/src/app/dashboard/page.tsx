@@ -1,5 +1,5 @@
 "use client";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import * as React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { reservationServiceStore } from "@/services/store";
@@ -37,15 +37,43 @@ const GetUserReservations = gql`
   }
 `;
 
-function formatDateTime(date: string, time: string) {
+
+function formatDateTime(datetime: string) {
   try {
-    const combined = new Date(`${date}T${time}`);
-    return format(combined, "PPP 'at' p");
-    // Example: Jan 17, 2025 at 3:30 PM
+    const dateObj = parseISO(datetime); // parse ISO string
+    return format(dateObj, "yyyy-MM-dd 'at' HH:mm"); 
+    // Example: 2025-09-23 at 14:35
   } catch {
-    return `${date} at ${time}`;
+    return datetime;
   }
 }
+
+export const reverseGeocode = async (
+  lat?: number,
+  lng?: number
+): Promise<string> => {
+  if (lat == null || lng == null) {
+    return "Unknown location";
+  }
+
+  if (!window.google || !window.google.maps) {
+    console.error("Google Maps JS API not loaded");
+    return "Unknown location";
+  }
+
+  const geocoder = new google.maps.Geocoder();
+  const latlng = { lat, lng };
+
+  return new Promise((resolve) => {
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === "OK" && results && results[0]) {
+        resolve(results[0].formatted_address);
+      } else {
+        resolve("Unknown location");
+      }
+    });
+  });
+};
 
 export default function Page() {
   const { data, loading } = useQuery(GetUserReservations, {
@@ -63,23 +91,6 @@ export default function Page() {
   React.useEffect(() => {
     if (data?.queryUserReservationOrderedData) {
       setItems(data.queryUserReservationOrderedData);
-
-      // Fetch all addresses
-      data.queryUserReservationOrderedData.forEach(async (res: any) => {
-        const pickup = await useReverseGeocode(
-          Number(res.pickup_location.lat),
-          Number(res.pickup_location.lng)
-        );
-        const dropoff = await useReverseGeocode(
-          Number(res.dropoff_location.lat),
-          Number(res.dropoff_location.lng)
-        );
-
-        setAddresses((prev) => ({
-          ...prev,
-          [res._id]: { pickup, dropoff },
-        }));
-      });
     }
   }, [data]);
 
@@ -133,15 +144,21 @@ export default function Page() {
             </p>
             <p>
               <strong>Pickup:</strong>{" "}
-              {formatDateTime(res.pickup_date, res.pickup_time)}
+              {formatDateTime(res.pickup_date)}
             </p>
             <p>
               <strong>Pickup Location:</strong>{" "}
-              {addresses[res._id]?.pickup ?? "Loading..."}
+              {reverseGeocode(
+                Number(res.pickup_location.lat),
+                Number(res.pickup_location.lng)
+              )}
             </p>
             <p>
               <strong>Dropoff Location:</strong>{" "}
-              {addresses[res._id]?.dropoff ?? "Loading..."}
+              {reverseGeocode(
+                Number(res.dropoff_location.lat),
+                Number(res.dropoff_location.lng)
+              )}
             </p>
             <p>
               <strong>Price:</strong>{" "}
