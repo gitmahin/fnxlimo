@@ -33,6 +33,7 @@ export function NavUser({
     name: string;
     email: string;
     avatar: string;
+    woo_id: string;
     id: string;
   };
 }) {
@@ -83,6 +84,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>ID: {user.id}</DropdownMenuItem>
+              <DropdownMenuItem>Customer ID: {user.woo_id}</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <IconCreditCard />

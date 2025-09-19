@@ -45,6 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       name: `${session?.user.name}`,
       email: `${session?.user.email}`,
       avatar: `${session?.user.image}`,
+      woo_id: `${session.user.woo_id}`,
       id: `${session?.user.id}`,
     },
     navMain: [
@@ -103,11 +104,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
     navSecondary: [
-      {
-        title: "My Profile",
-        url: "/dashboard/profile",
-        icon: IconUserCircle,
-      },
     ],
   };
   return (
