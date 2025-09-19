@@ -1,5 +1,5 @@
 "use client";
-
+import { format } from "date-fns";
 import * as React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { reservationServiceStore } from "@/services/store";
@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, Button } from "@fnx/ui";
 import { Trash2 } from "lucide-react";
 import { deleteReservationById } from "@/actions/server.actions";
 import toast from "react-hot-toast";
+import { useReverseGeocode } from "@/hooks";
 
 const GetUserReservations = gql`
   query GetReservationQuery {
@@ -35,6 +36,16 @@ const GetUserReservations = gql`
     }
   }
 `;
+
+export function formatDateTime(date: string, time: string) {
+  try {
+    const combined = new Date(`${date}T${time}`);
+    return format(combined, "PPP 'at' p");
+    // Example: Jan 17, 2025 at 3:30 PM
+  } catch {
+    return `${date} at ${time}`;
+  }
+}
 
 export default function Page() {
   const { data, loading } = useQuery(GetUserReservations, {
@@ -101,23 +112,26 @@ export default function Page() {
               <strong>Bags:</strong> {res.bags}
             </p>
             <p>
-              <strong>Pickup Date:</strong> {res.pickup_date} at{" "}
-              {res.pickup_time}
+              <strong>Pickup:</strong>{" "}
+              {formatDateTime(res.pickup_date, res.pickup_time)}
             </p>
             <p>
               <strong>Pickup Location:</strong>{" "}
-              {`${res.pickup_location.lat}, ${res.pickup_location.lng}`}
+              {useReverseGeocode(
+                Number(res.pickup_location.lat),
+                Number(res.pickup_location.lng)
+              )}
             </p>
             <p>
               <strong>Dropoff Location:</strong>{" "}
-              {`${res.dropoff_location.lat}, ${res.dropoff_location.lng}`}
+              {useReverseGeocode(
+                Number(res.dropoff_location.lat),
+                Number(res.dropoff_location.lng)
+              )}
             </p>
             <p>
               <strong>Price:</strong>{" "}
               {res.car_details?.sale_price ?? res.car_details?.price}
-            </p>
-            <p>
-              <strong>Status:</strong> {res.car_details?.status}
             </p>
           </CardContent>
         </Card>
