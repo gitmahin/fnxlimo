@@ -60,7 +60,7 @@ export default function Page() {
 
     try {
       setLoadingDelete(id);
-      const response = await deleteReservationById(data._id);
+      const response = await deleteReservationById(id);
       if (response.error) {
         console.log("Error deleting reservation");
         throw new Error(toast.error.toString());
