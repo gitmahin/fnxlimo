@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle, Button } from "@fnx/ui";
 import { Trash2 } from "lucide-react";
 import { deleteReservationById } from "@/actions/server.actions";
 import toast from "react-hot-toast";
-import { useReverseGeocode } from "@/hooks";
 
 const GetUserReservations = gql`
   query GetReservationQuery {
@@ -18,6 +17,8 @@ const GetUserReservations = gql`
       pickup_date
       pickup_time
       createdAt
+      flight_name
+      flight_number
       pickup_location {
         lat
         lng
@@ -172,6 +173,12 @@ export default function Page() {
             <p>
               <strong>Dropoff Location:</strong>{" "}
               {addresses[res._id]?.dropoff ?? "Loading..."}
+            </p>
+            <p>
+              <strong>Flight Name:</strong> {res?.flight_name}
+            </p>
+             <p>
+              <strong>Flight Number:</strong> {res?.flight_number}
             </p>
             <p>
               <strong>Price:</strong>{" "}

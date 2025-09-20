@@ -32,6 +32,8 @@ export const UserReservationOrderedDataType = objectType({
     // @ts-ignore
     t.date("pickup_date");
     t.string("pickup_time");
+    t.string("flight_name");
+    t.string("flight_number");
     t.field("pickup_location", {
       type: LocationDataType,
     });
