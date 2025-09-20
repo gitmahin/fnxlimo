@@ -48,7 +48,7 @@ function formatDateTime(datetime: string) {
   }
 }
 
-export const reverseGeocode = async (
+const reverseGeocode = async (
   lat?: number,
   lng?: number
 ): Promise<string> => {
