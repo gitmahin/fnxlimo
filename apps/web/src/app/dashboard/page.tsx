@@ -37,21 +37,17 @@ const GetUserReservations = gql`
   }
 `;
 
-
 function formatDateTime(datetime: string) {
   try {
     const dateObj = parseISO(datetime); // parse ISO string
-    return format(dateObj, "yyyy-MM-dd 'at' HH:mm"); 
+    return format(dateObj, "yyyy-MM-dd 'at' HH:mm");
     // Example: 2025-09-23 at 14:35
   } catch {
     return datetime;
   }
 }
 
-const reverseGeocode = async (
-  lat?: number,
-  lng?: number
-): Promise<string> => {
+const reverseGeocode = async (lat?: number, lng?: number): Promise<string> => {
   if (lat == null || lng == null) {
     return "Unknown location";
   }
@@ -70,7 +66,7 @@ const reverseGeocode = async (
         resolve(results[0].formatted_address);
       } else {
         resolve("Unknown location");
-      } 
+      }
     });
   });
 };
@@ -87,6 +83,30 @@ export default function Page() {
   const [addresses, setAddresses] = React.useState<{
     [key: string]: { pickup: string; dropoff: string };
   }>({});
+
+  // inside your component
+  React.useEffect(() => {
+    const fetchAddresses = async () => {
+      const addrMap: { [key: string]: { pickup: string; dropoff: string } } =
+        {};
+      for (const res of items) {
+        const pickup = await reverseGeocode(
+          Number(res.pickup_location.lat),
+          Number(res.pickup_location.lng)
+        );
+        const dropoff = await reverseGeocode(
+          Number(res.dropoff_location.lat),
+          Number(res.dropoff_location.lng)
+        );
+        addrMap[res._id] = { pickup, dropoff };
+      }
+      setAddresses(addrMap);
+    };
+
+    if (items.length > 0) {
+      fetchAddresses();
+    }
+  }, [items]);
 
   React.useEffect(() => {
     if (data?.queryUserReservationOrderedData) {
@@ -143,22 +163,15 @@ export default function Page() {
               <strong>Bags:</strong> {res.bags}
             </p>
             <p>
-              <strong>Pickup:</strong>{" "}
-              {formatDateTime(res.pickup_date)}
+              <strong>Pickup:</strong> {formatDateTime(res.pickup_date)}
             </p>
             <p>
               <strong>Pickup Location:</strong>{" "}
-              {reverseGeocode(
-                Number(res.pickup_location.lat),
-                Number(res.pickup_location.lng)
-              )}
+              {addresses[res._id]?.pickup ?? "Loading..."}
             </p>
             <p>
               <strong>Dropoff Location:</strong>{" "}
-              {reverseGeocode(
-                Number(res.dropoff_location.lat),
-                Number(res.dropoff_location.lng)
-              )}
+              {addresses[res._id]?.dropoff ?? "Loading..."}
             </p>
             <p>
               <strong>Price:</strong>{" "}
