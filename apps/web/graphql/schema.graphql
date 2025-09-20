@@ -123,6 +123,8 @@ type userreservationOrderedDataType {
   car_details: Products
   createdAt: DateTime
   dropoff_location: locationDataType
+  flight_name: String
+  flight_number: String
   passenger: Int
   pickup_date: DateTime
   pickup_location: locationDataType
