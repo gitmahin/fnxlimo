@@ -70,7 +70,7 @@ export const reverseGeocode = async (
         resolve(results[0].formatted_address);
       } else {
         resolve("Unknown location");
-      }
+      } 
     });
   });
 };
