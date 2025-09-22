@@ -56,6 +56,7 @@ export function Calendar29({ onValueChange }: Calendar29Props) {
           id="date"
           value={value}
           placeholder="Tomorrow or next week"
+          disabled
           className="bg-background pr-10 w-full"
           onKeyDown={(e) => {
             if (e.key === "ArrowDown") {
