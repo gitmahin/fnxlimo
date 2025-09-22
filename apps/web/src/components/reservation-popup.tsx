@@ -29,7 +29,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@fnx/ui";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Reservation } from "./reservation/reservation";
 import { reservationServiceStore } from "@/services/store";
 import toast from "react-hot-toast";
@@ -48,11 +48,12 @@ export const ReservationPopUp = observer(() => {
   return (
     <Drawer
       open={reservationServiceStore.isPopup}
+      dismissible={reservationServiceStore.isPopup ? false :  true}
       onOpenChange={(open) => reservationServiceStore.setIspopup(open)}
     >
       <DrawerContent className="!h-screen">
         <DrawerClose className="absolute right-2 top-2">
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline" onClick={() => reservationServiceStore.setIspopup(false)}>Cancel</Button>
         </DrawerClose>
         <div className="!h-full rpopup">
           <Reservation />
