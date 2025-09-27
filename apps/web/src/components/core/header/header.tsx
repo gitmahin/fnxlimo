@@ -29,7 +29,13 @@ export const Header = () => {
   return (
     <header className="fixed px-5 top-0 left-0 w-full h-[64px] border-b z-50 border-zinc-800 bg-zinc-950">
       <div className="default_layout_width h-full flex justify-between items-center">
-        <h1 className="text-[20px] font-bold ">FnxLimo</h1>
+        <Image
+          src={"/fnx_logo.png"}
+          width={500}
+          height={300}
+          className="h-[35px] object-contain w-fit"
+          alt="app-logo"
+        />
         <div className="menu_header ">
           <div className="menu_header_desktop flex justify-end items-center gap-3">
             <MainMenu />
