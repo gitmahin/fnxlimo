@@ -3,12 +3,7 @@ import { useTheme } from "next-themes";
 import { MainMenu } from "./main-menu";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@fnx/ui";
 import Image from "next/image";
@@ -17,15 +12,8 @@ import { Button } from "@radix-ui/themes";
 import Link from "next/link";
 import { AlignRight } from "lucide-react";
 import { reservationServiceStore } from "@/services/store";
-import { ProductService } from "@/services";
-
-const productService = new ProductService();
 
 export const Header = () => {
-  const handleGetProducts = async () => {
-    const response = await productService.getProducts();
-    console.log(response);
-  };
   return (
     <header className="fixed px-5 top-0 left-0 w-full h-[64px] border-b z-50 border-zinc-800 bg-zinc-950">
       <div className="default_layout_width h-full flex justify-between items-center">
