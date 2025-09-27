@@ -2,9 +2,6 @@ import { LocationType } from "@/models/reservation.model";
 import { WooCommerceService } from "./woo.service";
 import { BasicLocationType } from "@/types/global";
 
-// key: "ck_687f1f4bae840fd4e7711be516ebefe47b0b0360"
-// secret: "cs_7a31758464b5a6e67cd60753b25dbbc1885ff579";
-
 type GetNearByProducts = {
   pickup_lct: BasicLocationType;
   drop_off_lct: BasicLocationType;
