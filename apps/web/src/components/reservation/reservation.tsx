@@ -194,7 +194,7 @@ export const Reservation = observer(() => {
   const [flightNumber, setFlightNumber] = useState("");
   const router = useRouter();
   const [pickupDate, setPickupDate] = useState("");
-  const [loading, setLoading] = useState(false);
+const [loadingCarId, setLoadingCarId] = useState<number | null>(null);
 
   const [time, setTime] = useState<string>("10:30:00");
   const [originCoords, setOriginCoords] = useState<BasicLocationType>(null);
@@ -332,7 +332,7 @@ export const Reservation = observer(() => {
 
   const handleCreateReservations = async (id: number) => {
     try {
-      setLoading(true);
+        setLoadingCarId(id);
       const stopLocations: BasicLocationType[] = stops
         ?.filter((stop) => stop.location) // remove stops without a location
         ?.map((stop) => ({
@@ -362,7 +362,7 @@ export const Reservation = observer(() => {
       console.log(error);
       alert("Error creatingh reservation");
     } finally {
-      setLoading(false);
+      setLoadingCarId(null)
     }
   };
 
@@ -442,7 +442,7 @@ export const Reservation = observer(() => {
                       className="mt-3"
                       onClick={() => handleCreateReservations(car.id)}
                     >
-                      {loading ? "Creating..." : "Create Reservation"}
+                      {loadingCarId === car.id ? "Creating..." : "Create Reservation"}
                     </FnxButton>
                   </div>
                 </div>
