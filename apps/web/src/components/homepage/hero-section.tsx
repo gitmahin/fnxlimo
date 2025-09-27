@@ -7,11 +7,6 @@ import { reservationServiceStore } from "@/services/store";
 export const HeroSection = () => {
   return (
     <div className="w-full h-fit pt-[64px]">
-      <div className="w-full text-center py-3 bg-emerald-950 text-emerald-400 ">
-        <p className="fade_up_down_animation px-5">
-          Finixlimo is currently under development. Coming soon!
-        </p>
-      </div>
       <div className="w-full px-5">
         <div className="default_layout_width relative hero-texts">
           <h1 className="text-[60px] font-semibold leading-16 mt-12 hero-car-title">
