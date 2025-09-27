@@ -1,5 +1,8 @@
 import { AxiosHeaders } from "axios";
 import { ApiService } from "./api.service";
+import dotenv from "dotenv"
+
+dotenv.config()
 
 export class WooCommerceService extends ApiService {
   constructor() {
