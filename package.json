@@ -1,5 +1,5 @@
 {
-  "name": "finiximo-reservation",
+  "name": "fnxlimo-reservation",
   "private": true,
   "scripts": {
     "build": "turbo run build",
