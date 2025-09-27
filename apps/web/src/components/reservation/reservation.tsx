@@ -241,6 +241,7 @@ const [loadingCarId, setLoadingCarId] = useState<number | null>(null);
       }
 
       if (reservationServiceStore.reservationID !== "") {
+        setLoadingCarId(1)
         handleCreateReservations(Number(reservationServiceStore.reservationID));
 
         setGettingCars(false);
@@ -706,7 +707,7 @@ const [loadingCarId, setLoadingCarId] = useState<number | null>(null);
                       className="!w-full shrink"
                       onClick={() => hangleGetCars()}
                     >
-                      {gettingCars ? "Searching..." : "Get Quote"}
+                      {gettingCars ? "Searching..." : loadingCarId ? "Creating..." : "Get Quote"}
                     </FnxButton>
                   </div>
                 </CardContent>
