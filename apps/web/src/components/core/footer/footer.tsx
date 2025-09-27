@@ -95,7 +95,7 @@ export const Footer = () => {
         {/* copyright */}
         <div className="w-full mt-10">
           <p className="w-full text-center text-read-14 font-medium text-zinc-400">
-            © {currentYear} Prime Limo. All rights reserved.
+            © {currentYear} Fnx Limo. All rights reserved.
           </p>
         </div>
       </div>
