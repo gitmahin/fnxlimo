@@ -145,8 +145,9 @@ export class ReservationService extends WooCommerceService {
   async getUserReservations(userId: string) {
     await connDb();
 
+    // getting reservation mechanism is currently for demo. create your own business logic
     const reservations = await reservationModel
-      .find({ user: new mongoose.Types.ObjectId(userId) }).sort({ createdAt: -1 })
+      .find({ user: new mongoose.Types.ObjectId(userId), status: ReservationStatusType.OLD  }).sort({ createdAt: -1 })
       .lean();
     return reservations;
   }
