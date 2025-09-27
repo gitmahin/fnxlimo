@@ -26,7 +26,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Reserve Your Best Car | Finixlimo",
+  title: "Reserve Your Best Car | Fnxlimo",
   description:
     "Car Reservation Software. Made by DEB Team. Contact: https://debbd.com/contact-us",
 };
