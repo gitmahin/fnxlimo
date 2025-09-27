@@ -1,7 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["RESEND_API_KEY", "NEXT_PUBLIC_BASE_URL"],
+  "globalEnv": ["RESEND_API_KEY", "NEXT_PUBLIC_BASE_URL", "WOO_CONSUMER_KEY", "WOO_CONSUMER_SECRET"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
