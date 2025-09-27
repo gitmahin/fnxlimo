@@ -10,7 +10,6 @@
     "clean": "turbo run clean && rm -rf node_modules dist .turbo && echo 'Root Cleanup complete!'"
   },
   "devDependencies": {
-    "dotenv": "^17.2.1",
     "prettier": "^3.6.2",
     "tsup": "^8.5.0",
     "turbo": "^2.5.5",
