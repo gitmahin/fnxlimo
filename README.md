@@ -27,3 +27,7 @@ This project demonstrates how to connect WordPress with Next.js while using WooC
 ## Nextjs Configuration
 - Generate a Consumer Key and Consumer Secret from:
     WooCommerce → Settings → Advanced → REST API
+
+## GraphQl Queries
+- http://localhost:3000/api/graphql
+- This project uses Nexus to build GraphQL APIs. Navigate to apps/web/graphql/types to find the type definitions.
