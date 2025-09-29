@@ -5,7 +5,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "env": ["WOO_CONSUMER_KEY", "WOO_CONSUMER_SECRET", "RESEND_API_KEY"],
+      "env": ["WOO_CONSUMER_KEY", "WOO_CONSUMER_SECRET", "RESEND_API_KEY", "MAP_API_KEY", "GOOGLE_CLIENT_SECRET", "GOOGLE_CLIENT_ID", "MONGO_URI"],
       "inputs": [
         "$TURBO_DEFAULT$",
         ".env.production.local",
