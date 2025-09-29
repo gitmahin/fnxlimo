@@ -1,11 +1,18 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["RESEND_API_KEY", "NEXT_PUBLIC_BASE_URL", "WOO_CONSUMER_KEY", "WOO_CONSUMER_SECRET"],
+  "globalEnv": ["NEXT_PUBLIC_BASE_URL"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "env": ["WOO_CONSUMER_KEY", "WOO_CONSUMER_SECRET", "RESEND_API_KEY"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env.production.local",
+        ".env.local",
+        ".env.production",
+        ".env"
+      ],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
@@ -19,6 +26,13 @@
     },
     "dev": {
       "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env.development.local",
+        ".env.local",
+        ".env.development",
+        ".env"
+      ],
       "cache": false,
       "persistent": true
     }
